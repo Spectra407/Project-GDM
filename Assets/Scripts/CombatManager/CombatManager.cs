@@ -9,14 +9,13 @@ using System.Collections.Generic;
 
 public class CombatManager : MonoBehaviour // What is a MonoBehaviour? Should this be one?
 {
-    // private CombatView view; // for handling animations(?)
-
-    public int playerHealth; // maybe this should be some sort of HealthManager
+    public int playerHealth;
     public int enemyHealth;
     public int madness;
     public int maxMadness;
     public DeckManager deck;
     public List<Card> drawnCards;
+    public Card lastDrawnCard;
 
     private Dictionary<string, ITurnState> states;
     private ITurnState currentState;
@@ -44,7 +43,8 @@ public class CombatManager : MonoBehaviour // What is a MonoBehaviour? Should th
 
     void Update()
     {
-        
+        // Send input to current state if available
+        // Call Update in current state
     }
 
     public void ChangeState(string id)
@@ -58,12 +58,6 @@ public class CombatManager : MonoBehaviour // What is a MonoBehaviour? Should th
     void InitBattle(int playerHealth, List<Card> deck)
     {
         this.playerHealth = playerHealth;
-    }
-
-    void Reshuffle()
-    {
-        drawnCards.Clear();
-        deck.ShuffleAll();
     }
 
     void EndBattle()

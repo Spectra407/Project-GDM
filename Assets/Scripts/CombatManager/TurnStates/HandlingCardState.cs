@@ -14,19 +14,13 @@ public class HandlingCardState : ITurnState
     {
         if (phase == Phase.Start)
         {
-            phase = Phase.CheckingPeek;
-            drawnCard = cm.drawnCards[-1];
-        }
-
-        if (phase == Phase.CheckingPeek)
-        {
             phase = Phase.CheckingMadness;
-            // Check peek
+            drawnCard = cm.lastDrawnCard;
         }
 
         if (phase == Phase.CheckingMadness)
         {
-            phase = Phase.Start;
+            phase = Phase.CheckingPeek;
 
             if (cm.madness > cm.maxMadness)
             {
@@ -34,6 +28,20 @@ public class HandlingCardState : ITurnState
                 return;
             }
         }
+
+        if (phase == Phase.CheckingPeek)
+        {
+            phase = Phase.Start;
+
+            bool hasPeek = true; // todo: replace w/ real check
+            if (hasPeek)
+            {
+                cm.ChangeState("Peeking");
+                return;
+            }
+        }
+
+        // Animations here?
     }
 
     public void Exit()

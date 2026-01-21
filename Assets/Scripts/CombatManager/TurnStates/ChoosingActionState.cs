@@ -37,6 +37,7 @@ public class ChoosingActionState : ITurnState
         Card card = (Card) maybeCard;
 
         cm.drawnCards.Add(card);
+        cm.lastDrawnCard = card;
         cm.madness += card.madness;
 
         cm.ChangeState("HandlingCard");

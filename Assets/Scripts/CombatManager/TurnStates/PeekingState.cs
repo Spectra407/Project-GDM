@@ -5,7 +5,6 @@ public class PeekingState : ITurnState
 {
     private CombatManager cm;
 
-    private int numCards;
     private List<Card> peeked;
 
     public PeekingState(CombatManager cm)
@@ -15,7 +14,7 @@ public class PeekingState : ITurnState
 
     public void Enter()
     {
-        numCards = cm.deck.CardCount(); // min with peek value
+        peeked = cm.deck.PeekNCards(0);
     }
 
     public void Exit()
