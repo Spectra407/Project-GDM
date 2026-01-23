@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f8ff9135053f05b3a82cff3ce4e13d1, type: 3}
+  m_Name: Flamingo Mallet
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardName: Flamingo Mallet
+  description: Gain 2 Defense.
+  cardType: 01000000
+  damage: 0
+  defense: 2
+  poison: 0
+  peek: 0
+  madness: 0
