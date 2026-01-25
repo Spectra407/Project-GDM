@@ -32,18 +32,4 @@ public class CardData : ScriptableObject
     [Header("Sprite for the art")]
     public Sprite art;
 
-    public Sprite topIcon;
-    public Sprite bottomIcon;
-
-    public void ChangeBanner()
-    {
-        // Check and change the first banner to either Damage or Peek
-        // Check and change the second banner to either Defense or Poison
-        // THIS FUNCTION SHOULD PROBABLY BE IN CardView ACTUALLY!
-    }
-    
-    // Define functions later on in a separate EffectManager for all the cards.
-    // ExecuteOnDraw and ExecuteOnStand functions in the EffectManager or CombatManager.
-
-
 }

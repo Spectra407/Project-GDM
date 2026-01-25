@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Detached Head
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Detached Head
-  description: Gain 2 Defense per card in your hand.
+  description: Gain 2 Defense per card in hand.
   jackpot: 0
   cardType: 01000000
   damage: 0

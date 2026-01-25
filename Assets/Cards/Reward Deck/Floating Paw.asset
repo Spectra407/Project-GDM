@@ -13,10 +13,14 @@ MonoBehaviour:
   m_Name: Floating Paw
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Floating Paw
-  description: Deal 6 Damage per card in your hand.
+  description: Deal 6 Damage per card in hand.
+  jackpot: 0
   cardType: 00000000
   damage: 6
   defense: 0
   poison: 0
   peek: 0
   madness: 3
+  art: {fileID: 0}
+  topIcon: {fileID: 0}
+  bottomIcon: {fileID: 0}

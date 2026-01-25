@@ -1044,6 +1044,61 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1222198704}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1654615290
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1654615291}
+  - component: {fileID: 1654615292}
+  m_Layer: 0
+  m_Name: DeckManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1654615291
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654615290}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.36013985, y: 0.47075, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1969167734}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1654615292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654615290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 913c44a757c7df845959cef6bc60155c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Systems.DeckManagerKenny
+  rewardDeck: []
+  currentDeck:
+  - {fileID: 11400000, guid: 9835a9d826455a5ff91f38ad8e36195c, type: 2}
+  - {fileID: 11400000, guid: f459bab6ea0639e0abb5bc0197c62ae7, type: 2}
+  - {fileID: 11400000, guid: e1d8912a5052e2e359deb1630ec68c4e, type: 2}
+  - {fileID: 11400000, guid: a7f22a059800f56ff8c99ee48591902b, type: 2}
+  - {fileID: 11400000, guid: 659ef78a901b8e6d6bafa1b48edc7646, type: 2}
+  - {fileID: 11400000, guid: 9835a9d826455a5ff91f38ad8e36195c, type: 2}
+  - {fileID: 11400000, guid: f459bab6ea0639e0abb5bc0197c62ae7, type: 2}
+  - {fileID: 11400000, guid: a7f22a059800f56ff8c99ee48591902b, type: 2}
+  peekList: []
 --- !u!1 &1689571036
 GameObject:
   m_ObjectHideFlags: 0
@@ -1233,8 +1288,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab44f1efc8ec21d489c4e08ec713b080, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestSystem
-  handView: {fileID: 1222198703}
-  temporaryCardData: {fileID: 11400000, guid: 9835a9d826455a5ff91f38ad8e36195c, type: 2}
 --- !u!1 &1969167733
 GameObject:
   m_ObjectHideFlags: 0
@@ -1265,6 +1318,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1892167545}
+  - {fileID: 1654615291}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2036011042

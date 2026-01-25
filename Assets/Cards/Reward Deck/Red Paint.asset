@@ -15,7 +15,7 @@ MonoBehaviour:
   cardName: Red Paint
   description: 'Deal 10 Damage. Jackpot: Gain 10 Defense.'
   jackpot: 1
-  cardType: 0000000001000000
+  cardType: 00000000
   damage: 10
   defense: 10
   poison: 0
