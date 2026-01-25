@@ -1234,6 +1234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestSystem
   handView: {fileID: 1222198703}
+  temporaryCardData: {fileID: 11400000, guid: 9835a9d826455a5ff91f38ad8e36195c, type: 2}
 --- !u!1 &1969167733
 GameObject:
   m_ObjectHideFlags: 0

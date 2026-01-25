@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f8ff9135053f05b3a82cff3ce4e13d1, type: 3}
-  m_Name: Lookng Glass
+  m_Name: Looking Glass
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Looking Glass
   description: Peek 2.

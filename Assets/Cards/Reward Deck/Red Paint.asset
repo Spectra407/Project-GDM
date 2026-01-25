@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Red Paint
   description: 'Deal 10 Damage. Jackpot: Gain 10 Defense.'
-  cardType: 000000000100000004000000
+  jackpot: 1
+  cardType: 0000000001000000
   damage: 10
   defense: 10
   poison: 0
   peek: 0
   madness: 2
+  art: {fileID: 0}
+  topIcon: {fileID: 0}
+  bottomIcon: {fileID: 0}

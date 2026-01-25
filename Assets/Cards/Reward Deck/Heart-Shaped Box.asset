@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Heart-Shaped Box
   description: 'Gain 5 Defense. Jackpot: Gain 50 Defense instead.'
+  jackpot: 1
   cardType: 01000000
   damage: 0
   defense: 5
   poison: 0
   peek: 0
   madness: 1
+  art: {fileID: 0}
+  topIcon: {fileID: 0}
+  bottomIcon: {fileID: 0}

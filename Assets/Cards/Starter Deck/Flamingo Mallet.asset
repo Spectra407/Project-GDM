@@ -20,3 +20,4 @@ MonoBehaviour:
   poison: 0
   peek: 0
   madness: 0
+  art: {fileID: -720468549003805797, guid: 64232d3637f01bc4fb009049c76c29c7, type: 3}

@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Royal Decree
   description: 'Deal 5 Damage. Jackpot: All cards deal Double Damage.'
-  cardType: 0000000004000000
+  jackpot: 1
+  cardType: 00000000
   damage: 5
   defense: 0
   poison: 0
   peek: 0
   madness: 0
+  art: {fileID: 0}
+  topIcon: {fileID: 0}
+  bottomIcon: {fileID: 0}

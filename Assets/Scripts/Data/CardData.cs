@@ -8,16 +8,16 @@ public class CardData : ScriptableObject
     [Header("Card Identity")]
     public string cardName;     // cardName will be used as and ID to trigger the card's effect.
     public string description;
-    
+
     [Header("Card Type for Visual Changes")]
+    public bool jackpot;
     public List<CardType> cardType;
     public enum CardType
     {
         Damage,
         Defense,
         Poison,
-        Peek,
-        Jackpot
+        Peek
     }
     
     [Header("Standard Stats")]
@@ -28,6 +28,12 @@ public class CardData : ScriptableObject
     
     [Header("Madness Cost")]
     public int madness;
+    
+    [Header("Sprite for the art")]
+    public Sprite art;
+
+    public Sprite topIcon;
+    public Sprite bottomIcon;
 
     public void ChangeBanner()
     {
