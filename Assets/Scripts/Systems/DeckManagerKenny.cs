@@ -55,30 +55,26 @@ namespace Systems
         // Peek at n cards and return the list of peeked cards
         public List<CardData> PeekCards(int n)
         {
+            peekList.Clear();
+            
             // Adjust how many cards are peeked depending on how many cards are left in the deck
             int nCorrected = System.Math.Min(drawPile.Count, n);
         
             for (int i = 0; i < nCorrected; i++)
             {
-                CardData peekedCard = DrawCard();
+                CardData peekedCard = drawPile[i];
                 peekList.Add(peekedCard);
             }
+            // Now that we have grabbed all the cards that will be peeked, we can preemptively shuffle the draw pile!
+            ShuffleAll(drawPile);
+            
             return peekList;
         }
-    
-        // Cleanup function after peeking resolves
-        public void PeekCleanup()
+        
+
+        public void RemoveCardFromDrawPile(CardData card)
         {
-            if (peekList.Count != 0)
-            {
-                for (int i = 0; i < peekList.Count; i++)
-                {
-                    CardData card = peekList[i];
-                    drawPile.Add(card);     // Add the peeked card back in the draw pile
-                }
-            }
-            peekList = new List<CardData>();    // Reset the peek list
-            ShuffleAll(drawPile);       // Shuffle the draw pile
+            drawPile.Remove(card);
         }
     
     

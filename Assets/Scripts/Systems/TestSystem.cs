@@ -18,5 +18,10 @@ public class TestSystem : MonoBehaviour
             }
             
         }
+
+        if (Keyboard.current.pKey.wasPressedThisFrame) // Test peek 3 using P.
+        {
+            PeekManager.Instance.ShowPeek(3);
+        }
     }
 }
