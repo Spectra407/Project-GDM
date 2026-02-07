@@ -70,22 +70,7 @@ namespace Systems
             
             return peekList;
         }
-    
-        // Cleanup function after peeking resolves
-        // MIGHT REMOVE THIS
-        // public void PeekCleanup()
-        // {
-        //     if (peekList.Count != 0)
-        //     {
-        //         for (int i = 0; i < peekList.Count; i++)
-        //         {
-        //             CardData card = peekList[i];
-        //             drawPile.Add(card);     // Add the peeked card back in the draw pile
-        //         }
-        //     }
-        //     peekList = new List<CardData>();    // Reset the peek list
-        //     ShuffleAll(drawPile);       // Shuffle the draw pile
-        // }
+        
 
         public void RemoveCardFromDrawPile(CardData card)
         {
