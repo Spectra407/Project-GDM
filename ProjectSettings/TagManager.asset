@@ -47,5 +47,8 @@ TagManager:
   - name: HUD
     uniqueID: 1367498921
     locked: 0
+  - name: PeekUI
+    uniqueID: 1208257041
+    locked: 0
   m_RenderingLayers:
   - Default

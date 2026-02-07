@@ -35,6 +35,18 @@ public class CardView : MonoBehaviour
         UpdateBanners();
 
     }
+    
+    // Use this to clear Peeked cards
+    public void ClearVisuals()
+    {
+        data = null;
+        description.text = "";
+        madness.text = "";
+        imageSR.sprite = null;
+        
+        topValue.transform.parent.gameObject.SetActive(false);
+        bottomValue.transform.parent.gameObject.SetActive(false);
+    }
 
     private void UpdateBanners()
     {
