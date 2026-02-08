@@ -1,22 +1,14 @@
+using UnityEngine;
+
 public class EmptyState : ITurnState
 {
     public void Enter()
     {
-        
+        Debug.LogError("Calling EmptyState.Enter()");
     }
 
-    public void Exit()
+    public void HandleInput(string _inputID)
     {
-        
-    }
-
-    public void Update(float dt)
-    {
-        
-    }
-
-    public void HandleInput()
-    {
-        
+        Debug.LogError("Calling EmptyState.HandleInput()");
     }
 }

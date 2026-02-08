@@ -10,14 +10,18 @@ public class ChoosingActionState : ITurnState
         this.cm = cm;
     }
 
-    public void Update(float dt)
+    public void HandleInput(string inputID)
     {
-        
-    }
-
-    public void HandleInput()
-    {
-        
+        if (inputID == "HitButton")
+        {
+            Debug.Log("drawing card");
+            DrawCard();
+        }
+        else if (inputID == "StandButton")
+        {
+            Debug.Log("stoppig drawing");
+            StopDrawing();
+        }
     }
 
     public void Enter()
@@ -25,10 +29,10 @@ public class ChoosingActionState : ITurnState
         
     }
 
-    public void Exit()
-    {
+    // public void Exit()
+    // {
         
-    }
+    // }
 
     private void DrawCard()
     {
@@ -36,15 +40,17 @@ public class ChoosingActionState : ITurnState
         if (maybeCard is null) return;
         Card card = (Card) maybeCard;
 
+        Debug.Log("drew card");
+
+
         cm.drawnCards.Add(card);
         cm.lastDrawnCard = card;
-        cm.madness += card.madness;
 
-        cm.ChangeState("HandlingCard");
+        cm.MoveToNewState("HandlingCard");
     }
 
     private void StopDrawing()
     {
-        cm.ChangeState("Evaluating");
+        cm.MoveToNewState("Evaluating");
     }
 }

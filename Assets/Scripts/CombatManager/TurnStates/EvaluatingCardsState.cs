@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class ChoosingCardState : ITurnState
+public class EvaluatingCardsState : ITurnState
 {
-    private CombatManager cm;
+    private readonly CombatManager cm;
 
-    public ChoosingCardState(CombatManager cm)
+    public EvaluatingCardsState(CombatManager cm)
     {
         this.cm = cm;
     }

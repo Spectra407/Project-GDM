@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 // WIP
 // Script to handle tracking and updating data during battles, including deck operations
-// and evaluating card effects (not yet implemented).
+// and evaluating card effects (latter not yet implemented).
 // If anything seems missing or stupid say something! I have no idea what I'm doing <3 
 // -Elle
 
-public class CombatManager : MonoBehaviour // What is a MonoBehaviour? Should this be one?
+public class CombatManager : MonoBehaviour
 {
     public int playerHealth;
     public int enemyHealth;
@@ -17,47 +17,54 @@ public class CombatManager : MonoBehaviour // What is a MonoBehaviour? Should th
     public List<Card> drawnCards;
     public Card lastDrawnCard;
 
-    private Dictionary<string, ITurnState> states;
+    private Stack<ITurnState> states;
     private ITurnState currentState;
     // private EnemyAI enemyAI;
 
-    // It's probably gonna be a good idea to turn this into a full-fledged state machine
-    // but for right now this can be an outline of states we want
-    // enum TurnState
-    // {
-    //     DrawingCards,
-    //     HandlingCardEffect, // if cards might require immediate action by the player
-    //     ChoosingCardToPlay, // if madness threshold is passed
-    //     InAnimation,
-    //     EnemyTurn
-    // }
-
     void Start()
     {
+        drawnCards = new();
+
         states = new();
-        states.Add("ChoosingAction", new ChoosingActionState(this));
-        states.Add("HandlingCard", new HandlingCardState(this));
-        states.Add("Peeking", new PeekingState(this));
-        states.Add("ChoosingCard", new ChoosingCardState(this));
+        states.Push(new ChoosingActionState(this));
     }
 
     void Update()
     {
-        // Send input to current state if available
-        // Call Update in current state
+        
     }
 
-    public void ChangeState(string id)
+    public void HandleInput(string input)
     {
-        currentState.Exit();
-        currentState = states[id];
-        currentState.Enter();
+        Debug.Log("CombatManager received input \"" + input + "\"");
+        states.Peek().HandleInput(input);
     }
 
-    // void InitBattle(List<Card> deck, Enemy enemy, OtherAliceStats aliceStats(?), idk what else)
-    void InitBattle(int playerHealth, List<Card> deck)
+    public void MoveToNewState(string id)
     {
-        this.playerHealth = playerHealth;
+        Debug.Log("CombatManager moving to state " + id);
+        states.Push(NewState(id));
+        states.Peek().Enter();
+    }
+
+    public void ReturnToLastState()
+    {
+        Debug.Log("CombatManager returning to last state");
+        states.Pop();
+        states.Peek().Enter();
+    }
+
+    private ITurnState NewState(string id)
+    {
+        switch (id)
+        {
+            case "ChoosingAction": return new ChoosingActionState(this);
+            case "HandlingCard": return new HandlingCardState(this);
+            case "Peeking": return new PeekingState(this);
+            case "ChoosingCard": return new ChoosingCardState(this);
+            case "EvaluatingCards": return new EvaluatingCardsState(this);
+            default: throw new System.Exception();
+        }
     }
 
     void EndBattle()

@@ -11,6 +11,13 @@ public class DeckManager : MonoBehaviour
     private List<Card> deck;
     private int depth;
 
+    // For testing
+    void Start()
+    {
+        deck = new List<Card>();
+        for (int i = 0; i < 5; i++) deck.Add(new Card());
+    }
+
     public void SetDeck(List<Card> deck)
     {
         this.deck = new List<Card>(deck);

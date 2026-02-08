@@ -4,12 +4,8 @@ using UnityEngine;
 
 public interface ITurnState
 {
-    // Depending on how we organize things, this state machine might not have any behavior that needs frame-by-frame updating
-    // It'll depend on how we manage animations
-    void Update(float dt);
-    void HandleInput();
+    void HandleInput(string inputID);
 
     void Enter();
-    void Exit();
     
 }

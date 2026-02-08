@@ -8,53 +8,45 @@ public class HandlingCardState : ITurnState
     public HandlingCardState(CombatManager cm)
     {
         this.cm = cm;
+        phase = Phase.Start;
     }
 
     public void Enter()
     {
         if (phase == Phase.Start)
         {
-            phase = Phase.CheckingMadness;
-            drawnCard = cm.lastDrawnCard;
-        }
-
-        if (phase == Phase.CheckingMadness)
-        {
             phase = Phase.CheckingPeek;
+            drawnCard = cm.lastDrawnCard;
 
+            cm.madness += drawnCard.madness;
             if (cm.madness > cm.maxMadness)
             {
-                cm.ChangeState("ChoosingCard");
+                cm.MoveToNewState("ChoosingCard");
                 return;
             }
         }
 
         if (phase == Phase.CheckingPeek)
         {
-            phase = Phase.Start;
+            phase = Phase.ProcessingCardFurther;
 
             bool hasPeek = true; // todo: replace w/ real check
             if (hasPeek)
             {
-                cm.ChangeState("Peeking");
+                cm.MoveToNewState("Peeking");
                 return;
             }
         }
 
-        // Animations here?
+        if (phase == Phase.ProcessingCardFurther)
+        {
+            phase = Phase.Done;
+
+            cm.ReturnToLastState();
+        }
     }
 
-    public void Exit()
-    {
-        
-    }
-
-    public void Update(float dt)
-    {
-        
-    }
-
-    public void HandleInput()
+    public void HandleInput(string inputID)
     {
         
     }
@@ -62,7 +54,8 @@ public class HandlingCardState : ITurnState
     enum Phase
     {
         Start,
-        CheckingMadness,
         CheckingPeek,
+        ProcessingCardFurther,
+        Done
     }
 }

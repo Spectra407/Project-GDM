@@ -14,26 +14,25 @@ public class PeekingState : ITurnState
 
     public void Enter()
     {
-        peeked = cm.deck.PeekNCards(0);
+        peeked = cm.deck.PeekNCards(2);
+        Debug.Log("Peeked! Selecting 0th card...");
+        SelectCard(0);
     }
 
-    public void Exit()
-    {
-        cm.deck.ShuffleUndrawn();
-    }
-
-    public void Update(float dt)
-    {
-        
-    }
-
-    public void HandleInput()
+    public void HandleInput(string inputID)
     {
         
     }
 
     private void SelectCard(int n)
     {
-        
+        Card? shouldBeCard = cm.deck.DrawNthCard(n);
+        if (shouldBeCard == null) return;
+        Card card = (Card) shouldBeCard;
+
+        cm.drawnCards.Add(card);
+        cm.lastDrawnCard = card;
+
+        cm.ReturnToLastState();
     }
 }
