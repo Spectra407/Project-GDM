@@ -3,13 +3,15 @@ using UnityEngine.Splines;
 using DG.Tweening;         
 using System.Collections;          
 using System.Collections.Generic;
-using System.Linq; 
+using System.Linq;
+using Systems;
 
 // This script is responsible for the visual organization of the cards in the player's hand.
 public class HandView : Singleton<HandView>
 {
     [SerializeField] private SplineContainer splineContainer;
     private readonly List<CardView> handCardViews = new();
+    public bool isShattering = false;
 
     public IEnumerator AnimateCardToHand(CardView cardView)
     {
@@ -31,9 +33,11 @@ public class HandView : Singleton<HandView>
             Vector3 forward = spline.EvaluateTangent(p);
             Vector3 up = spline.EvaluateUpVector(p);
             Quaternion rotation = Quaternion.LookRotation(-up, Vector3.Cross(-up, forward).normalized);
+
+            Vector3 targetPos = splinePosition + transform.position + 0.01f * i * Vector3.back;
             
             // Utilize DOTween to make cards move smoothly and not teleport around
-            handCardViews[i].transform.DOMove(splinePosition + transform.position + 0.01f * i * Vector3.back, duration);
+            handCardViews[i].transform.DOMove(targetPos, duration);
             handCardViews[i].transform.DORotate(rotation.eulerAngles, duration);
         }
         yield return new WaitForSeconds(duration);
@@ -43,5 +47,50 @@ public class HandView : Singleton<HandView>
     {
         // Take every CardView in the hand and return its CardData in a list
         return handCardViews.Select(cardView => cardView.data).ToList();
+    }
+
+    public IEnumerator ShatterSequence(CardView survivor)
+    {
+        // 1. Burn animation logic
+        // Create a list of cards to burn
+        List<CardView> cardsToBurn = new List<CardView>(handCardViews);
+        cardsToBurn.Remove(survivor);
+
+        foreach (var card in cardsToBurn)
+        {
+            // TRIGGER BURN ANIMATION HERE
+            
+            // card.GetComponent<Animator>().SetTrigger("Burn");
+        }
+        
+        // Wait for animation to play
+        yield return new WaitForSeconds(0.8f);
+        
+        
+        // 2. Shatter logic
+        List<CardData> recycledData = new List<CardData>();
+        
+        // Get the data of all the cards other than the survivor
+        foreach (var card in cardsToBurn)
+        {
+            recycledData.Add(card.data);
+            Destroy(card.gameObject);
+        }
+        
+        // Put back all the cards into your draw pile
+        foreach (CardData recycledCard in recycledData)
+        {
+            DeckManagerKenny.Instance.RecycleToDrawPile(recycledCard);
+        }
+        
+        // Reset the information with only the survivor
+        handCardViews.Clear();  // Remove null objects since we Destroyed the gameobjects.
+        handCardViews.Add(survivor);
+        
+        // Update the cards in your hand
+        yield return StartCoroutine(UpdateCardPositions(0.5f));
+
+        // Reset state so Alice can play cards again, adjust later
+        isShattering = false;
     }
 }

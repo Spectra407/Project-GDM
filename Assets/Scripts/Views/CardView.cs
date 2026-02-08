@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CardView : MonoBehaviour
 {
@@ -96,4 +97,6 @@ public class CardView : MonoBehaviour
                 break;
         }
     }
+
+    
 }
