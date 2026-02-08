@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Systems
 {
-    public class DeckManagerKenny : PersistentSingleton<DeckManagerKenny>
+    public class DeckManager : PersistentSingleton<DeckManager>
     {
         public List<CardData> rewardDeck;   // Deck of possible reward cards
         public List<CardData> currentDeck;  // Current player deck, start with the Starter Deck

@@ -11,7 +11,7 @@ public class PeekManager : Singleton<PeekManager>
 
     public void ShowPeek(int count)
     {
-        peekCardData = DeckManagerKenny.Instance.PeekCards(count);
+        peekCardData = DeckManager.Instance.PeekCards(count);
         for (int i = 0; i < peekCardVisuals.Count; i++)
         {
             // Make the card show up
@@ -34,7 +34,7 @@ public class PeekManager : Singleton<PeekManager>
     {
         CardData chosenCard = peekCardData[index];
         // Remove the card from the deck
-        DeckManagerKenny.Instance.RemoveCardFromDrawPile(chosenCard);
+        DeckManager.Instance.RemoveCardFromDrawPile(chosenCard);
         
         // Turn off peek UI when you finish peeking
         ClosePeek();

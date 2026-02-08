@@ -80,7 +80,7 @@ public class HandView : Singleton<HandView>
         // Put back all the cards into your draw pile
         foreach (CardData recycledCard in recycledData)
         {
-            DeckManagerKenny.Instance.RecycleToDrawPile(recycledCard);
+            DeckManager.Instance.RecycleToDrawPile(recycledCard);
         }
         
         // Reset the information with only the survivor

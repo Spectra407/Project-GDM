@@ -13,8 +13,6 @@ public class CombatManager : MonoBehaviour
     public int enemyHealth;
     public int madness;
     public int maxMadness;
-    public DeckManager deck;
-    public List<Card> drawnCards;
     public Card lastDrawnCard;
 
     private Stack<ITurnState> states;

@@ -17,7 +17,7 @@ public class TestSystem : MonoBehaviour
         
         if (Keyboard.current.spaceKey.wasPressedThisFrame) // Draw a card into your hand using spacebar.
         {
-            CardData data = DeckManagerKenny.Instance.DrawCard();
+            CardData data = DeckManager.Instance.DrawCard();
 
             if (data != null)
             {
