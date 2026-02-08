@@ -76,7 +76,10 @@ namespace Systems
         {
             drawPile.Remove(card);
         }
-    
-    
+
+        public void RecycleToDrawPile(CardData card)
+        {
+            drawPile.Add(card);
+        }
     }
 }
