@@ -43,6 +43,9 @@ public class ShatteringState : ITurnState
     {
         // 2. Raycast from the camera to the mouse position
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        
+        Debug.DrawRay(ray.origin, ray.direction * 100, Color.yellow, 2f);
+        
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             Debug.Log($"Shatter Raycast hit: {hit.collider.gameObject.name}");
@@ -52,6 +55,7 @@ public class ShatteringState : ITurnState
             if (clickedCard != null)
             {
                 _hasSelected = true;
+                _cm.lastDrawnCard = null; // Clear last drawn card so it doesn't retrigger again in the next state.
                 Debug.Log($"Survivor chosen: {clickedCard.data.cardName}");
                 
                 // 4. Start the physical destruction of the other cards
@@ -60,6 +64,10 @@ public class ShatteringState : ITurnState
                 // 5. Move to evaluation now that only 1 card remains
                 _cm.MoveToNewState("EvaluatingCards");
             }
+        }
+        else
+        {
+            Debug.Log("Raycast hit nothing.");
         }
     }
 

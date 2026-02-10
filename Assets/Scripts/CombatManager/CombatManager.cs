@@ -58,7 +58,8 @@ public class CombatManager : MonoBehaviour
     /// </summary>
     public void MoveToNewState(string id)
     {
-        Debug.Log($"State change to {id} requested by {System.Environment.StackTrace}");
+        // Remove the _isTransitioning check here if it's causing the freeze
+    
         if (currentState != null)
         {
             currentState.Exit();
@@ -68,9 +69,9 @@ public class CombatManager : MonoBehaviour
         currentState = NewState(id);
         CurrentStateName = id;
         states.Push(currentState);
-        currentState.Enter();
-        
+    
         Debug.Log($"CombatManager: Switched to {id}");
+        currentState.Enter();
     }
 
     /// <summary>
@@ -104,7 +105,7 @@ public class CombatManager : MonoBehaviour
             states.Pop();
             
             currentState = states.Peek();
-            CurrentStateName = "HandlingCard"; // Resuming the card check logic
+            CurrentStateName = currentState.GetType().Name; // Resuming the card check logic
             
             currentState.Enter(); 
         }

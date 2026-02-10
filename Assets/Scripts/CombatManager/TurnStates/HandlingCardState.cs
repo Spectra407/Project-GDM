@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class HandlingCardState : ITurnState
@@ -36,20 +37,24 @@ public class HandlingCardState : ITurnState
     private void ProcessInitialMadness()
     {
         _cm.madness += _cm.lastDrawnCard.madness;
-    
-        // TRIGGER: Update the UI Bar so the player sees the 7/7 limit approaching
-        // UIManager.Instance.UpdateMadnessBar(_cm.madness, _cm.alice.maxMadness);
 
         if (_cm.madness >= _cm.alice.maxMadness)
         {
-            // TRIGGER: Maybe a "Shatter!" sound effect or screen shake
-            _cm.MoveToNewState("Shattering");
+            // We do NOT clear lastDrawnCard here yet; let the Shatter state handle it
+            _cm.StartCoroutine(DelayedShatter());
         }
         else
         {
+            // Ensure this phase change is explicit
             _currentPhase = Phase.CheckingPeek;
             ProcessPeekOrFinish();
         }
+    }
+
+    private IEnumerator DelayedShatter()
+    {
+        yield return new WaitForEndOfFrame(); // A safer wait than null
+        _cm.MoveToNewState("Shattering");
     }
 
     private void ProcessPeekOrFinish()
