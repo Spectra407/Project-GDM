@@ -35,7 +35,8 @@ public class EvaluatingCardsState : ITurnState
     private IEnumerator FinishEvaluationSequence()
     {
         // Give the player a moment to see the final cards
-        yield return new WaitForSeconds(1.0f);
+        // Be careful of reducing this time too much because DOTween won't have the time to animate the cards before you destroy the cards!
+        yield return new WaitForSeconds(3.0f);
 
         // Recycle cards back to the deck and clear visuals
         _cm.Hand.ClearHand(); 

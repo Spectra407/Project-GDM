@@ -117,4 +117,23 @@ public class HandView : Singleton<HandView>
     
         Debug.Log("Hand cleared and data recycled to deck.");
     }
+    
+    
+    public void SetHandInteractable(bool isInteractable)
+    {
+        foreach (var card in handCardViews)
+        {
+            if (card != null)
+            {
+                // Get the 3D collider we just added
+                BoxCollider collider = card.GetComponent<BoxCollider>();
+            
+                if (collider != null)
+                {
+                    // Toggle the collider so it doesn't intercept Raycasts
+                    collider.enabled = isInteractable;
+                }
+            }
+        }
+    }
 }

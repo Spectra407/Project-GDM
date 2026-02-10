@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 public class CardView : MonoBehaviour
 {
-    
+    [Header("Card UI References")]
     [SerializeField] private TMP_Text description;
     [SerializeField] private TMP_Text madness;
     [SerializeField] private SpriteRenderer imageSR;
@@ -13,6 +13,7 @@ public class CardView : MonoBehaviour
     [SerializeField] private SpriteRenderer topIcon;
     [SerializeField] private TMP_Text bottomValue;
     [SerializeField] private SpriteRenderer bottomIcon;
+    
 
     [Header("All Icon Sprites")]
     [SerializeField] private Sprite damageSprite;

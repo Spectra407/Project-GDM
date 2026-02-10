@@ -11,6 +11,9 @@ public class PeekManager : Singleton<PeekManager>
 
     public void ShowPeek(int count)
     {
+        // Disable interaction with the 3D hand
+        HandView.Instance.SetHandInteractable(false);
+        
         peekCardData = DeckManager.Instance.PeekCards(count);
         for (int i = 0; i < peekCardVisuals.Count; i++)
         {
@@ -53,6 +56,9 @@ public class PeekManager : Singleton<PeekManager>
 
     public void ClosePeek()
     {
+        // Enable hand interaction when done.
+        HandView.Instance.SetHandInteractable(true);
+        
         // Clear peek data so it doesn't carry over
         foreach (CardView slot in peekCardVisuals)
         {
@@ -70,6 +76,8 @@ public class PeekManager : Singleton<PeekManager>
         // We don't change cm.lastDrawnCard
         // We simply tell the manager to go back
         CombatManager cm = Object.FindAnyObjectByType<CombatManager>();
-        cm.ReturnToLastState(); 
+        cm.MoveToNewState("ChoosingAction");    
+        // Forcefully move back to "Choosing Action" state instead of reverting to the previous state.
+        // Returning to previous state would bring you back to Peek since "last card drawn" was a Peek card.
     }
 }
