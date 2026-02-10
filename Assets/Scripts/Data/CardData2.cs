@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "New card", menuName = "CardData")]
-public class CardData : ScriptableObject
+public class CardData2 : ScriptableObject
 {
     [Header("Card Identity")]
     public int cardID; //unique ID
