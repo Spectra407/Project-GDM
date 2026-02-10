@@ -29,7 +29,7 @@ public class PeekManager : Singleton<PeekManager>
                 peekCardVisuals[i].Setup(peekCardData[i]);
                 peekCardVisuals[i].transform.localScale = new Vector3(100, 100, 1);
             }
-            // Make the ghost card disappear if we're not peeking as many cards
+            // Make the ghost cards disappear if we're not peeking as many cards
             else
             {
                 peekCardVisuals[i].gameObject.SetActive(false);
@@ -51,11 +51,11 @@ public class PeekManager : Singleton<PeekManager>
         CardView cardView = CardViewCreator.Instance.CreateCardView(chosenCard, transform.position, Quaternion.identity);
         StartCoroutine(HandView.Instance.AnimateCardToHand(cardView));
         
-        // 1. Update the CombatManager's active card
+        // Update the CombatManager's active card
         CombatManager cm = Object.FindAnyObjectByType<CombatManager>();
         cm.lastDrawnCard = chosenCard; 
 
-        // 2. Return to the HandlingCardState to finish the turn
+        // Return to the HandlingCardState to finish resolving the card.
         cm.ReturnToLastState();
     }
 
@@ -78,11 +78,10 @@ public class PeekManager : Singleton<PeekManager>
     {
         ClosePeek();
         
-        // We don't change cm.lastDrawnCard
-        // We simply tell the manager to go back
+        // We don't change cm.lastDrawnCard and tell the manager to go back
         CombatManager cm = Object.FindAnyObjectByType<CombatManager>();
         cm.MoveToNewState("ChoosingAction");    
         // Forcefully move back to "Choosing Action" state instead of reverting to the previous state.
-        // Returning to previous state would bring you back to Peek since "last card drawn" was a Peek card.
+        // Returning to previous state would bring you back to Peek since "last card drawn" was a Peek card (uh oh infinite loop)
     }
 }

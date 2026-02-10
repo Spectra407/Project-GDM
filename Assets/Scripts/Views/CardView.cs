@@ -4,6 +4,8 @@ using UnityEngine.EventSystems;
 
 public class CardView : MonoBehaviour
 {
+    // attributes: topValue, topIcon, bottomValue, bottomIcon, damageSprite, defenseSprite, peekSprite, poisonSprite
+    // are lowkey not used anymore. Check with Art team about Card visual layout
     [Header("Card UI References")]
     [SerializeField] private TMP_Text description;
     [SerializeField] private TMP_Text madness;
@@ -51,7 +53,9 @@ public class CardView : MonoBehaviour
         topValue.transform.parent.gameObject.SetActive(false);
         bottomValue.transform.parent.gameObject.SetActive(false);
     }
-
+    
+    
+    // UNUSED METHOD
     private void UpdateBanners()
     {
         // Turn off the banners by default
@@ -74,7 +78,8 @@ public class CardView : MonoBehaviour
             }
         }
     }
-
+    
+    // UNUSED METHOD
     private void ChooseBannerType(TMP_Text textSlot, SpriteRenderer iconSlot, CardData.CardType type)
     {
         switch (type)

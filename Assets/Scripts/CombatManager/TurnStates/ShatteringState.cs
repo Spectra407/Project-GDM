@@ -24,15 +24,14 @@ public class ShatteringState : ITurnState
         Debug.Log("MADNESS LIMIT REACHED! Alice must choose a survivor.");
         _hasSelected = false;
         
-        // Optional: Trigger a visual "Danger" UI or sound
-        // UIManager.Instance.ShowShatterPrompt(true);
+        // TURN ON UI FOR SHATTER EFFECTS HERE
         
         _cm.StartCoroutine(EnableSelectionDelay());
     }
 
     public void Update()
     {
-        // 1. Listen for the mouse click to pick a survivor
+        // Listen for the mouse click to pick a survivor
         if (!_hasSelected && _canSelect && Input.GetMouseButtonDown(0))
         {
             DetectSurvivorClick();
@@ -41,7 +40,7 @@ public class ShatteringState : ITurnState
 
     private void DetectSurvivorClick()
     {
-        // 2. Raycast from the camera to the mouse position
+        // Raycast from the camera to the mouse position
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         
         Debug.DrawRay(ray.origin, ray.direction * 100, Color.yellow, 2f);
@@ -49,7 +48,7 @@ public class ShatteringState : ITurnState
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             Debug.Log($"Shatter Raycast hit: {hit.collider.gameObject.name}");
-            // 3. Check if the hit object is a CardView
+            // Check if the hit object is a CardView
             CardView clickedCard = hit.collider.GetComponentInParent<CardView>();
 
             if (clickedCard != null)
@@ -58,10 +57,10 @@ public class ShatteringState : ITurnState
                 _cm.lastDrawnCard = null; // Clear last drawn card so it doesn't retrigger again in the next state.
                 Debug.Log($"Survivor chosen: {clickedCard.data.cardName}");
                 
-                // 4. Start the physical destruction of the other cards
+                // Byebye other cards
                 _cm.Hand.StartCoroutine(_cm.Hand.ShatterSequence(clickedCard));
                 
-                // 5. Move to evaluation now that only 1 card remains
+                // Move to EvaluatingCards
                 _cm.MoveToNewState("EvaluatingCards");
             }
         }
@@ -71,10 +70,10 @@ public class ShatteringState : ITurnState
         }
     }
 
-    public void HandleInput(string input) { } // Clicks are handled via Raycast in Update
+    public void HandleInput(string input) { } 
     
     public void Exit() 
     {
-        // UIManager.Instance.ShowShatterPrompt(false);
+        // TURN OFF THE UI POPUPS OR WHATEVER FOR SHATTER HERE
     }
 }

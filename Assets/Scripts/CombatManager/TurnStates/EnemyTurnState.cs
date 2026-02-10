@@ -20,33 +20,51 @@ public class EnemyTurnState : ITurnState
 
     private IEnumerator ExecuteEnemyMove()
     {
-        // 1. Wait a moment for visual pacing
+        // Wait a moment for animations or whatever
         yield return new WaitForSeconds(1.5f);
 
-        // 2. Simple AI Logic: Deal a flat 10 damage for now
+        // Simple Enemy Logic: Deal a flat 10 damage for now
+        // REPLACE WITH THE ENEMYDATA LATER
         int damageToAlice = 10;
-        _cm.currentHealth -= damageToAlice;
-        
-        Debug.Log($"The Jabberwock bites Alice for {damageToAlice} damage!");
+        Debug.Log($"The Card Soldier stabs Alice for {damageToAlice} - {_cm.tempDefense} damage!");
+        AliceTakeDamage(damageToAlice);
         Debug.Log($"Alice Health: {_cm.currentHealth}");
-
-        // 3. Update the AliceData ScriptableObject to keep health persistent
-        _cm.alice.currentHealth = _cm.currentHealth;
-
-        // 4. Wait another moment so the player sees the result
+        
+        // Wait another moment so the player sees the result
         yield return new WaitForSeconds(1.0f);
 
-        // 5. Check if Alice is defeated or move back to her turn
+        // Check if Alice is defeated or move back to her turn
         if (_cm.currentHealth <= 0)
         {
             Debug.Log("Game Over: You died.");
-            // Move to a GameOverState if you have one
+            // Move to a GameOverState LATERRRR
         }
         else
         {
-            // Reset the cycle back to Alice
+            // Reset the turn back to Alice
             _cm.MoveToNewState("ChoosingAction"); 
         }
+    }
+    
+    private void AliceTakeDamage(int damage)
+    {
+        if (_cm.tempDefense >= damage)
+        {
+            // Defense big enough to tank full hit
+            _cm.tempDefense -= damage;
+        }
+        else
+        {
+            // Defense not big enough to tank full hit
+            damage -= _cm.tempDefense;
+            _cm.tempDefense = 0;
+            _cm.currentHealth -= damage;
+        }
+        // Stop negative health values
+        _cm.currentHealth = Mathf.Max(0, _cm.currentHealth);
+        
+        // Update the AliceData ScriptableObject to keep health persistent
+        _cm.alice.currentHealth = _cm.currentHealth;
     }
 
     public void HandleInput(string input) { } 

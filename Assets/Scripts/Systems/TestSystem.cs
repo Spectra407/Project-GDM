@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
+// THIS SCRIPT IS USELESS NOW. IT HAS BEEN FUNCTIONALLY REPLACED BY COMBATMANAGER.
 public class TestSystem : MonoBehaviour
 {
     // Update is called once per frame

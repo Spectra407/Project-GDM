@@ -1,13 +1,14 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Systems; // Assuming your Singleton and AliceData are in this namespace
+using Systems;
 
 public class CombatManager : MonoBehaviour
 {
     [Header("Player & Enemy Data")]
     public AliceData alice;
     public int currentHealth;
-    public int enemyHealth = 50; 
+    public int enemyHealth = 50;
+    public int tempDefense;
     public int madness;
 
     [Header("State Tracking")]
@@ -18,17 +19,17 @@ public class CombatManager : MonoBehaviour
     [Header("Active Card Data")]
     public CardData lastDrawnCard;
 
-    // Singletons for easy access by states
+    // Singleton variable shortcuts for easy access (I lowkey smtimes forgot to call them from this).
     public DeckManager Deck => DeckManager.Instance;
     public HandView Hand => HandView.Instance;
 
-    private bool _isTransitioning = false; // "Circuit breaker" to prevent infinite loops
+    private bool _isTransitioning = false; // Magic to prevent infinite loops
 
     void Start()
     {
         // Initialize Alice's health from her ScriptableObject
         currentHealth = alice.currentHealth;
-        madness = 0;
+        madness = alice.startingMadness;
 
         // Kick off the game loop
         MoveToNewState("ChoosingAction");
@@ -36,14 +37,14 @@ public class CombatManager : MonoBehaviour
 
     void Update()
     {
-        // Allow the active state to handle frame-by-frame logic (like Raycasting)
+        // Allow the active state to handle frame-by-frame logic for Raycasting
         if (currentState != null)
         {
             currentState.Update(); 
         }
     }
 
-    // Standard entry point for UI Button clicks
+    // Entry point for UI Button clicks
     public void HandleInput(string input)
     {
         if (currentState != null)
@@ -52,10 +53,7 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// REPLACES the current state. Use for most transitions (Hit -> Handling -> etc).
-    /// This prevents the state stack from growing infinitely.
-    /// </summary>
+    // Use for most state transitions (Choose Action -> Handling -> etc).
     public void MoveToNewState(string id)
     {
         // Remove the _isTransitioning check here if it's causing the freeze
@@ -74,9 +72,8 @@ public class CombatManager : MonoBehaviour
         currentState.Enter();
     }
 
-    /// <summary>
-    /// OVERLAYS a state. Use EXCLUSIVELY for the Peek mechanic.
-    /// </summary>
+    
+    // Lays a state on top of another. Use EXCLUSIVELY for the Peek mechanic.
     public void PushNewState(string id)
     {
         // We do NOT Exit or Pop the underlying state so we can return to it later
@@ -87,10 +84,8 @@ public class CombatManager : MonoBehaviour
         
         Debug.Log($"CombatManager: Pushed Overlay {id}");
     }
-
-    /// <summary>
-    /// REVERTS to the previous state. Called by PeekManager when a card is picked.
-    /// </summary>
+    
+    // Reverts to the previous state.
     public void ReturnToLastState()
     {
         Debug.Log($"CombatManager: ReturnToLastState called from {currentState.GetType().Name}");
@@ -115,7 +110,7 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    // The Factory: Maps strings to actual State Classes
+    // Strings -> States
     private ITurnState NewState(string id)
     {
         switch (id)

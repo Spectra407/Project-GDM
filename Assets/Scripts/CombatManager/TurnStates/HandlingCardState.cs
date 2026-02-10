@@ -16,14 +16,13 @@ public class HandlingCardState : ITurnState
 
     public void Enter()
     {
-        // 1. Safety Guard: Exit if there's no card data to process
+        // Exit if there's no card data to process (ex: Draw an empty deck)
         if (_cm.lastDrawnCard == null)
         {
             _cm.MoveToNewState("ChoosingAction");
             return;
         }
-
-        // 2. Logic Branching
+        
         if (_currentPhase == Phase.Start)
         {
             ProcessInitialMadness();
@@ -38,14 +37,14 @@ public class HandlingCardState : ITurnState
     {
         _cm.madness += _cm.lastDrawnCard.madness;
 
-        if (_cm.madness >= _cm.alice.maxMadness)
+        if (_cm.madness > _cm.alice.maxMadness)
         {
-            // We do NOT clear lastDrawnCard here yet; let the Shatter state handle it
+            // Trigger Shatter.
             _cm.StartCoroutine(DelayedShatter());
         }
         else
         {
-            // Ensure this phase change is explicit
+            // Check if we peek
             _currentPhase = Phase.CheckingPeek;
             ProcessPeekOrFinish();
         }
@@ -53,13 +52,13 @@ public class HandlingCardState : ITurnState
 
     private IEnumerator DelayedShatter()
     {
-        yield return new WaitForEndOfFrame(); // A safer wait than null
+        yield return new WaitForEndOfFrame(); 
         _cm.MoveToNewState("Shattering");
     }
 
     private void ProcessPeekOrFinish()
     {
-        // 3. Check if card has a Peek value
+        // Check if card has a Peek value
         if (_cm.lastDrawnCard.peek > 0)
         {
             // Use Push instead of Move so we return here after the Peek
@@ -80,14 +79,14 @@ public class HandlingCardState : ITurnState
     
     
 
-    public void HandleInput(string inputID) { } // Handled by ChoosingAction or UI
-    public void Update() { }      // No frame logic needed here
+    public void HandleInput(string inputID) { } 
+    public void Update() { }      
     public void Exit() 
     {
         // If we are moving back to ChoosingAction, ensure the card data is wiped
         if (_currentPhase == Phase.Done)
         {
-            _cm.lastDrawnCard = null; // Prevent double-processing
+            _cm.lastDrawnCard = null; 
         }
     }
 }

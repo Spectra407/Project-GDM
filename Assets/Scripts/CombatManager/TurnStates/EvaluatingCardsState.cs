@@ -12,39 +12,52 @@ public class EvaluatingCardsState : ITurnState
 
     public void Enter()
     {
+        // Evaluate damage and defense of cards in hand
+        _cm.StartCoroutine(DelayedEvaluationSequence());
+
+        // Clear the hand and move to the next turn
+        _cm.StartCoroutine(FinishEvaluationSequence());
+    }
+
+    private IEnumerator DelayedEvaluationSequence()
+    {
+        // Delay so that all cards are destroyed correctly (ex: during Shatter) before evaluating damage
+        yield return new WaitForSeconds(2.0f);
+        
         Debug.Log("Calculating total damage...");
         
-        // 1. Calculate damage from the remaining cards in hand
+        // Calculate damage from the remaining cards in hand
+        // IMPLEMENT POISON CALC LATER
         int totalDamage = 0;
+        int totalDefense = 0;
         foreach (var cardView in _cm.Hand.handCardViews)
         {
             if (cardView != null && cardView.data != null)
             {
                 totalDamage += cardView.data.damage; // Summing the card values
+                totalDefense += cardView.data.defense;
             }
         }
 
-        // 2. Apply damage to the enemy
+        // Apply damage to the enemy
         _cm.enemyHealth -= totalDamage;
-        Debug.Log($"Dealt {totalDamage} damage! Enemy Health: {_cm.enemyHealth}");
-
-        // 3. Clear the hand and move to the next turn
-        _cm.StartCoroutine(FinishEvaluationSequence());
+        _cm.tempDefense += totalDefense;
+        Debug.Log($"Dealt {totalDamage} damage! Enemy Health: {_cm.enemyHealth}. Gained {totalDefense} defense!");
     }
 
     private IEnumerator FinishEvaluationSequence()
     {
         // Give the player a moment to see the final cards
         // Be careful of reducing this time too much because DOTween won't have the time to animate the cards before you destroy the cards!
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(2.0f);
 
         // Recycle cards back to the deck and clear visuals
         _cm.Hand.ClearHand(); 
         
-        // 4. Reset Madness for the next turn
+        // Reset Madness for the next turn
         _cm.madness = 0;
 
-        // 5. Check if the enemy is dead or move to Enemy Turn
+        // Check if the enemy is dead or move to Enemy Turn
         if (_cm.enemyHealth <= 0)
         {
             Debug.Log("Victory!"); // Victory logic would go here
