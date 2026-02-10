@@ -6,11 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Systems;
 
-// This script is responsible for the visual organization of the cards in the player's hand.
+// This script is responsible for the visual organization of the cards in the player's hand and contains the data for the cards in hand.
+// It also takes care of the Shatter sequence and deletes/animates the cards getting deleted
 public class HandView : Singleton<HandView>
 {
     [SerializeField] private SplineContainer splineContainer;
-    private readonly List<CardView> handCardViews = new();
+    public readonly List<CardView> handCardViews = new();
     public bool isShattering = false;
 
     public IEnumerator AnimateCardToHand(CardView cardView)
@@ -51,7 +52,7 @@ public class HandView : Singleton<HandView>
 
     public IEnumerator ShatterSequence(CardView survivor)
     {
-        // 1. Burn animation logic
+        // BURN ANIMATION LOGIC
         // Create a list of cards to burn
         List<CardView> cardsToBurn = new List<CardView>(handCardViews);
         cardsToBurn.Remove(survivor);
@@ -67,7 +68,7 @@ public class HandView : Singleton<HandView>
         yield return new WaitForSeconds(0.8f);
         
         
-        // 2. Shatter logic
+        // SHATTER LOGIC
         List<CardData> recycledData = new List<CardData>();
         
         // Get the data of all the cards other than the survivor
@@ -92,5 +93,48 @@ public class HandView : Singleton<HandView>
 
         // Reset state so Alice can play cards again, adjust later
         isShattering = false;
+    }
+    
+    public void ClearHand()
+    {
+        // Loop through all active cards in the hand
+        foreach (var card in handCardViews)
+        {
+            if (card != null)
+            {
+                // Recycle the data back to the DeckManager Singleton
+                if (card.data != null)
+                {
+                    DeckManager.Instance.RecycleToDrawPile(card.data); 
+                }
+
+                // Physically remove the card from the scene
+                Destroy(card.gameObject); 
+            }
+        }
+
+        // Clear the list
+        handCardViews.Clear(); 
+    
+        Debug.Log("Hand cleared and data recycled to deck.");
+    }
+    
+    
+    public void SetHandInteractable(bool isInteractable)
+    {
+        foreach (var card in handCardViews)
+        {
+            if (card != null)
+            {
+                // Get the 3D collider
+                BoxCollider collider = card.GetComponent<BoxCollider>();
+            
+                if (collider != null)
+                {
+                    // Toggle the collider off so it doesn't intercept Raycasts when we Peek
+                    collider.enabled = isInteractable;
+                }
+            }
+        }
     }
 }

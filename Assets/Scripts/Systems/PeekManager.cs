@@ -8,9 +8,17 @@ public class PeekManager : Singleton<PeekManager>
 
     [SerializeField] private List<CardView> peekCardVisuals;
     private List<CardData> peekCardData;
+    
+    public int GetIndexOfCard(CardView card)
+    {
+        return peekCardVisuals.IndexOf(card);
+    }
 
     public void ShowPeek(int count)
     {
+        // Disable interaction with the 3D hand
+        HandView.Instance.SetHandInteractable(false);
+        
         peekCardData = DeckManager.Instance.PeekCards(count);
         for (int i = 0; i < peekCardVisuals.Count; i++)
         {
@@ -21,7 +29,7 @@ public class PeekManager : Singleton<PeekManager>
                 peekCardVisuals[i].Setup(peekCardData[i]);
                 peekCardVisuals[i].transform.localScale = new Vector3(100, 100, 1);
             }
-            // Make the ghost card disappear if we're not peeking as many cards
+            // Make the ghost cards disappear if we're not peeking as many cards
             else
             {
                 peekCardVisuals[i].gameObject.SetActive(false);
@@ -42,10 +50,20 @@ public class PeekManager : Singleton<PeekManager>
         // Make it show up in your hand
         CardView cardView = CardViewCreator.Instance.CreateCardView(chosenCard, transform.position, Quaternion.identity);
         StartCoroutine(HandView.Instance.AnimateCardToHand(cardView));
+        
+        // Update the CombatManager's active card
+        CombatManager cm = Object.FindAnyObjectByType<CombatManager>();
+        cm.lastDrawnCard = chosenCard; 
+
+        // Return to the HandlingCardState to finish resolving the card.
+        cm.ReturnToLastState();
     }
 
     public void ClosePeek()
     {
+        // Enable hand interaction when done.
+        HandView.Instance.SetHandInteractable(true);
+        
         // Clear peek data so it doesn't carry over
         foreach (CardView slot in peekCardVisuals)
         {
@@ -56,4 +74,14 @@ public class PeekManager : Singleton<PeekManager>
         peekPanel.SetActive(false);
     }
     
+    public void OnPassClicked()
+    {
+        ClosePeek();
+        
+        // We don't change cm.lastDrawnCard and tell the manager to go back
+        CombatManager cm = Object.FindAnyObjectByType<CombatManager>();
+        cm.MoveToNewState("ChoosingAction");    
+        // Forcefully move back to "Choosing Action" state instead of reverting to the previous state.
+        // Returning to previous state would bring you back to Peek since "last card drawn" was a Peek card (uh oh infinite loop)
+    }
 }
