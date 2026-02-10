@@ -33,7 +33,33 @@ public class PeekingState : ITurnState
 
     public void Update()
     {
-        // No Raycasting needed here if you are using a UI-based Peek menu
+        if (Input.GetMouseButtonDown(0)) // Alice clicks
+        {
+            DetectPeekClick();
+        }
+    }
+    
+    private void DetectPeekClick()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    
+        // Ensure we only hit the 'Ignore Raycast' layer if that's where your UI is
+        // OR just use a standard raycast if they are on the Default layer
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            // Find the CardView on the object we hit
+            CardView clickedCard = hit.collider.GetComponentInParent<CardView>();
+        
+            if (clickedCard != null)
+            {
+                // Find which index this card represents in the PeekManager
+                int index = PeekManager.Instance.GetIndexOfCard(clickedCard);
+                if (index != -1)
+                {
+                    PeekManager.Instance.OnCardSelected(index);
+                }
+            }
+        }
     }
 
     public void Exit()

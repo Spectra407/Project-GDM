@@ -213,7 +213,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 218411743639199416, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1206280978220538393, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: isUiCard
@@ -221,7 +221,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2092915444923257412, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2637751358237434153, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -265,15 +265,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3351908339959964277, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3657559663009678475, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4295417292895766332, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4324763502435456098, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Name
@@ -281,7 +281,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4324763502435456098, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4324763502435456098, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_IsActive
@@ -289,23 +289,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4391700280504432207, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6544398744844166984, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6720892498010187297, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7199125946397040316, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7743926538985846427, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7756474005744303863, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7832719013195651600, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -317,15 +321,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8229865703865491868, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4324763502435456098, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 6720892498010187297, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2072908647}
+      addedObject: {fileID: 593370303}
   m_SourcePrefab: {fileID: 100100000, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
 --- !u!1 &392728989
 GameObject:
@@ -417,7 +421,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 218411743639199416, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1206280978220538393, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: isUiCard
@@ -425,7 +429,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2092915444923257412, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2637751358237434153, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -469,15 +473,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3351908339959964277, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3657559663009678475, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4295417292895766332, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4324763502435456098, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Name
@@ -485,7 +489,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4324763502435456098, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4324763502435456098, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_IsActive
@@ -493,23 +497,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4391700280504432207, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6544398744844166984, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6720892498010187297, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7199125946397040316, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7743926538985846427, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7756474005744303863, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7832719013195651600, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -521,15 +529,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8229865703865491868, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4324763502435456098, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 6720892498010187297, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 662612131}
+      addedObject: {fileID: 1521897411}
   m_SourcePrefab: {fileID: 100100000, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
 --- !u!1 &562257201
 GameObject:
@@ -576,78 +584,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardViewCreator
   cardViewPrefab: {fileID: 1206280978220538393, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
---- !u!1 &662612129 stripped
+--- !u!1 &593370299 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 4324763502435456098, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
-  m_PrefabInstance: {fileID: 403241875}
+  m_CorrespondingSourceObject: {fileID: 6720892498010187297, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
+  m_PrefabInstance: {fileID: 341805574}
   m_PrefabAsset: {fileID: 0}
+--- !u!222 &593370303
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593370299}
+  m_CullTransparentMesh: 1
+--- !u!1 &627609723 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6720892498010187297, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
+  m_PrefabInstance: {fileID: 1452942308}
+  m_PrefabAsset: {fileID: 0}
+--- !u!222 &627609727
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627609723}
+  m_CullTransparentMesh: 1
 --- !u!224 &662612130 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2637751358237434153, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
   m_PrefabInstance: {fileID: 403241875}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &662612131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 662612129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1347005940}
-        m_TargetAssemblyTypeName: PeekManager, Assembly-CSharp
-        m_MethodName: OnCardSelected
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &662612134 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1206280978220538393, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
   m_PrefabInstance: {fileID: 403241875}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 662612129}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5f18b181992035438ddb0edab291aeb, type: 3}
@@ -809,7 +782,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4281479730
   m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -822,7 +795,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -1285,7 +1258,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 1208257041
   m_SortingOrder: 0
@@ -1300,7 +1273,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 218411743639199416, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1206280978220538393, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: isUiCard
@@ -1308,7 +1281,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2092915444923257412, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2637751358237434153, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1352,15 +1325,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3351908339959964277, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3657559663009678475, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4295417292895766332, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4324763502435456098, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Name
@@ -1368,7 +1341,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4324763502435456098, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4324763502435456098, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_IsActive
@@ -1376,23 +1349,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4391700280504432207, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6544398744844166984, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6720892498010187297, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7199125946397040316, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7743926538985846427, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7756474005744303863, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7832719013195651600, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1404,16 +1381,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8229865703865491868, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4324763502435456098, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 6720892498010187297, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1677802481}
+      addedObject: {fileID: 627609727}
   m_SourcePrefab: {fileID: 100100000, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
+--- !u!1 &1521897407 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6720892498010187297, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
+  m_PrefabInstance: {fileID: 403241875}
+  m_PrefabAsset: {fileID: 0}
+--- !u!222 &1521897411
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521897407}
+  m_CullTransparentMesh: 1
 --- !u!1 &1558597661
 GameObject:
   m_ObjectHideFlags: 0
@@ -1634,78 +1624,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a7f22a059800f56ff8c99ee48591902b, type: 2}
   peekList: []
   drawPile: []
---- !u!1 &1677802479 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4324763502435456098, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
-  m_PrefabInstance: {fileID: 1452942308}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1677802480 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1206280978220538393, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
   m_PrefabInstance: {fileID: 1452942308}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1677802479}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5f18b181992035438ddb0edab291aeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardView
---- !u!114 &1677802481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1677802479}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1347005940}
-        m_TargetAssemblyTypeName: PeekManager, Assembly-CSharp
-        m_MethodName: OnCardSelected
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!224 &1677802484 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2637751358237434153, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
@@ -2103,78 +2032,17 @@ Transform:
   - {fileID: 562257202}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2072908645 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4324763502435456098, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
-  m_PrefabInstance: {fileID: 341805574}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2072908646 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1206280978220538393, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
   m_PrefabInstance: {fileID: 341805574}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2072908645}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5f18b181992035438ddb0edab291aeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardView
---- !u!114 &2072908647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2072908645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1347005940}
-        m_TargetAssemblyTypeName: PeekManager, Assembly-CSharp
-        m_MethodName: OnCardSelected
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!224 &2072908650 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2637751358237434153, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}

@@ -8,6 +8,11 @@ public class PeekManager : Singleton<PeekManager>
 
     [SerializeField] private List<CardView> peekCardVisuals;
     private List<CardData> peekCardData;
+    
+    public int GetIndexOfCard(CardView card)
+    {
+        return peekCardVisuals.IndexOf(card);
+    }
 
     public void ShowPeek(int count)
     {
