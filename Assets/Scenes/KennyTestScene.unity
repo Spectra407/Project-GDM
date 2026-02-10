@@ -1796,7 +1796,7 @@ GameObject:
   - component: {fileID: 1892167545}
   - component: {fileID: 1892167546}
   m_Layer: 0
-  m_Name: TestSystem
+  m_Name: CombatManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1832,6 +1832,7 @@ MonoBehaviour:
   alice: {fileID: 11400000, guid: 23c5c0773c39e3e479d7e9e73959816d, type: 2}
   currentHealth: 0
   enemyHealth: 50
+  tempDefense: 0
   madness: 0
   lastDrawnCard: {fileID: 0}
 --- !u!1 &1900728759
