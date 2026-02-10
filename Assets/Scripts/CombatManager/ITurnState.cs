@@ -4,8 +4,11 @@ using UnityEngine;
 
 public interface ITurnState
 {
-    void HandleInput(string inputID);
-
-    void Enter();
     
+
+    void Enter(); // Runs when the state starts
+    void HandleInput(string inputID); // Logic for mouse clicks or button presses
+    void Update(); // Runs every frame during the state 
+    void Exit(); // Cleanup logic when you exit the state
+
 }

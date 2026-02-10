@@ -1,22 +1,23 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class PeekingState : ITurnState
 {
-    private CombatManager cm;
-
-    private List<Card> peeked;
+    private CombatManager _cm;
 
     public PeekingState(CombatManager cm)
     {
-        this.cm = cm;
+        _cm = cm;
     }
 
     public void Enter()
     {
-        peeked = cm.deck.PeekNCards(2);
-        Debug.Log("Peeked! Selecting 0th card...");
-        SelectCard(0);
+        // Get the peek count from the card Alice just drew
+        int peekCount = _cm.lastDrawnCard.peek;
+        
+        Debug.Log($"Peeking State Entered: Showing top {peekCount} cards.");
+
+        // Tell the PeekManager to open the UI and instantiate it
+        PeekManager.Instance.ShowPeek(peekCount); 
     }
 
     public void HandleInput(string inputID)
@@ -24,15 +25,39 @@ public class PeekingState : ITurnState
         
     }
 
-    private void SelectCard(int n)
+    public void Update()
     {
-        Card? shouldBeCard = cm.deck.DrawNthCard(n);
-        if (shouldBeCard == null) return;
-        Card card = (Card) shouldBeCard;
+        if (Input.GetMouseButtonDown(0)) // Alice clicks
+        {
+            DetectPeekClick();
+        }
+    }
+    
+    private void DetectPeekClick()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            // Find the CardView on the object we hit
+            CardView clickedCard = hit.collider.GetComponentInParent<CardView>();
+        
+            if (clickedCard != null)
+            {
+                // Find which index this card represents in the PeekManager
+                int index = PeekManager.Instance.GetIndexOfCard(clickedCard);
+                if (index != -1)
+                {
+                    PeekManager.Instance.OnCardSelected(index);
+                }
+            }
+        }
+    }
 
-        cm.drawnCards.Add(card);
-        cm.lastDrawnCard = card;
-
-        cm.ReturnToLastState();
+    public void Exit()
+    {
+        // Close the Peek UI when we leave this state
+        PeekManager.Instance.ClosePeek(); 
+        Debug.Log("Exiting Peeking State.");
     }
 }

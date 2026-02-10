@@ -1,61 +1,92 @@
+using System.Collections;
+using UnityEngine;
+
 public class HandlingCardState : ITurnState
 {
+    private CombatManager _cm;
     
-    private CombatManager cm;
-    private Card drawnCard;
-    private Phase phase;
+    // Tracks where we are in the processing of a single card
+    private enum Phase { Start, CheckingPeek, Done }
+    private Phase _currentPhase = Phase.Start;
 
     public HandlingCardState(CombatManager cm)
     {
-        this.cm = cm;
-        phase = Phase.Start;
+        _cm = cm;
     }
 
     public void Enter()
     {
-        if (phase == Phase.Start)
+        // Exit if there's no card data to process (ex: Draw an empty deck)
+        if (_cm.lastDrawnCard == null)
         {
-            phase = Phase.CheckingPeek;
-            drawnCard = cm.lastDrawnCard;
-
-            cm.madness += drawnCard.madness;
-            if (cm.madness > cm.maxMadness)
-            {
-                cm.MoveToNewState("ChoosingCard");
-                return;
-            }
+            _cm.MoveToNewState("ChoosingAction");
+            return;
         }
-
-        if (phase == Phase.CheckingPeek)
-        {
-            phase = Phase.ProcessingCardFurther;
-
-            bool hasPeek = true; // todo: replace w/ real check
-            if (hasPeek)
-            {
-                cm.MoveToNewState("Peeking");
-                return;
-            }
-        }
-
-        if (phase == Phase.ProcessingCardFurther)
-        {
-            phase = Phase.Done;
-
-            cm.ReturnToLastState();
-        }
-    }
-
-    public void HandleInput(string inputID)
-    {
         
+        if (_currentPhase == Phase.Start)
+        {
+            ProcessInitialMadness();
+        }
+        else if (_currentPhase == Phase.CheckingPeek)
+        {
+            ProcessPeekOrFinish();
+        }
     }
 
-    enum Phase
+    private void ProcessInitialMadness()
     {
-        Start,
-        CheckingPeek,
-        ProcessingCardFurther,
-        Done
+        _cm.madness += _cm.lastDrawnCard.madness;
+
+        if (_cm.madness > _cm.alice.maxMadness)
+        {
+            // Trigger Shatter.
+            _cm.StartCoroutine(DelayedShatter());
+        }
+        else
+        {
+            // Check if we peek
+            _currentPhase = Phase.CheckingPeek;
+            ProcessPeekOrFinish();
+        }
+    }
+
+    private IEnumerator DelayedShatter()
+    {
+        yield return new WaitForEndOfFrame(); 
+        _cm.MoveToNewState("Shattering");
+    }
+
+    private void ProcessPeekOrFinish()
+    {
+        // Check if card has a Peek value
+        if (_cm.lastDrawnCard.peek > 0)
+        {
+            // Use Push instead of Move so we return here after the Peek
+            _cm.PushNewState("Peeking");
+        }
+        else
+        {
+            FinishTurn();
+        }
+    }
+
+    private void FinishTurn()
+    {
+        _currentPhase = Phase.Done;
+        _cm.lastDrawnCard = null; // Clear the data for the next draw
+        _cm.MoveToNewState("ChoosingAction");
+    }
+    
+    
+
+    public void HandleInput(string inputID) { } 
+    public void Update() { }      
+    public void Exit() 
+    {
+        // If we are moving back to ChoosingAction, ensure the card data is wiped
+        if (_currentPhase == Phase.Done)
+        {
+            _cm.lastDrawnCard = null; 
+        }
     }
 }
