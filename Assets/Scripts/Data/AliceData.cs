@@ -1,37 +1,16 @@
 using UnityEngine;
 
-public class AliceData : MonoBehaviour
+[CreateAssetMenu(fileName = "NewAliceData", menuName = "Combat/Alice Data")]
+public class AliceData : ScriptableObject
 {
-    public int maxHealth;
-    public int currentHealth;
-    public int defense;
-    public int maxMadness;
-    public int buttons;
+    [Header("Health Stats")]
+    public int maxHealth = 50;
+    public int currentHealth;   // This is what the EnemyTurnState updates
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        maxHealth = 50;
-        maxMadness = 7;    
-    }
+    [Header("Madness Mechanics")]
+    // The "Bust" limit (e.g., set this to 7 in the Inspector)
+    public int maxMadness = 7; 
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void AliceTakeDamage(int damage)
-    {
-        if (defense <= damage)
-        {
-            defense -= damage;
-        }
-        else
-        {
-            damage -= defense;
-            defense = 0;
-            currentHealth -= damage;
-        }
-    }
+    // Optional: Add a starting madness value if she begins battles corrupted
+    public int startingMadness = 0; 
 }

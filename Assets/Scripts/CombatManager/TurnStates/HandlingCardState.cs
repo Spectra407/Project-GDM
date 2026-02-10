@@ -1,61 +1,88 @@
+using UnityEngine;
+
 public class HandlingCardState : ITurnState
 {
+    private CombatManager _cm;
     
-    private CombatManager cm;
-    private Card drawnCard;
-    private Phase phase;
+    // Tracks where we are in the processing of a single card
+    private enum Phase { Start, CheckingPeek, Done }
+    private Phase _currentPhase = Phase.Start;
 
     public HandlingCardState(CombatManager cm)
     {
-        this.cm = cm;
-        phase = Phase.Start;
+        _cm = cm;
     }
 
     public void Enter()
     {
-        if (phase == Phase.Start)
+        // 1. Safety Guard: Exit if there's no card data to process
+        if (_cm.lastDrawnCard == null)
         {
-            phase = Phase.CheckingPeek;
-            drawnCard = cm.lastDrawnCard;
-
-            cm.madness += drawnCard.madness;
-            if (cm.madness > cm.maxMadness)
-            {
-                cm.MoveToNewState("ChoosingCard");
-                return;
-            }
+            _cm.MoveToNewState("ChoosingAction");
+            return;
         }
 
-        if (phase == Phase.CheckingPeek)
+        // 2. Logic Branching
+        if (_currentPhase == Phase.Start)
         {
-            phase = Phase.ProcessingCardFurther;
-
-            bool hasPeek = true; // todo: replace w/ real check
-            if (hasPeek)
-            {
-                cm.MoveToNewState("Peeking");
-                return;
-            }
+            ProcessInitialMadness();
         }
-
-        if (phase == Phase.ProcessingCardFurther)
+        else if (_currentPhase == Phase.CheckingPeek)
         {
-            phase = Phase.Done;
-
-            cm.ReturnToLastState();
+            ProcessPeekOrFinish();
         }
     }
 
-    public void HandleInput(string inputID)
+    private void ProcessInitialMadness()
     {
-        
+        _cm.madness += _cm.lastDrawnCard.madness;
+    
+        // TRIGGER: Update the UI Bar so the player sees the 7/7 limit approaching
+        // UIManager.Instance.UpdateMadnessBar(_cm.madness, _cm.alice.maxMadness);
+
+        if (_cm.madness >= _cm.alice.maxMadness)
+        {
+            // TRIGGER: Maybe a "Shatter!" sound effect or screen shake
+            _cm.MoveToNewState("Shattering");
+        }
+        else
+        {
+            _currentPhase = Phase.CheckingPeek;
+            ProcessPeekOrFinish();
+        }
     }
 
-    enum Phase
+    private void ProcessPeekOrFinish()
     {
-        Start,
-        CheckingPeek,
-        ProcessingCardFurther,
-        Done
+        // 3. Check if card has a Peek value
+        if (_cm.lastDrawnCard.peek > 0)
+        {
+            // Use Push instead of Move so we return here after the Peek
+            _cm.PushNewState("Peeking");
+        }
+        else
+        {
+            FinishTurn();
+        }
+    }
+
+    private void FinishTurn()
+    {
+        _currentPhase = Phase.Done;
+        _cm.lastDrawnCard = null; // Clear the data for the next draw
+        _cm.MoveToNewState("ChoosingAction");
+    }
+    
+    
+
+    public void HandleInput(string inputID) { } // Handled by ChoosingAction or UI
+    public void Update() { }      // No frame logic needed here
+    public void Exit() 
+    {
+        // If we are moving back to ChoosingAction, ensure the card data is wiped
+        if (_currentPhase == Phase.Done)
+        {
+            _cm.lastDrawnCard = null; // Prevent double-processing
+        }
     }
 }

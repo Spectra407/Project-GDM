@@ -10,7 +10,7 @@ using Systems;
 public class HandView : Singleton<HandView>
 {
     [SerializeField] private SplineContainer splineContainer;
-    private readonly List<CardView> handCardViews = new();
+    public readonly List<CardView> handCardViews = new();
     public bool isShattering = false;
 
     public IEnumerator AnimateCardToHand(CardView cardView)
@@ -92,5 +92,29 @@ public class HandView : Singleton<HandView>
 
         // Reset state so Alice can play cards again, adjust later
         isShattering = false;
+    }
+    
+    public void ClearHand()
+    {
+        // 1. Loop through all active cards in the hand
+        foreach (var card in handCardViews)
+        {
+            if (card != null)
+            {
+                // 2. Recycle the data back to the DeckManager Singleton
+                if (card.data != null)
+                {
+                    DeckManager.Instance.RecycleToDrawPile(card.data); 
+                }
+
+                // 3. Physically remove the card from the scene
+                Destroy(card.gameObject); 
+            }
+        }
+
+        // 4. Clear the list to prevent "Null Reference" memory leaks
+        handCardViews.Clear(); 
+    
+        Debug.Log("Hand cleared and data recycled to deck.");
     }
 }

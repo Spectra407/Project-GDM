@@ -1,72 +1,134 @@
 using UnityEngine;
 using System.Collections.Generic;
-
-// WIP
-// Script to handle tracking and updating data during battles, including deck operations
-// and evaluating card effects (latter not yet implemented).
-// If anything seems missing or stupid say something! I have no idea what I'm doing <3 
-// -Elle
+using Systems; // Assuming your Singleton and AliceData are in this namespace
 
 public class CombatManager : MonoBehaviour
 {
-    public int playerHealth;
-    public int enemyHealth;
+    [Header("Player & Enemy Data")]
+    public AliceData alice;
+    public int currentHealth;
+    public int enemyHealth = 50; 
     public int madness;
-    public int maxMadness;
-    public Card lastDrawnCard;
 
-    private Stack<ITurnState> states;
-    private ITurnState currentState;
-    // private EnemyAI enemyAI;
+    [Header("State Tracking")]
+    private ITurnState currentState; 
+    private Stack<ITurnState> states = new Stack<ITurnState>();
+    public string CurrentStateName { get; private set; }
+
+    [Header("Active Card Data")]
+    public CardData lastDrawnCard;
+
+    // Singletons for easy access by states
+    public DeckManager Deck => DeckManager.Instance;
+    public HandView Hand => HandView.Instance;
+
+    private bool _isTransitioning = false; // "Circuit breaker" to prevent infinite loops
 
     void Start()
     {
-        drawnCards = new();
+        // Initialize Alice's health from her ScriptableObject
+        currentHealth = alice.currentHealth;
+        madness = 0;
 
-        states = new();
-        states.Push(new ChoosingActionState(this));
+        // Kick off the game loop
+        MoveToNewState("ChoosingAction");
     }
 
     void Update()
     {
-        
+        // Allow the active state to handle frame-by-frame logic (like Raycasting)
+        if (currentState != null)
+        {
+            currentState.Update(); 
+        }
     }
 
+    // Standard entry point for UI Button clicks
     public void HandleInput(string input)
     {
-        Debug.Log("CombatManager received input \"" + input + "\"");
-        states.Peek().HandleInput(input);
+        if (currentState != null)
+        {
+            currentState.HandleInput(input);
+        }
     }
 
+    /// <summary>
+    /// REPLACES the current state. Use for most transitions (Hit -> Handling -> etc).
+    /// This prevents the state stack from growing infinitely.
+    /// </summary>
     public void MoveToNewState(string id)
     {
-        Debug.Log("CombatManager moving to state " + id);
-        states.Push(NewState(id));
-        states.Peek().Enter();
+        Debug.Log($"State change to {id} requested by {System.Environment.StackTrace}");
+        if (currentState != null)
+        {
+            currentState.Exit();
+            if (states.Count > 0) states.Pop(); 
+        }
+
+        currentState = NewState(id);
+        CurrentStateName = id;
+        states.Push(currentState);
+        currentState.Enter();
+        
+        Debug.Log($"CombatManager: Switched to {id}");
     }
 
+    /// <summary>
+    /// OVERLAYS a state. Use EXCLUSIVELY for the Peek mechanic.
+    /// </summary>
+    public void PushNewState(string id)
+    {
+        // We do NOT Exit or Pop the underlying state so we can return to it later
+        currentState = NewState(id);
+        CurrentStateName = id;
+        states.Push(currentState);
+        currentState.Enter();
+        
+        Debug.Log($"CombatManager: Pushed Overlay {id}");
+    }
+
+    /// <summary>
+    /// REVERTS to the previous state. Called by PeekManager when a card is picked.
+    /// </summary>
     public void ReturnToLastState()
     {
-        Debug.Log("CombatManager returning to last state");
-        states.Pop();
-        states.Peek().Enter();
+        Debug.Log($"CombatManager: ReturnToLastState called from {currentState.GetType().Name}");
+        
+        if (_isTransitioning || states.Count <= 1) return;
+
+        _isTransitioning = true; 
+
+        try 
+        {
+            if (currentState != null) currentState.Exit();
+            states.Pop();
+            
+            currentState = states.Peek();
+            CurrentStateName = "HandlingCard"; // Resuming the card check logic
+            
+            currentState.Enter(); 
+        }
+        finally 
+        {
+            _isTransitioning = false; 
+        }
     }
 
+    // The Factory: Maps strings to actual State Classes
     private ITurnState NewState(string id)
     {
         switch (id)
         {
-            case "ChoosingAction": return new ChoosingActionState(this);
-            case "HandlingCard": return new HandlingCardState(this);
-            case "Peeking": return new PeekingState(this);
-            case "ChoosingCard": return new ChoosingCardState(this);
+            case "ChoosingAction":  return new ChoosingActionState(this);
+            case "HandlingCard":   return new HandlingCardState(this);
+            case "Peeking":        return new PeekingState(this);
+            case "Shattering":     return new ShatteringState(this);
             case "EvaluatingCards": return new EvaluatingCardsState(this);
-            default: throw new System.Exception();
+            case "EnemyTurn":       return new EnemyTurnState(this);
+            default:
+                Debug.LogError($"Unknown State ID: {id}");
+                return new ChoosingActionState(this);
         }
     }
-
-    void EndBattle()
-    {
-        // Probably broadcast the result to some state object idk
-    }
+    
 }

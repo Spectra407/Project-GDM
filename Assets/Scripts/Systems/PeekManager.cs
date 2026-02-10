@@ -42,6 +42,13 @@ public class PeekManager : Singleton<PeekManager>
         // Make it show up in your hand
         CardView cardView = CardViewCreator.Instance.CreateCardView(chosenCard, transform.position, Quaternion.identity);
         StartCoroutine(HandView.Instance.AnimateCardToHand(cardView));
+        
+        // 1. Update the CombatManager's active card
+        CombatManager cm = Object.FindAnyObjectByType<CombatManager>();
+        cm.lastDrawnCard = chosenCard; 
+
+        // 2. Return to the HandlingCardState to finish the turn
+        cm.ReturnToLastState();
     }
 
     public void ClosePeek()
@@ -56,4 +63,13 @@ public class PeekManager : Singleton<PeekManager>
         peekPanel.SetActive(false);
     }
     
+    public void OnPassClicked()
+    {
+        ClosePeek();
+        
+        // We don't change cm.lastDrawnCard
+        // We simply tell the manager to go back
+        CombatManager cm = Object.FindAnyObjectByType<CombatManager>();
+        cm.ReturnToLastState(); 
+    }
 }
