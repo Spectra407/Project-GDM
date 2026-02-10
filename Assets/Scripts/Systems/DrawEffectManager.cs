@@ -4,79 +4,80 @@ using UnityEngine;
 namespace Systems
 {
     public class DrawEffectManager : MonoBehaviour
-    {
-        // [SerializeField] private AliceData player;
-        [SerializeField] private HandView handView;
-        // [SerializeField] private DeckManager deckManager;
-        // [SerializeField] private ScryUI scryUI;
-    
-    
-        public void ResolveOnDraw(CardData cardData)
+    {   
+        public CombatManager cm;
+        public int PendingDamage, PendingDefense, PendingStrength, PendingPoison;
+        public int AttackNum, AttackBonus; //for strength calculations
+        //drawn acrds to add too??
+        public void ResolveOnDraw()
         {
-            // Check if Alice.freeze is 0, if yes increment madness before resolving any other on draw card effects, else lower FreezeMadness by 1.
-        
-            // Check for Shatter (POTENTIALLY?)
-        
-            // Trigger on draw card effects.
-            switch (cardData.cardName)
+            ProcessMadness();
+            ProcessSpecial();
+            ProcessPendingStats();
+            ProcessPeeking();
+            // Check if Alice.freeze is 0, if yes increment madness before resolving any other on draw card effects, else lower FreezeMadness by 1.            
+        }
+
+        public void Reset() //reset all pending stats, etc. should be called at resolvestand?
+        {
+            PendingDamage = 0;
+            PendingDefense = 0;
+            PendingStrength = 0;
+            PendingPoison = 0;
+            AttackBonus = 0;
+            AttackNum = 0;
+        }
+
+        private void ProcessMadness() //adds madness of card to player's madness
+        {
+            cm.madness += cm.lastDrawnCard.madness;
+            if (cm.madness > cm.alice.maxMadness)
             {
-                case "Looking Glass":
-                    // Peek 2.
-                    break;
-                case "Foresight":
-                    // Peek 1.
-                    break;
-                case "Frozen Time":
-                    // Freeze madness for 2 turns.
-                    // Most likely I will do this as Alice.freeze = 2
-                    break;
-                case "Hookah Bubble":
-                    // Max Madness +2.
-                    break;
-                case "Lucid Dream":
-                    // Peek 4.
-                    break;
-                case "Mirror Mirror":
-                    // Swap your current Madness with the Madness of the previous card.
-                    break;
-                case "Pocket Watch Reset":
-                    // Reduce your current Madness by 5.
-                    break;
-                case "Relaxing Exhale":
-                    // Reduce your current Madness by 3.
-                    break;
-                case "The Mushroom's Edge":
-                    // Peek 3.
-                    break;
-                case "Veil of Illusions":
-                    // For every 3 cards in your hand, reduce 1 Madness.
-                    break;
-                case "Wide Grin":
-                    // Copy the effect of the previous card
-                    // Maybe implement this by swapping the card data of the previous card with a madness cost of 0.
-                    break;
-                default:
-                    // Write a console log signaling that the card name is either incorrect or unknown to this system
-                    Debug.Log("This card has no On Draw effects. If this is not the correct resolution, verify that the " +
-                              "card name matches in the database and that it's implemented.");
-                    break;
+                Debug.Log("Shatter!"); //return state. once is shatters need to also reset this and recalculate with just the card to keep.
+            }
+            else
+            {
+                Debug.Log("Current madness: " + cm.madness);
             }
         }
-        
-        /*
-        private void ResolvePeek(int peek, ScryUI scryUI)
+        private void ProcessSpecial() //trigger special effects based on card ID
         {
-            // Draw X cards.
-            // You may play 1 of them. You may pass.
-            // Reshuffle the rest.
+            Debug.Log("Special effect processed: " + cm.lastDrawnCard.specialID);
         }
-        */
-        
-        /*
-        private void IncrementMadness(int madness, AliceData player)
+        private void ProcessPendingStats() //calculates what the new attack, defense, etc. will be now
         {
-            // Fetch Alice.freeze, if 0: Fetch Alice.madness and then += madness, else: decrement freeze.
+            ProcessPendingStrength();
+            ProcessPendingPoison();
+            ProcessPendingDamage();
+            ProcessPendingDefense();
         }
-        */
+        private void ProcessPeeking() //if card allows you to peek, trigger that
+        {
+            Debug.Log("Peek");
+        }
+        private void ProcessPendingDamage() //deals with damage bonus too
+        {
+            PendingDamage += cm.lastDrawnCard.damage;
+            AttackNum++;
+            AttackBonus = AttackNum * (cm.alice.strength + PendingStrength);
+            /*
+            update the attack bonus, which is extra damage you can do with your strength (adds per attack)
+            this updates frequently w changes in strength, including previous attacks (need to look back)
+            so what is the best way ui wise to communicate this bonus??
+            */
+        }
+        private void ProcessPendingDefense ()
+        {
+            PendingDefense += cm.lastDrawnCard.defense;   
+        }
+        private void ProcessPendingStrength()
+        {
+            PendingStrength += cm.lastDrawnCard.strength;
+        }
+        private void ProcessPendingPoison()
+        {
+            PendingPoison += cm.lastDrawnCard.poison;
+        }
     }
 }
+

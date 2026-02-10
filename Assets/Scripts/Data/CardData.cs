@@ -26,7 +26,7 @@ public class CardData : ScriptableObject
     
     [Header("Standard Stats")]
     public int damage;
-    public int block;
+    public int strength;
     public int defense;
     public int poison;
     public int peek;

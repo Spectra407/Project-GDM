@@ -39,7 +39,7 @@ public class CardDB : MonoBehaviour
             cardType.Add((CardData.CardType)Enum.Parse(typeof(CardData.CardType), fields[4])); 
             card.cardType = cardType; 
             card.damage = Int32.Parse(fields[5]);
-            card.block = Int32.Parse(fields[6]);
+            card.strength = Int32.Parse(fields[6]);
             card.defense = Int32.Parse(fields[7]);
             card.poison = Int32.Parse(fields[8]);
             card.peek = Int32.Parse(fields[9]);

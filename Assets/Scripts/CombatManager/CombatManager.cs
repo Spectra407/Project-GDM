@@ -10,6 +10,9 @@ public class CombatManager : MonoBehaviour
     public int enemyHealth = 50;
     public int tempDefense;
     public int madness;
+    //maybe move these into alice later
+    public int strength;
+    public int poison;
 
     [Header("State Tracking")]
     private ITurnState currentState; 
