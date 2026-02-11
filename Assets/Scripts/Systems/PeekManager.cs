@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Systems;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PeekManager : Singleton<PeekManager>
 {
@@ -9,11 +10,6 @@ public class PeekManager : Singleton<PeekManager>
     [SerializeField] private List<CardView> peekCardVisuals;
     private List<CardData> peekCardData;
     
-    void Update() {
-        if (Input.GetMouseButtonDown(0)) {
-            Debug.Log($"Click detected at: {Input.mousePosition}");
-        }
-    }
     
     public int GetIndexOfCard(CardView card)
     {
