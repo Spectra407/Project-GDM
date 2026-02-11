@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Systems;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PeekManager : Singleton<PeekManager>
 {
@@ -8,6 +9,7 @@ public class PeekManager : Singleton<PeekManager>
 
     [SerializeField] private List<CardView> peekCardVisuals;
     private List<CardData> peekCardData;
+    
     
     public int GetIndexOfCard(CardView card)
     {
