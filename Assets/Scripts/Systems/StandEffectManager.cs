@@ -1,20 +1,20 @@
 using UnityEngine;
+using System;
 
 namespace Systems
 {
     public class StandEffectManager : MonoBehaviour
     {
         public CombatManager cm;
-        public DrawEffectManager dem;
-        public void ResolveOnStand(CardData cardData)
+        public void ResolveOnStand()
         {
             //deal with any special effects (i dont think there are any really)
-            UpdateStrength(dem.PendingStrength);
-            UpdatePoison(dem.PendingPoison);
-            UpdateDefense(dem.PendingDefense);
-            UpdateDamage(dem.PendingDamage + dem.AttackBonus + dem.Poison);
+            UpdateStrength(cm.dem.PendingStrength);
+            UpdatePoison(cm.dem.PendingPoison);
+            UpdateDefense(cm.dem.PendingDefense);
+            UpdateDamage(cm.dem.PendingDamage + cm.dem.AttackBonus + cm.poison);
             DecayPoison();
-            dem.Reset();
+            cm.dem.Reset();
         }
         private void UpdateStrength(int strength)
         {
@@ -27,22 +27,23 @@ namespace Systems
         private void UpdatePoison(int poison)
         {
             cm.poison += poison;
-            if (cm.strength < 0)
+            if (cm.poison < 0)
             {
-                cm.strength = 0;
+                cm.poison = 0;
             }
         }
-        private void UpdateDefense()
+        private void UpdateDefense(int defense)
         {
-            cm.tempDefense += dem.PendingDefense;
+            cm.tempDefense += defense;
             if (cm.tempDefense < 0)
             {
                 cm.tempDefense = 0;
             }
+            Debug.Log("gained " + defense + "defense.");
         }
         private void UpdateDamage(int damage) //deal [damage] damage to the enemy, checks if it is dead
         {
-            cm.enemyHealth = Math.max(0, cm.enemyHealth - damage);
+            cm.enemyHealth = Math.Max(0, cm.enemyHealth - damage);
             if (cm.enemyHealth == 0)
             {
                 Debug.Log("deafeated enemy");
@@ -52,7 +53,7 @@ namespace Systems
         }
         private void DecayPoison() //halves poison, rounded down
         {
-            cm.poison = (int) Math.Floor(cm.poison/2);
+            cm.poison = (int) Math.Floor(cm.poison/2.0);
         }
     }
 }

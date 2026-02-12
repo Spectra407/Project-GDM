@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections;
 // This script will contain all the On Draw effects for every card, ex: peek and what not.
 namespace Systems
 {
@@ -11,10 +11,17 @@ namespace Systems
         //drawn acrds to add too??
         public void ResolveOnDraw()
         {
-            ProcessMadness();
-            ProcessSpecial();
-            ProcessPendingStats();
-            ProcessPeeking();
+            bool shattered = ProcessMadness();
+            if (!shattered) //do rest of stuff if not shattered
+            {
+                ProcessSpecial();
+                ProcessPendingStats();
+                ProcessPeeking();
+            }
+            else //else reset stats...
+            {
+                Reset();
+            }
             // Check if Alice.freeze is 0, if yes increment madness before resolving any other on draw card effects, else lower FreezeMadness by 1.            
         }
 
@@ -28,16 +35,20 @@ namespace Systems
             AttackNum = 0;
         }
 
-        private void ProcessMadness() //adds madness of card to player's madness
+        private bool ProcessMadness() //adds madness of card to player's madness
         {
             cm.madness += cm.lastDrawnCard.madness;
             if (cm.madness > cm.alice.maxMadness)
             {
                 Debug.Log("Shatter!"); //return state. once is shatters need to also reset this and recalculate with just the card to keep.
+                cm.StartCoroutine(DelayedShatter());
+                return true;
+                //ig also make sure turn logic is good
             }
             else
             {
                 Debug.Log("Current madness: " + cm.madness);
+                return false;
             }
         }
         private void ProcessSpecial() //trigger special effects based on card ID
@@ -53,13 +64,18 @@ namespace Systems
         }
         private void ProcessPeeking() //if card allows you to peek, trigger that
         {
-            Debug.Log("Peek");
+            if (cm.lastDrawnCard.peek > 0)
+            {
+                Debug.Log("Peek");
+                cm.PushNewState("Peeking");
+            }
         }
         private void ProcessPendingDamage() //deals with damage bonus too
         {
             PendingDamage += cm.lastDrawnCard.damage;
             AttackNum++;
-            AttackBonus = AttackNum * (cm.alice.strength + PendingStrength);
+            AttackBonus = AttackNum * (cm.strength + PendingStrength);
+            Debug.Log("Pending damage: " + PendingDamage);
             /*
             update the attack bonus, which is extra damage you can do with your strength (adds per attack)
             this updates frequently w changes in strength, including previous attacks (need to look back)
@@ -69,15 +85,24 @@ namespace Systems
         private void ProcessPendingDefense ()
         {
             PendingDefense += cm.lastDrawnCard.defense;   
+            Debug.Log("Pending defense: " + PendingDefense);
         }
         private void ProcessPendingStrength()
         {
             PendingStrength += cm.lastDrawnCard.strength;
+            Debug.Log("Pending strength: " + PendingStrength);
         }
         private void ProcessPendingPoison()
         {
             PendingPoison += cm.lastDrawnCard.poison;
+            Debug.Log("Pending poison: " + PendingPoison);
         }
+         private IEnumerator DelayedShatter()
+        {
+            yield return new WaitForEndOfFrame(); 
+            cm.MoveToNewState("Shattering");
+        }
+
     }
 }
 

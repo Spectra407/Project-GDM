@@ -13,6 +13,8 @@ public class CombatManager : MonoBehaviour
     //maybe move these into alice later
     public int strength;
     public int poison;
+    public DrawEffectManager dem;
+    public StandEffectManager sem;
 
     [Header("State Tracking")]
     private ITurnState currentState; 

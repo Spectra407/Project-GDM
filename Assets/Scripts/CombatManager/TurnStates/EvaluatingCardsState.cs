@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Systems;
 
 public class EvaluatingCardsState : ITurnState
 {
@@ -28,21 +29,22 @@ public class EvaluatingCardsState : ITurnState
         
         // Calculate damage from the remaining cards in hand
         // IMPLEMENT POISON CALC LATER
-        int totalDamage = 0;
-        int totalDefense = 0;
-        foreach (var cardView in _cm.Hand.handCardViews)
-        {
-            if (cardView != null && cardView.data != null)
-            {
-                totalDamage += cardView.data.damage; // Summing the card values
-                totalDefense += cardView.data.defense;
-            }
-        }
+        // int totalDamage = 0;
+        // int totalDefense = 0;
+        // foreach (var cardView in _cm.Hand.handCardViews)
+        // {
+        //     if (cardView != null && cardView.data != null)
+        //     {
+        //         totalDamage += cardView.data.damage; // Summing the card values
+        //         totalDefense += cardView.data.defense;
+        //     }
+        // }
 
         // Apply damage to the enemy
-        _cm.enemyHealth -= totalDamage;
-        _cm.tempDefense += totalDefense;
-        Debug.Log($"Dealt {totalDamage} damage! Enemy Health: {_cm.enemyHealth}. Gained {totalDefense} defense!");
+        _cm.sem.ResolveOnStand();
+        // _cm.enemyHealth -= totalDamage;
+        // _cm.tempDefense += totalDefense;
+        // Debug.Log($"Dealt {totalDamage} damage! Enemy Health: {_cm.enemyHealth}. Gained {totalDefense} defense!");
     }
 
     private IEnumerator FinishEvaluationSequence()
