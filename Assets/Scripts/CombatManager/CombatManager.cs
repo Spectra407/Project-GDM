@@ -33,6 +33,7 @@ public class CombatManager : MonoBehaviour
 
         // Kick off the game loop
         MoveToNewState("ChoosingAction");
+        // This will have to start at EnemyChooseAction instead, which then MoveToNewState("ChoosingAction");
     }
 
     void Update()
@@ -115,6 +116,7 @@ public class CombatManager : MonoBehaviour
     {
         switch (id)
         {
+            // add case "EnemyChooseAction": return new EnemyChooseActionState(this);
             case "ChoosingAction":  return new ChoosingActionState(this);
             case "HandlingCard":   return new HandlingCardState(this);
             case "Peeking":        return new PeekingState(this);

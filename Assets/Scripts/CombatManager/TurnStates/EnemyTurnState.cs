@@ -43,6 +43,7 @@ public class EnemyTurnState : ITurnState
         {
             // Reset the turn back to Alice
             _cm.MoveToNewState("ChoosingAction"); 
+            // This should be updated to go to EnemyChooseAction
         }
     }
     
