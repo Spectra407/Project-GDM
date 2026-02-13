@@ -15,6 +15,7 @@ public class CombatManager : MonoBehaviour
     public int poison;
     public DrawEffectManager dem;
     public StandEffectManager sem;
+   
 
     [Header("State Tracking")]
     private ITurnState currentState; 

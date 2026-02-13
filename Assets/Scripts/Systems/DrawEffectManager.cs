@@ -8,7 +8,6 @@ namespace Systems
         public CombatManager cm;
         public int PendingDamage, PendingDefense, PendingStrength, PendingPoison;
         public int AttackNum, AttackBonus; //for strength calculations
-        //drawn acrds to add too??
         public void ResolveOnDraw()
         {
             bool shattered = ProcessMadness();
@@ -38,7 +37,7 @@ namespace Systems
             AttackNum = 0;
         }
 
-        private bool ProcessMadness() //adds madness of card to player's madness
+        public bool ProcessMadness() //adds madness of card to player's madness
         {
             cm.madness += cm.lastDrawnCard.madness;
             if (cm.madness > cm.alice.maxMadness)
@@ -90,7 +89,7 @@ namespace Systems
         {
             PendingPoison += cm.lastDrawnCard.poison;
         }
-         private IEnumerator DelayedShatter()
+        private IEnumerator DelayedShatter()
         {
             yield return new WaitForEndOfFrame(); 
             cm.MoveToNewState("Shattering");
