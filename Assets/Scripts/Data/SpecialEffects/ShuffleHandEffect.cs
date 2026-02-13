@@ -2,7 +2,7 @@ using UnityEngine;
 //lets player choose if they would like to shuffle their whole hand back into their deck
 public class ShuffleHandEffect : SpecialEffect
 {
-    public abstract void Execute(CombatManager cm, CardData card)
+    public void Execute(CombatManager cm, CardData card)
     {
         //pop up prompt to shuffle or not 
         //take input 

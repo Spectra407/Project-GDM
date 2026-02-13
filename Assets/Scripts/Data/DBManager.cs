@@ -27,6 +27,9 @@ public class CardDB : MonoBehaviour
 
         for (int i = 1; i < lines.Length; i++)
         {
+            /*
+                LOWKEY ALL THIS SHOULD HAPPEN ON THE CARDDATA SIDE SO WE CAN PRIVATIZE AND ORGANIZE BETTER....
+            */
             string[] fields = lines[i].Split(',');
 
             CardData card = ScriptableObject.CreateInstance<CardData>();
@@ -46,23 +49,13 @@ public class CardDB : MonoBehaviour
 
             card.madness = Int32.Parse(fields[10]);
 
-            // card.art = fields[11]; 
+            //card.art = fields[11]; 
             //need to change so it looks for file
             //placeholder art
             //maybe use addressables later
             card.art = Resources.Load<Sprite>("" + "sample-art");
 
-            card.specialID = Int32.Parse(fields[12]);
-
-            if (card.specialID != -1)
-            {
-                card.specialVal = Int32.Parse(fields[13]);
-            }
-            else
-            {
-                card.specialVal = 0;
-            }
-
+            card.effect = (fields[12]);
             cards.Add(card);
         }
     }

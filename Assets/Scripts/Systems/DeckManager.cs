@@ -5,8 +5,10 @@ namespace Systems
 {
     public class DeckManager : PersistentSingleton<DeckManager>
     {
-        public List<CardData> rewardDeck;   // Deck of possible reward cards
-        public List<CardData> currentDeck;  // Current player deck, start with the Starter Deck
+        [SerializeField] private List<CardData> rewardDeck;   // Deck of possible reward cards
+        [SerializeField] private List<CardData> currentDeck;  // Current player deck, start with the Starter Deck
+
+        public CardDB cardDB; // Has all cards loaded in from database
     
         // In game combat list of peeked cards, and draw pile
         public List<CardData> peekList;
@@ -15,6 +17,22 @@ namespace Systems
         // Start() method to test
         void Start()
         {
+            //for now, have currentDeck initialized with list of cards here (by cardID). Can store this in separate file later or have it as card metadata from csv.
+            int[] cards = {0, 1, 2, 3, 7, 8};
+            //to test out:
+            //poison
+            //strength
+            //draw
+            //copy
+            //per
+            //mult
+            //madness
+            //shuffles
+            //disable
+            for (int i = 0; i < cards.Length; i++)
+            {
+                currentDeck.Add(cardDB.cards[cards[i]]);
+            }
             SetDeck(currentDeck);
         }
     

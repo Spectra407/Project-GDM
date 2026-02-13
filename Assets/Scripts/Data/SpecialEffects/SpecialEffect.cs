@@ -1,7 +1,14 @@
-public abstract class SpecialEffect : ScriptableObject
+// public abstract class SpecialEffect : ScriptableObject
+// {
+//     public abstract void Execute(CombatManager cm, CardData card);
+// }
+using UnityEngine;
+
+public interface SpecialEffect
 {
-    public abstract void Execute(CombatManager cm, CardData card);
+    void Execute(CombatManager cm, CardData card);
 }
+
 /*
     idea: make a bunch of scripts for all the effects
     have dictionary effect ID : function that does something

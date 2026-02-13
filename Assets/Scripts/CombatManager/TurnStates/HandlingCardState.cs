@@ -25,7 +25,7 @@ public class HandlingCardState : ITurnState
         
         if (_currentPhase == Phase.Start)
         {
-            _cm.dem.ResolveOnDraw();
+            _cm.dem.ResolveOnDraw(_cm.lastDrawnCard);
             FinishTurn();
             // peek, checking madness, etc should happen here so might just simplify the rest
             // then need to finish turn and stuff?    

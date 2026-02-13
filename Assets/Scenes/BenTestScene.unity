@@ -1856,6 +1856,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9835a9d826455a5ff91f38ad8e36195c, type: 2}
   - {fileID: 11400000, guid: f459bab6ea0639e0abb5bc0197c62ae7, type: 2}
   - {fileID: 11400000, guid: a7f22a059800f56ff8c99ee48591902b, type: 2}
+  cardDB: {fileID: 1247213315}
   peekList: []
   drawPile: []
 --- !u!114 &1677802480 stripped

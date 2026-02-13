@@ -13,16 +13,16 @@ public class MultiplierEffect : SpecialEffect
             new DamageEffect(int.Parse(args[0])));
     }
 */
-    public void MultiplierEffect(int mult, CardData.CardType type)
+    public MultiplierEffect(int mult, CardData.CardType type)
     {
         multiplier = mult;
         cardtype = type;
     }
-    public abstract void Execute(CombatManager cm, CardData card)
+    public void Execute(CombatManager cm, CardData card)
     {
         switch (cardtype)
         {
-            case CardData.CardType.DamageDamage:
+            case CardData.CardType.Damage:
                 cm.dem.PendingDamage *= multiplier;
                 break;
             //do this for other effects... also need overall multiplier not at that instance maybe

@@ -8,14 +8,14 @@ namespace Systems
         public CombatManager cm;
         public int PendingDamage, PendingDefense, PendingStrength, PendingPoison;
         public int AttackNum, AttackBonus; //for strength calculations
-        public void ResolveOnDraw()
+        public void ResolveOnDraw(CardData card)
         {
-            bool shattered = ProcessMadness();
+            bool shattered = ProcessMadness(card);
             if (!shattered) //do rest of stuff if not shattered
             {
-                ProcessSpecial();
-                ProcessPendingStats();
-                ProcessPeeking();
+                ProcessSpecial(card);
+                ProcessPendingStats(card);
+                ProcessPeeking(card);
                 Debug.Log("Madness " + cm.madness + 
                 ", pending damage " + PendingDamage +  ", pending defense " + PendingDefense + ", pending strength " + PendingStrength + ", pending poison " + PendingPoison);
 
@@ -37,10 +37,16 @@ namespace Systems
             AttackNum = 0;
         }
 
-        public bool ProcessMadness() //adds madness of card to player's madness
+        private bool ProcessMadness(CardData card) //adds madness of card to player's madness
         {
-            cm.madness += cm.lastDrawnCard.madness;
-            if (cm.madness > cm.alice.maxMadness)
+            cm.madness += card.madness;
+
+            return CheckMadness();
+        }
+
+        public bool CheckMadness() //checks if madness level is exceeded and shatters accordingly. 
+        {
+             if (cm.madness > cm.alice.maxMadness)
             {
                 Debug.Log("Shatter!"); //return state. once is shatters need to also reset this and recalculate with just the card to keep.
                 cm.StartCoroutine(DelayedShatter());
@@ -52,42 +58,42 @@ namespace Systems
                 return false;
             }
         }
-        private void ProcessSpecial() //trigger special effects based on card ID
+        private void ProcessSpecial(CardData card) //trigger special effects based on card ID
         {
-            Debug.Log("Special effect processed: " + cm.lastDrawnCard.specialID);
+            Debug.Log("Special effect processed: " + card.effect);
         }
-        private void ProcessPendingStats() //calculates what the new attack, defense, etc. will be now
+        private void ProcessPendingStats(CardData card) //calculates what the new attack, defense, etc. will be now
         {
-            ProcessPendingStrength();
-            ProcessPendingPoison();
-            ProcessPendingDamage();
-            ProcessPendingDefense();
+            ProcessPendingStrength(card);
+            ProcessPendingPoison(card);
+            ProcessPendingDamage(card);
+            ProcessPendingDefense(card);
         }
-        private void ProcessPeeking() //if card allows you to peek, trigger that
+        private void ProcessPeeking(CardData card) //if card allows you to peek, trigger that
         {
-            if (cm.lastDrawnCard.peek > 0)
+            if (card.peek > 0)
             {
                 Debug.Log("Peek");
                 cm.PushNewState("Peeking");
             }
         }
-        private void ProcessPendingDamage() //deals with damage bonus too
+        private void ProcessPendingDamage(CardData card) //deals with damage bonus too
         {
-            PendingDamage += cm.lastDrawnCard.damage;
+            PendingDamage += card.damage;
             AttackNum++;
             AttackBonus = AttackNum * (cm.strength + PendingStrength);
         }
-        private void ProcessPendingDefense ()
+        private void ProcessPendingDefense (CardData card)
         {
-            PendingDefense += cm.lastDrawnCard.defense;   
+            PendingDefense += card.defense;   
         }
-        private void ProcessPendingStrength()
+        private void ProcessPendingStrength(CardData card)
         {
-            PendingStrength += cm.lastDrawnCard.strength;
+            PendingStrength += card.strength;
         }
-        private void ProcessPendingPoison()
+        private void ProcessPendingPoison(CardData card)
         {
-            PendingPoison += cm.lastDrawnCard.poison;
+            PendingPoison += card.poison;
         }
         private IEnumerator DelayedShatter()
         {

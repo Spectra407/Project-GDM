@@ -3,13 +3,13 @@ using UnityEngine;
 public class MadnessEffect : SpecialEffect
 {
     private int madnessLevel;
-    public void MadnessEffect(int madness)
+    public MadnessEffect(int madness)
     {
         madnessLevel = madness;
     }
-    public abstract void Execute(CombatManager cm, CardData card)
+    public void Execute(CombatManager cm, CardData card)
     {
         cm.madness = madnessLevel;
-        cm.dem.ProcessMadness();
+        cm.dem.CheckMadness();
     }
 }

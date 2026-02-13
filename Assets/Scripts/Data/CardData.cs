@@ -36,7 +36,10 @@ public class CardData : ScriptableObject
     [Header("Sprite for the art")]
     public Sprite art;
     [Header("Special effects")]
-    public int specialID; //ID associated with special effect, -1 if NA
-    public int specialVal; //used by special effect when necessary
+    //will turn it into SpecialEffect class soon
+    public string effect;
+    //public SpecialEffect effect; 
+    //need to create dictionary (maybe in db manager??) to associate each string in excel field with a special effect and parse out other shit
+    //lowkey cardview and stuff fo
 
 }
