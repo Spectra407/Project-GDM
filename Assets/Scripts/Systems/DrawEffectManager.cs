@@ -17,6 +17,9 @@ namespace Systems
                 ProcessSpecial();
                 ProcessPendingStats();
                 ProcessPeeking();
+                Debug.Log("Madness " + cm.madness + 
+                ", pending damage " + PendingDamage +  ", pending defense " + PendingDefense + ", pending strength " + PendingStrength + ", pending poison " + PendingPoison);
+
             }
             else //else reset stats...
             {
@@ -47,7 +50,6 @@ namespace Systems
             }
             else
             {
-                Debug.Log("Current madness: " + cm.madness);
                 return false;
             }
         }
@@ -75,27 +77,18 @@ namespace Systems
             PendingDamage += cm.lastDrawnCard.damage;
             AttackNum++;
             AttackBonus = AttackNum * (cm.strength + PendingStrength);
-            Debug.Log("Pending damage: " + PendingDamage);
-            /*
-            update the attack bonus, which is extra damage you can do with your strength (adds per attack)
-            this updates frequently w changes in strength, including previous attacks (need to look back)
-            so what is the best way ui wise to communicate this bonus??
-            */
         }
         private void ProcessPendingDefense ()
         {
             PendingDefense += cm.lastDrawnCard.defense;   
-            Debug.Log("Pending defense: " + PendingDefense);
         }
         private void ProcessPendingStrength()
         {
             PendingStrength += cm.lastDrawnCard.strength;
-            Debug.Log("Pending strength: " + PendingStrength);
         }
         private void ProcessPendingPoison()
         {
             PendingPoison += cm.lastDrawnCard.poison;
-            Debug.Log("Pending poison: " + PendingPoison);
         }
          private IEnumerator DelayedShatter()
         {
