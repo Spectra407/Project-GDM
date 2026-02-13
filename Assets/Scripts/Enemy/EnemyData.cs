@@ -9,4 +9,7 @@ public class EnemyData : ScriptableObject
 
     [Header("Sprite")]
     public Sprite enemySprite;
+
+    [Header("Moves")]
+    public EnemyMove[] moves;
 }

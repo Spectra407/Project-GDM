@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting.Dependencies.Sqlite;
 
 public class EnemyTurnState : ITurnState
 {
@@ -18,6 +19,13 @@ public class EnemyTurnState : ITurnState
         _cm.StartCoroutine(ExecuteEnemyMove());
     }
 
+    private EnemyMove ChooseEnemyMove()
+    {
+        EnemyMove[] moves = _cm.enemy.moves;
+        int index = Random.Range(0, moves.Length);
+        return moves[index];
+    }
+
     private IEnumerator ExecuteEnemyMove()
     {
         // Wait a moment for animations or whatever
@@ -25,10 +33,13 @@ public class EnemyTurnState : ITurnState
 
         // Simple Enemy Logic: Deal a flat 10 damage for now
         // REPLACE WITH THE ENEMYDATA LATER
-        int damageToAlice = 10;
-        Debug.Log($"The Card Soldier stabs Alice for {damageToAlice} - {_cm.tempDefense} damage!");
-        AliceTakeDamage(damageToAlice);
-        Debug.Log($"Alice Health: {_cm.currentHealth}");
+
+        EnemyMove move = ChooseEnemyMove();
+
+        //int damageToAlice = 10;
+        //Debug.Log($"The Card Soldier stabs Alice for {damageToAlice} - {_cm.tempDefense} damage!");
+        //AliceTakeDamage(damageToAlice);
+        //Debug.Log($"Alice Health: {_cm.currentHealth}");
         
         // Wait another moment so the player sees the result
         yield return new WaitForSeconds(1.0f);
@@ -46,6 +57,29 @@ public class EnemyTurnState : ITurnState
         }
     }
     
+    private void ExecuteMoveEffects (EnemyMove move)
+    {
+        if (move.moveType.HasFlag(EnemyMoveType.Attack))
+        {
+            AliceTakeDamage(move.damage);
+        }
+        
+        if (move.moveType.HasFlag(EnemyMoveType.Attack))
+        {
+            _cm.enemyDefense += move.block;
+        }
+
+        if (move.moveType.HasFlag(EnemyMoveType.Strength))
+        {
+            _cm.enemyStrength += move.strength;
+        }
+
+        if (move.moveType.HasFlag(EnemyMoveType.Strength))
+        {
+            _cm.madness += move.madness;
+        }
+    }
+
     private void AliceTakeDamage(int damage)
     {
         if (_cm.tempDefense >= damage)
