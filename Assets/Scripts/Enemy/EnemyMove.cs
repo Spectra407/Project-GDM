@@ -3,6 +3,8 @@ using UnityEngine;
 [System.Serializable]
 public class EnemyMove
 {
+    public EnemyMoveType moveType;
+
     public int damage;
     public int block;
     public int strength;

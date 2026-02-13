@@ -4,12 +4,17 @@ using Systems;
 
 public class CombatManager : MonoBehaviour
 {
-    [Header("Player & Enemy Data")]
+    [Header("Player Data")]
     public AliceData alice;
     public int currentHealth;
-    public int enemyHealth = 50;
     public int tempDefense;
     public int madness;
+
+    [Header("Enemy Data")]
+    public EnemyData enemy;
+    public int enemyHealth = 50;
+    public int enemyDefense;
+    public int enemyStrength;
 
     [Header("State Tracking")]
     private ITurnState currentState; 
