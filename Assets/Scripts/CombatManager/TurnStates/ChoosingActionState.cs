@@ -19,19 +19,8 @@ public class ChoosingActionState : ITurnState
     public void HandleInput(string inputID)
     {
         // Handle either Hit or Stand choices
-        if (inputID == "HitButton")
-        {
-            CardData drawnData = _cm.Deck.DrawCard();
-            if (drawnData != null)
-            {
-                _cm.lastDrawnCard = drawnData;
-                _cm.MoveToNewState("HandlingCard");
-            }
-        }
-        else if (inputID == "StandButton")
-        {
-            _cm.MoveToNewState("EvaluatingCards");
-        }
+        if (inputID == "HitButton") PerformHit();
+        else if (inputID == "StandButton") PerformStand();
     }
 
     private void PerformHit()
