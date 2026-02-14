@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ef2c792a282f4341bd99bd179a09008, type: 3}
+  m_Name: SampleEnemyData
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  enemyName: 
+  maxHealth: 50
+  enemySprite: {fileID: 0}
+  moves:
+  - moveType: 1
+    damage: 5
+    block: 0
+    strength: 0
+    madness: 0
+  - moveType: 1
+    damage: 8
+    block: 0
+    strength: 0
+    madness: 0
+  - moveType: 1
+    damage: 10
+    block: 0
+    strength: 0
+    madness: 0
+  - moveType: 2
+    damage: 0
+    block: 10
+    strength: 0
+    madness: 0
+  - moveType: -1
+    damage: 0
+    block: 0
+    strength: 1
+    madness: 1
+  - moveType: 3
+    damage: 0
+    block: 0
+    strength: 2
+    madness: 0

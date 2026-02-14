@@ -12,7 +12,7 @@ public class CombatManager : MonoBehaviour
 
     [Header("Enemy Data")]
     public EnemyData enemy;
-    public int enemyHealth = 50;
+    public int enemyCurrentHealth;
     public int enemyDefense;
     public int enemyStrength;
 
@@ -35,6 +35,7 @@ public class CombatManager : MonoBehaviour
         // Initialize Alice's health from her ScriptableObject
         currentHealth = alice.currentHealth;
         madness = alice.startingMadness;
+        enemyCurrentHealth = enemy.maxHealth;
 
         // Kick off the game loop
         MoveToNewState("ChoosingAction");
