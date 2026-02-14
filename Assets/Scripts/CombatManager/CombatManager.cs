@@ -21,6 +21,9 @@ public class CombatManager : MonoBehaviour
     public int enemyCurrentHealth;
     public int enemyDefense;
     public int enemyStrength;
+    // These two will be used to save the Enemy choice in EnemyChooseActionState and call them later in EnemyTurnState
+    public int enemyIndexMove;  
+    public EnemyMove enemyChosenMove;
 
     [Header("State Tracking")]
     private ITurnState currentState; 
@@ -45,6 +48,7 @@ public class CombatManager : MonoBehaviour
 
         // Kick off the game loop
         MoveToNewState("ChoosingAction");
+        // This will have to start at EnemyChooseAction instead, which then MoveToNewState("ChoosingAction");
     }
 
     void Update()
@@ -127,6 +131,7 @@ public class CombatManager : MonoBehaviour
     {
         switch (id)
         {
+            // add case "EnemyChooseAction": return new EnemyChooseActionState(this);
             case "ChoosingAction":  return new ChoosingActionState(this);
             case "HandlingCard":   return new HandlingCardState(this);
             case "Peeking":        return new PeekingState(this);
