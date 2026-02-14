@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting.Dependencies.Sqlite;
 
 public class EnemyTurnState : ITurnState
 {
@@ -18,17 +19,30 @@ public class EnemyTurnState : ITurnState
         _cm.StartCoroutine(ExecuteEnemyMove());
     }
 
+    private EnemyMove ChooseEnemyMove()
+    {
+        EnemyMove[] moves = _cm.enemy.moves;
+        int index = Random.Range(0, moves.Length);
+        Debug.Log("Chosen move number " + index);
+        
+        return moves[index];
+    }
+
     private IEnumerator ExecuteEnemyMove()
     {
         // Wait a moment for animations or whatever
+        // CALL THE ANIMATION
         yield return new WaitForSeconds(1.5f);
-
-        // Simple Enemy Logic: Deal a flat 10 damage for now
-        // REPLACE WITH THE ENEMYDATA LATER
-        int damageToAlice = 10;
-        Debug.Log($"The Card Soldier stabs Alice for {damageToAlice} - {_cm.tempDefense} damage!");
-        AliceTakeDamage(damageToAlice);
-        Debug.Log($"Alice Health: {_cm.currentHealth}");
+        
+        // ENEMY RESETS BLOCK
+        _cm.enemyDefense = 0;
+        
+        // ENEMY CHOOSES ATTACK (PUT THIS INTO SEPARATE STATE LATER WITH ANIMATIONS)
+        EnemyMove move = ChooseEnemyMove();
+        Debug.Log("Enemy has chosen a move.");
+        
+        // ENEMY ATTACKS
+        ExecuteMoveEffects(move);
         
         // Wait another moment so the player sees the result
         yield return new WaitForSeconds(1.0f);
@@ -42,11 +56,67 @@ public class EnemyTurnState : ITurnState
         else
         {
             // Reset the turn back to Alice
+            _cm.tempDefense = 0;
             _cm.MoveToNewState("ChoosingAction"); 
             // This should be updated to go to EnemyChooseAction
         }
     }
     
+    private void ExecuteMoveEffects (EnemyMove move)
+    {
+        // if (move.moveType.HasFlag(EnemyMoveType.Attack))
+        // {
+        //     Debug.Log($"The Card Soldier stabs Alice for {move.damage} - {_cm.tempDefense} damage!");
+        //     AliceTakeDamage(move.damage);
+        //     Debug.Log($"Alice Health: {_cm.currentHealth}");
+        // }
+        //
+        // if (move.moveType.HasFlag(EnemyMoveType.Attack))
+        // {
+        //     Debug.Log($"The Card Soldier gains {move.block} block!");
+        //     _cm.enemyDefense += move.block;
+        // }
+        //
+        // if (move.moveType.HasFlag(EnemyMoveType.Strength))
+        // {
+        //     Debug.Log($"The Card Soldier gains {move.strength} strength!");
+        //     _cm.enemyStrength += move.strength;
+        // }
+        //
+        // if (move.moveType.HasFlag(EnemyMoveType.Strength))
+        // {
+        //     Debug.Log($"The Card Soldier inflicts {move.madness} madness upon you!");
+        //     _cm.madness += move.madness;
+        // }
+
+        if (move.damage != 0)
+        {
+            Debug.Log($"The Card Soldier stabs Alice for {move.damage} - {_cm.tempDefense} damage!");
+            AliceTakeDamage(move.damage + _cm.enemyStrength);
+            Debug.Log($"Alice Health: {_cm.currentHealth}");
+        }
+        
+        if (move.block != 0)
+        {
+            Debug.Log($"The Card Soldier gains {move.block} block!");
+            _cm.enemyDefense += move.block;
+        }
+        
+        if (move.strength != 0)
+        {
+            Debug.Log($"The Card Soldier gains {move.strength} strength!");
+            _cm.enemyStrength += move.strength;
+        }
+        
+        if (move.madness != 0)
+        {
+            Debug.Log($"The Card Soldier inflicts {move.madness} madness upon you!");
+            _cm.madness += move.madness;
+        }
+        
+        
+    }
+
     private void AliceTakeDamage(int damage)
     {
         if (_cm.tempDefense >= damage)

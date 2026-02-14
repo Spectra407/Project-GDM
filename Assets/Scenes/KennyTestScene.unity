@@ -1831,9 +1831,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CombatManager
   alice: {fileID: 11400000, guid: 23c5c0773c39e3e479d7e9e73959816d, type: 2}
   currentHealth: 0
-  enemyHealth: 50
   tempDefense: 0
   madness: 0
+  enemy: {fileID: 11400000, guid: 750be8a9aa589fd4ba5789079be98a58, type: 2}
+  enemyHealth: 50
+  enemyDefense: 0
+  enemyStrength: 0
   lastDrawnCard: {fileID: 0}
 --- !u!1 &1900728759
 GameObject:
