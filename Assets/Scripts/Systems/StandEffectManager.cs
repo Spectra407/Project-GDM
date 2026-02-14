@@ -44,8 +44,8 @@ namespace Systems
         }
         private void UpdateDamage(int damage) //deal [damage] damage to the enemy, checks if it is dead
         {
-            cm.enemyHealth = Math.Max(0, cm.enemyHealth - damage);
-            if (cm.enemyHealth == 0)
+            cm.enemyCurrentHealth = Math.Max(0, cm.enemyCurrentHealth - damage);
+            if (cm.enemyCurrentHealth == 0)
             {
                 Debug.Log("defeated enemy");
                 //move onto new phase or something
