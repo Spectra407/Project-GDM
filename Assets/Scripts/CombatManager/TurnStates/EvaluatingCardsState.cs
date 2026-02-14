@@ -41,10 +41,14 @@ public class EvaluatingCardsState : ITurnState
         // }
 
         // Apply damage to the enemy
+
+        //Ben: moved this logic to StandEffectManager cuz it makes more sense.
+        //Ive commented out the bottom lines for now.
         _cm.sem.ResolveOnStand();
-        // _cm.enemyHealth -= totalDamage;
+        // REPLACE THIS WITH ENEMYTAKEDAMAGE(TOTALDAMAGE) LATER
+        // _cm.enemyCurrentHealth -= totalDamage;
         // _cm.tempDefense += totalDefense;
-        // Debug.Log($"Dealt {totalDamage} damage! Enemy Health: {_cm.enemyHealth}. Gained {totalDefense} defense!");
+        // Debug.Log($"Dealt {totalDamage} damage! Enemy Health: {_cm.enemyCurrentHealth}. You gained {totalDefense} block!");
     }
 
     private IEnumerator FinishEvaluationSequence()
@@ -60,7 +64,7 @@ public class EvaluatingCardsState : ITurnState
         _cm.madness = 0;
 
         // Check if the enemy is dead or move to Enemy Turn
-        if (_cm.enemyHealth <= 0)
+        if (_cm.enemyCurrentHealth <= 0)
         {
             Debug.Log("Victory!"); // Victory logic would go here
         }
@@ -68,6 +72,24 @@ public class EvaluatingCardsState : ITurnState
         {
             _cm.MoveToNewState("EnemyTurn");
         }
+    }
+    
+    private void EnemyTakeDamage(int damage)
+    {
+        if (_cm.enemyDefense >= damage)
+        {
+            // Defense big enough to tank full hit
+            _cm.enemyDefense -= damage;
+        }
+        else
+        {
+            // Defense not big enough to tank full hit
+            damage -= _cm.enemyDefense;
+            _cm.enemyDefense = 0;
+            _cm.enemyCurrentHealth -= damage;
+        }
+        // Stop negative health values
+        _cm.enemyCurrentHealth = Mathf.Max(0, _cm.enemyCurrentHealth);
     }
 
     public void HandleInput(string input) { } 

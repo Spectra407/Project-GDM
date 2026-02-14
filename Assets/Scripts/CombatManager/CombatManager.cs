@@ -4,10 +4,9 @@ using Systems;
 
 public class CombatManager : MonoBehaviour
 {
-    [Header("Player & Enemy Data")]
+    [Header("Player Data")]
     public AliceData alice;
     public int currentHealth;
-    public int enemyHealth = 50;
     public int tempDefense;
     public int madness;
     //maybe move these into alice later
@@ -16,6 +15,12 @@ public class CombatManager : MonoBehaviour
     public DrawEffectManager dem;
     public StandEffectManager sem;
    
+
+    [Header("Enemy Data")]
+    public EnemyData enemy;
+    public int enemyCurrentHealth;
+    public int enemyDefense;
+    public int enemyStrength;
 
     [Header("State Tracking")]
     private ITurnState currentState; 
@@ -36,6 +41,7 @@ public class CombatManager : MonoBehaviour
         // Initialize Alice's health from her ScriptableObject
         currentHealth = alice.currentHealth;
         madness = alice.startingMadness;
+        enemyCurrentHealth = enemy.maxHealth;
 
         // Kick off the game loop
         MoveToNewState("ChoosingAction");
