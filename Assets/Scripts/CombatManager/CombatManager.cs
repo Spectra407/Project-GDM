@@ -15,6 +15,9 @@ public class CombatManager : MonoBehaviour
     public int enemyCurrentHealth;
     public int enemyDefense;
     public int enemyStrength;
+    // These two will be used to save the Enemy choice in EnemyChooseActionState and call them later in EnemyTurnState
+    public int enemyIndexMove;  
+    public EnemyMove enemyChosenMove;
 
     [Header("State Tracking")]
     private ITurnState currentState; 
