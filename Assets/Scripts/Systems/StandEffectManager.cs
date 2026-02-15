@@ -15,7 +15,7 @@ namespace Systems
             UpdateDamage(cm.dem.PendingDamage + cm.dem.AttackBonus + cm.poison);
             DecayPoison();
             Debug.Log("Gained " + cm.dem.PendingDefense + " defense, " + cm.dem.PendingStrength + " strength, and " + cm.dem.PendingPoison + " poison. Dealt " + 
-            (cm.dem.PendingDamage + cm.dem.AttackBonus + cm.poison) + "damage. Poison decayed to " + cm.poison + ".");
+            (cm.dem.PendingDamage + cm.dem.AttackBonus + cm.poison) + " damage. Poison decayed to " + cm.poison + ".");
             cm.dem.Reset();
         }
         private void UpdateStrength(int strength)
@@ -42,7 +42,7 @@ namespace Systems
                 cm.tempDefense = 0;
             }
         }
-        private void UpdateDamage(int damage) //deal [damage] damage to the enemy, checks if it is dead
+        private void UpdateDamage(int damage) //deal [damage] damage to the enemy
         {
             if (cm.enemyDefense >= damage)
             {
@@ -58,6 +58,7 @@ namespace Systems
             }
             // Stop negative health values
             cm.enemyCurrentHealth = Mathf.Max(0, cm.enemyCurrentHealth);
+            Debug.Log("Enemy health: " + cm.enemyCurrentHealth);
         }
         private void DecayPoison() //halves poison, rounded down
         {

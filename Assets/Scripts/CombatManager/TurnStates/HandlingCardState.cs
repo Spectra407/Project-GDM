@@ -16,6 +16,8 @@ public class HandlingCardState : ITurnState
 
     public void Enter()
     {
+        Debug.Log("Current phase is " + _currentPhase);
+        
         // Exit if there's no card data to process (ex: Draw an empty deck)
         if (_cm.lastDrawnCard == null)
         {
@@ -23,31 +25,28 @@ public class HandlingCardState : ITurnState
             return;
         }
         
-        if (_currentPhase == Phase.Start)
+        if (_currentPhase == Phase.Start || _currentPhase == Phase.CheckingPeek)
         {
-            _cm.dem.ResolveOnDraw(_cm.lastDrawnCard);
-            FinishTurn();
-            // peek, checking madness, etc should happen here so might just simplify the rest
-            // then need to finish turn and stuff?    
-            // ProcessInitialMadness();
-        }
-        else if (_currentPhase == Phase.CheckingPeek)
-        {
-            ProcessPeekOrFinish();
+            // Increment madness and check for shatter, then resolve on draw effects and check for peek
+            ProcessDraw();
         }
     }
 
-    private void ProcessInitialMadness()
+    private void ProcessDraw()
     {
-        _cm.madness += _cm.lastDrawnCard.madness;
-
-        if (_cm.madness > _cm.alice.maxMadness)
+        _cm.madness += _cm.lastDrawnCard.madness;   // Increment Madness
+        
+        if (_cm.madness > _cm.alice.maxMadness)     // Check for Shatter
         {
             // Trigger Shatter.
+            _cm.dem.Reset();    // Reset all pending. We will "redo" the resolve on draw for the survivor inside ShatteringState. 
             _cm.StartCoroutine(DelayedShatter());
         }
         else
         {
+            // Resolve normal On Draw effects
+            _cm.dem.ResolveOnDraw(_cm.lastDrawnCard);
+            
             // Check if we peek
             _currentPhase = Phase.CheckingPeek;
             ProcessPeekOrFinish();
@@ -74,7 +73,7 @@ public class HandlingCardState : ITurnState
         }
     }
 
-    private void FinishTurn()
+    public void FinishTurn()
     {
         _currentPhase = Phase.Done;
         _cm.lastDrawnCard = null; // Clear the data for the next draw

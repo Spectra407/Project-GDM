@@ -42,8 +42,6 @@ public class EvaluatingCardsState : ITurnState
 
         // Apply damage to the enemy
 
-        //Ben: moved this logic to StandEffectManager cuz it makes more sense.
-        //Ive commented out the bottom lines for now.
         _cm.sem.ResolveOnStand();
         // REPLACE THIS WITH ENEMYTAKEDAMAGE(TOTALDAMAGE) LATER
         // _cm.enemyCurrentHealth -= totalDamage;

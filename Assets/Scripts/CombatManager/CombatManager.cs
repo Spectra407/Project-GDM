@@ -106,6 +106,7 @@ public class CombatManager : MonoBehaviour
     {
         Debug.Log($"CombatManager: ReturnToLastState called from {currentState.GetType().Name}");
         
+        
         if (_isTransitioning || states.Count <= 1) return;
 
         _isTransitioning = true; 
@@ -115,8 +116,10 @@ public class CombatManager : MonoBehaviour
             if (currentState != null) currentState.Exit();
             states.Pop();
             
+            
             currentState = states.Peek();
             CurrentStateName = currentState.GetType().Name; // Resuming the card check logic
+            Debug.Log($"CombatManager: Switched to {CurrentStateName}");
             
             currentState.Enter(); 
         }
