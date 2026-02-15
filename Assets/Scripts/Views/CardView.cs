@@ -39,8 +39,20 @@ public class CardView : MonoBehaviour
         UpdateBanners();
 
     }
-    
-    
+
+    void OnMouseEnter()
+    {
+        wrapper.SetActive(false);
+        Vector3 pos = new(transform.position.x, 0, 0);
+        CardViewHoverSystem.Instance.Show(data, pos);
+
+    }
+
+    void OnMouseExit()
+    {
+        CardViewHoverSystem.Instance.Hide();
+        wrapper.SetActive(true);
+    }
     
     // Use this to clear Peeked cards
     public void ClearVisuals()
