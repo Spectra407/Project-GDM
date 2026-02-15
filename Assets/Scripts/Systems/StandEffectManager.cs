@@ -44,12 +44,20 @@ namespace Systems
         }
         private void UpdateDamage(int damage) //deal [damage] damage to the enemy, checks if it is dead
         {
-            cm.enemyCurrentHealth = Math.Max(0, cm.enemyCurrentHealth - damage);
-            if (cm.enemyCurrentHealth == 0)
+            if (cm.enemyDefense >= damage)
             {
-                Debug.Log("defeated enemy");
-                //move onto new phase or something
+                // Defense big enough to tank full hit
+                cm.enemyDefense -= damage;
             }
+            else
+            {
+                // Defense not big enough to tank full hit
+                damage -= cm.enemyDefense;
+                cm.enemyDefense = 0;
+                cm.enemyCurrentHealth -= damage;
+            }
+            // Stop negative health values
+            cm.enemyCurrentHealth = Mathf.Max(0, cm.enemyCurrentHealth);
         }
         private void DecayPoison() //halves poison, rounded down
         {
