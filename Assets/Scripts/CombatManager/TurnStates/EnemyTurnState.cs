@@ -64,31 +64,6 @@ public class EnemyTurnState : ITurnState
     
     private void ExecuteMoveEffects (EnemyMove move)
     {
-        // if (move.moveType.HasFlag(EnemyMoveType.Attack))
-        // {
-        //     Debug.Log($"The Card Soldier stabs Alice for {move.damage} - {_cm.tempDefense} damage!");
-        //     AliceTakeDamage(move.damage);
-        //     Debug.Log($"Alice Health: {_cm.currentHealth}");
-        // }
-        //
-        // if (move.moveType.HasFlag(EnemyMoveType.Attack))
-        // {
-        //     Debug.Log($"The Card Soldier gains {move.block} block!");
-        //     _cm.enemyDefense += move.block;
-        // }
-        //
-        // if (move.moveType.HasFlag(EnemyMoveType.Strength))
-        // {
-        //     Debug.Log($"The Card Soldier gains {move.strength} strength!");
-        //     _cm.enemyStrength += move.strength;
-        // }
-        //
-        // if (move.moveType.HasFlag(EnemyMoveType.Strength))
-        // {
-        //     Debug.Log($"The Card Soldier inflicts {move.madness} madness upon you!");
-        //     _cm.madness += move.madness;
-        // }
-
         if (move.damage != 0)
         {
             Debug.Log($"The Card Soldier stabs Alice for {move.damage} - {_cm.tempDefense} damage!");
@@ -113,8 +88,6 @@ public class EnemyTurnState : ITurnState
             Debug.Log($"The Card Soldier inflicts {move.madness} madness upon you!");
             _cm.madness += move.madness;
         }
-        
-        
     }
 
     private void AliceTakeDamage(int damage)

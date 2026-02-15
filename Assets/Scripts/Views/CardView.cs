@@ -6,6 +6,8 @@ public class CardView : MonoBehaviour
 {
     // attributes: topValue, topIcon, bottomValue, bottomIcon, damageSprite, defenseSprite, peekSprite, poisonSprite
     // are lowkey not used anymore. Check with Art team about Card visual layout
+    public bool isPeek = false;
+    
     [Header("Card UI References")]
     [SerializeField] private TMP_Text description;
     [SerializeField] private TMP_Text madness;
@@ -42,16 +44,23 @@ public class CardView : MonoBehaviour
 
     void OnMouseEnter()
     {
-        wrapper.SetActive(false);
-        Vector3 pos = new(transform.position.x, 0, 0);
-        CardViewHoverSystem.Instance.Show(data, pos);
+        if (!isPeek)
+        {
+            wrapper.SetActive(false);
+            Vector3 pos = new(transform.position.x, 0, 0);
+            CardViewHoverSystem.Instance.Show(data, pos);
+        }
+        
 
     }
 
     void OnMouseExit()
     {
-        CardViewHoverSystem.Instance.Hide();
-        wrapper.SetActive(true);
+        if (!isPeek)
+        {
+            CardViewHoverSystem.Instance.Hide();
+            wrapper.SetActive(true);
+        }
     }
     
     // Use this to clear Peeked cards

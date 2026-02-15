@@ -10,6 +10,6 @@ public class MadnessEffect : SpecialEffect
     public void Execute(CombatManager cm, CardData card)
     {
         cm.madness = madnessLevel;
-        cm.dem.CheckMadness();
+        // cm.dem.CheckMadness();   Unnecessary check
     }
 }

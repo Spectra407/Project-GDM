@@ -262,6 +262,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1206280978220538393, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
+      propertyPath: isPeek
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206280978220538393, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: isUiCard
       value: 1
       objectReference: {fileID: 0}
@@ -468,6 +472,10 @@ PrefabInstance:
     - target: {fileID: 218411743639199416, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206280978220538393, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
+      propertyPath: isPeek
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1206280978220538393, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: isUiCard
@@ -1033,6 +1041,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Systems.DrawEffectManager
   cm: {fileID: 1892167546}
+  calculatorPanel: {fileID: 0}
   PendingDamage: 0
   PendingDefense: 0
   PendingStrength: 0
@@ -1461,6 +1470,10 @@ PrefabInstance:
     - target: {fileID: 218411743639199416, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: m_Layer
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206280978220538393, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
+      propertyPath: isPeek
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1206280978220538393, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
       propertyPath: isUiCard

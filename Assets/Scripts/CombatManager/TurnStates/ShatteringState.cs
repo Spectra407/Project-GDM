@@ -61,6 +61,7 @@ public class ShatteringState : ITurnState
                 _cm.Hand.StartCoroutine(_cm.Hand.ShatterSequence(clickedCard));
                 
                 // Move to EvaluatingCards
+                _cm.dem.ResolveOnDraw(clickedCard.data);
                 _cm.MoveToNewState("EvaluatingCards");
             }
         }
