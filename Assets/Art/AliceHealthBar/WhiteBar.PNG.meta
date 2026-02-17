@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bdc7aa9491422ff40b9afb4438fc2f91
+guid: e4bb0a3bc77c47d4e8298bcdbb656006
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -103,8 +103,8 @@ TextureImporter:
       name: WhiteBar_0
       rect:
         serializedVersion: 2
-        x: 140
-        y: 358
+        x: 3
+        y: 38
         width: 480
         height: 35
       alignment: 0
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
