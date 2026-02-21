@@ -1813,15 +1813,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Systems.DeckManagerKenny
   rewardDeck: []
-  currentDeck:
-  - {fileID: 11400000, guid: 9835a9d826455a5ff91f38ad8e36195c, type: 2}
-  - {fileID: 11400000, guid: f459bab6ea0639e0abb5bc0197c62ae7, type: 2}
-  - {fileID: 11400000, guid: e1d8912a5052e2e359deb1630ec68c4e, type: 2}
-  - {fileID: 11400000, guid: a7f22a059800f56ff8c99ee48591902b, type: 2}
-  - {fileID: 11400000, guid: 659ef78a901b8e6d6bafa1b48edc7646, type: 2}
-  - {fileID: 11400000, guid: 9835a9d826455a5ff91f38ad8e36195c, type: 2}
-  - {fileID: 11400000, guid: f459bab6ea0639e0abb5bc0197c62ae7, type: 2}
-  - {fileID: 11400000, guid: a7f22a059800f56ff8c99ee48591902b, type: 2}
+  currentDeck: []
   cardDB: {fileID: 1240691}
   peekList: []
   drawPile: []

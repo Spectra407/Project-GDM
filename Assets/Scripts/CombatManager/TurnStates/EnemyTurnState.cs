@@ -92,6 +92,9 @@ public class EnemyTurnState : ITurnState
 
     private void AliceTakeDamage(int damage)
     {
+        // Stop negative block values
+        _cm.tempDefense = Mathf.Max(0, _cm.tempDefense);
+        
         if (_cm.tempDefense >= damage)
         {
             // Defense big enough to tank full hit

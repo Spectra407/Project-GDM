@@ -18,7 +18,7 @@ namespace Systems
         void Start()
         {
             //for now, have currentDeck initialized with list of cards here (by cardID). Can store this in separate file later or have it as card metadata from csv.
-            int[] cards = {0, 1, 2, 3, 7, 8};
+            int[] cards = {0, 1, 2, 3, 3, 3, 4, 4, 5, 7, 8, 10};
             //to test out:
             //poison
             //strength
@@ -32,8 +32,10 @@ namespace Systems
             for (int i = 0; i < cards.Length; i++)
             {
                 currentDeck.Add(cardDB.cards[cards[i]]);
+                Debug.Log("Added card" + i + " to deck");
             }
             SetDeck(currentDeck);
+            Debug.Log("Finished setting up deck.");
         }
     
     
