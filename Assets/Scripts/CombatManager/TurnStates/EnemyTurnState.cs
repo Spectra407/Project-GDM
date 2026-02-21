@@ -19,14 +19,14 @@ public class EnemyTurnState : ITurnState
         _cm.StartCoroutine(ExecuteEnemyMove());
     }
 
-    private (EnemyMove move, int indexMove) ChooseEnemyMove()
-    {
-        EnemyMove[] moves = _cm.enemy.moves;
-        int index = Random.Range(0, moves.Length);
-        Debug.Log("Chosen move number " + index);
+    // private (EnemyMove move, int indexMove) ChooseEnemyMove()
+    // {
+    //     EnemyMove[] moves = _cm.enemy.moves;
+    //     int index = Random.Range(0, moves.Length);
+    //     Debug.Log("Chosen move number " + index);
         
-        return (moves[index], index);
-    }
+    //     return (moves[index], index);
+    // }
 
     private IEnumerator ExecuteEnemyMove()
     {
@@ -38,11 +38,11 @@ public class EnemyTurnState : ITurnState
         _cm.enemyDefense = 0;
         
         // ENEMY CHOOSES ATTACK (PUT THIS INTO SEPARATE STATE LATER WITH ANIMATIONS)
-        var (move, index) = ChooseEnemyMove();
-        Debug.Log("Enemy has chosen a move.");
+        // var (move, index) = ChooseEnemyMove();
+        // Debug.Log("Enemy has chosen a move.");
         
         // ENEMY ATTACKS
-        ExecuteMoveEffects(move);   // Replace move with _cm.enemyChosenMove
+        ExecuteMoveEffects(_cm.enemyChosenMove);   // Replace move with _cm.enemyChosenMove
         
         // Wait another moment so the player sees the result
         yield return new WaitForSeconds(1.0f);
@@ -57,7 +57,7 @@ public class EnemyTurnState : ITurnState
         {
             // Reset the turn back to Alice
             _cm.tempDefense = 0;
-            _cm.MoveToNewState("ChoosingAction"); 
+            _cm.MoveToNewState("EnemyChooseActionState"); 
             // This should be updated to go to EnemyChooseAction
         }
     }

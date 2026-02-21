@@ -22,7 +22,10 @@ public class EnemyChooseActionState : ITurnState
     {
         // Wait a moment for animations or whatever
         yield return new WaitForSeconds(1.5f);
-        
+        _cm.enemyIndexMove = Random.Range(1,7) - 1;
+        _cm.enemyChosenMove = _cm.enemy.moves[_cm.enemyIndexMove];
+        Debug.Log("Chosen move number" + _cm.enemyIndexMove);
+
         // CALL var (_cm.enemyChosenMove, _cm.enemyIndexMove) = ChooseEnemyMove();
         // UPDATE enemyChosenMove to this new move and enemyIndexMove to this new index, used to easily call PlayDiceAnimation(2) or smtn for all the UI elements.
         
@@ -36,6 +39,8 @@ public class EnemyChooseActionState : ITurnState
         // Give the turn back to Alice
         _cm.MoveToNewState("ChoosingAction"); 
     }
+
+
     
     
 

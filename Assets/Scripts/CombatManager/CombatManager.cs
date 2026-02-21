@@ -47,7 +47,7 @@ public class CombatManager : MonoBehaviour
         enemyCurrentHealth = enemy.maxHealth;
 
         // Kick off the game loop
-        MoveToNewState("ChoosingAction");
+        MoveToNewState("EnemyChooseActionState");
         // This will have to start at EnemyChooseAction instead, which then MoveToNewState("ChoosingAction");
     }
 
@@ -141,6 +141,7 @@ public class CombatManager : MonoBehaviour
             case "Shattering":     return new ShatteringState(this);
             case "EvaluatingCards": return new EvaluatingCardsState(this);
             case "EnemyTurn":       return new EnemyTurnState(this);
+            case "EnemyChooseActionState": return new EnemyChooseActionState(this);
             default:
                 Debug.LogError($"Unknown State ID: {id}");
                 return new ChoosingActionState(this);
