@@ -39,6 +39,8 @@ public class CombatManager : MonoBehaviour
 
     private bool _isTransitioning = false; // Magic to prevent infinite loops
 
+    public DiceManager diceManager;
+
     void Start()
     {
         // Initialize Alice's health from her ScriptableObject
@@ -141,7 +143,7 @@ public class CombatManager : MonoBehaviour
             case "Shattering":     return new ShatteringState(this);
             case "EvaluatingCards": return new EvaluatingCardsState(this);
             case "EnemyTurn":       return new EnemyTurnState(this);
-            case "EnemyChooseActionState": return new EnemyChooseActionState(this);
+            case "EnemyChooseActionState": return new EnemyChooseActionState(this, diceManager);
             default:
                 Debug.LogError($"Unknown State ID: {id}");
                 return new ChoosingActionState(this);
