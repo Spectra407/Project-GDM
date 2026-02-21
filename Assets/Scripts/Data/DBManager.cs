@@ -56,6 +56,7 @@ public class CardDB : MonoBehaviour
             card.art = Resources.Load<Sprite>("" + "sample-art");
 
             card.effect = (fields[12]);
+            
             cards.Add(card);
         }
     }
