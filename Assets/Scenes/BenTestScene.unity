@@ -2066,13 +2066,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CombatManager
   alice: {fileID: 11400000, guid: 23c5c0773c39e3e479d7e9e73959816d, type: 2}
   currentHealth: 0
-  enemyHealth: 50
   tempDefense: 0
   madness: 0
   strength: 0
   poison: 0
   dem: {fileID: 854305681}
   sem: {fileID: 1234180527}
+  enemy: {fileID: 0}
+  enemyCurrentHealth: 0
+  enemyDefense: 0
+  enemyStrength: 0
   lastDrawnCard: {fileID: 0}
 --- !u!1 &1900728759
 GameObject:
@@ -2299,6 +2302,6 @@ SceneRoots:
   - {fileID: 2036011043}
   - {fileID: 1969167734}
   - {fileID: 1558597662}
-  - {fileID: 1748028355}
   - {fileID: 1247213316}
   - {fileID: 696984576}
+  - {fileID: 1748028355}

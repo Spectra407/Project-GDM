@@ -42,4 +42,24 @@ public class CardData : ScriptableObject
     //need to create dictionary (maybe in db manager??) to associate each string in excel field with a special effect and parse out other shit
     //lowkey cardview and stuff fo
 
+    public CardData CreateCard(int ID, string name, string desc, int jp, List<CardType> type, int dmg, int str, int def, int poi, int pk, int mad, Sprite cArt, SpecialEffect eff)
+    {
+        CardData card = ScriptableObject.CreateInstance<CardData>();
+
+        card.cardID = ID;
+        card.cardName = name;
+        card.description = desc;
+        card.jackpot = jp;
+        card.cardType = type;
+        card.damage = dmg;
+        card.strength = str;
+        card.defense = def;
+        card.poison = poi;
+        card.peek = pk;
+        card.madness = mad;
+        card.art = cArt;
+        card.effect = eff;
+
+        return card;
+    }
 }

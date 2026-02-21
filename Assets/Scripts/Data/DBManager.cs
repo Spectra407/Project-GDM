@@ -27,36 +27,69 @@ public class CardDB : MonoBehaviour
 
         for (int i = 1; i < lines.Length; i++)
         {
-            /*
-                LOWKEY ALL THIS SHOULD HAPPEN ON THE CARDDATA SIDE SO WE CAN PRIVATIZE AND ORGANIZE BETTER....
-            */
-            string[] fields = lines[i].Split(',');
-
-            CardData card = ScriptableObject.CreateInstance<CardData>();
-
-            card.cardID = Int32.Parse(fields[0]); //might not be needed, redundant with index
-            card.cardName = fields[1];
-            card.description = fields[2];
-            card.jackpot = Int32.Parse(fields[3]); //maybe change to reference card itself later...
-            List<CardData.CardType> cardType = new List<CardData.CardType>();
-            cardType.Add((CardData.CardType)Enum.Parse(typeof(CardData.CardType), fields[4])); 
-            card.cardType = cardType; 
-            card.damage = Int32.Parse(fields[5]);
-            card.strength = Int32.Parse(fields[6]);
-            card.defense = Int32.Parse(fields[7]);
-            card.poison = Int32.Parse(fields[8]);
-            card.peek = Int32.Parse(fields[9]);
-
-            card.madness = Int32.Parse(fields[10]);
-
-            //card.art = fields[11]; 
-            //need to change so it looks for file
-            //placeholder art
-            //maybe use addressables later
-            card.art = Resources.Load<Sprite>("" + "sample-art");
-
-            card.effect = (fields[12]);
+            CardData card = parseLine(lines[i]);
             cards.Add(card);
         }
     }
+    private CardData parseLine(string line)
+    {
+        string[] fields = line.Split(',');
+
+        int cardID = Int32.Parse(fields[0]); //might not be needed, redundant with index
+        string cardName = fields[1];
+        string description = fields[2];
+        int jackpot = Int32.Parse(fields[3]); //maybe change to reference card itself later...
+        List<CardData.CardType> cardType = new List<CardData.CardType>();
+        cardType.Add((CardData.CardType)Enum.Parse(typeof(CardData.CardType), fields[4])); 
+        int damage = Int32.Parse(fields[5]);
+        int strength = Int32.Parse(fields[6]);
+        int defense = Int32.Parse(fields[7]);
+        int poison = Int32.Parse(fields[8]);
+        int peek = Int32.Parse(fields[9]);
+        int madness = Int32.Parse(fields[10]);
+
+        //card.art = fields[11]; 
+        //need to change so it looks for file
+        //placeholder art
+        //maybe use addressables later
+        Sprite art = Resources.Load<Sprite>("" + "sample-art");
+
+        
+        SpecialEffect effect = parseEffect(fields[12]);
+
+        CardData card = CardData.CreateCard(cardID, cardName, description, jackpot, cardType, damage, strength, defense, poison, peek, madness, effect);   
+        return card;
+    }
+    private SpecialEffect parseEffect(string line) //uses effect registry to get special effect from string 
+    {
+        string[] fields = line.Split("_");
+        if (fields[0] != null)
+        {
+            SpecialEffect effect = EffectRegistry.Create(fields[0], fields[1..]); //need to figure out what to do if no additional args
+            return effect;
+
+        } 
+        else return null;
+    }
+
+        /*
+            idea: make a bunch of scripts for all the effects
+            have dictionary effect ID : function that does something
+            can parse out shit then
+
+            MULT_DMG_5 -> look up MULT in dictionary to get function
+            this function then takes field 1 (DMG) and multiplies if by field 2 (5)
+            have an add effect function that cards run when loaded
+            this parses out stuff and adds the features
+
+            MULT_type_amt: multiplies [type] (damage, etc) by [amt]
+            PER_type_amt: gain [# of cards] x [amt] of [type]
+            DRAW_amt: draw [amt] cards
+            DIS_type: can no longer gain [type] this turn
+            COPY: copy previous card's effect
+            EQ_type1_type2: gain [type1] equal to [type2]
+            MAD_amt: set madness to [amt]
+            SHUFFLECARD_amt: shuffle [amt] cards from your hand into your deck
+            SHUFFLEHAND: if you want, shuffle hand into your deck
+        */
 }

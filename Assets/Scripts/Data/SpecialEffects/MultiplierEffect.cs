@@ -6,13 +6,16 @@ public class MultiplierEffect : SpecialEffect
     private int multiplier;
     CardData.CardType cardtype;
 
-/*
-   static DamageEffect()
+    static MultiplierEffect()
     {
-        EffectRegistry.Register("DMG", args =>
-            new DamageEffect(int.Parse(args[0])));
+        EffectRegistry.Register("MULT", args =>
+            new MultiplierEffect(
+                Int32.Parse(args),
+                (CardData.CardType)System.Enum.Parse(typeof(CardData.CardType), args)
+            )
+        );
     }
-*/
+
     public MultiplierEffect(int mult, CardData.CardType type)
     {
         multiplier = mult;
