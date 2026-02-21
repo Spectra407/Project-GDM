@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PeekingState : ITurnState
 {
@@ -48,7 +49,7 @@ public class PeekingState : ITurnState
                 int index = PeekManager.Instance.GetIndexOfCard(clickedCard);
                 if (index != -1)
                 {
-                    PeekManager.Instance.OnCardSelected(index);
+                    _cm.StartCoroutine(PeekManager.Instance.OnCardSelected(index));
                 }
             }
         }

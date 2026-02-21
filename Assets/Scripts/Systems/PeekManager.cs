@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Systems;
 using UnityEngine;
+using System.Collections;
 using UnityEngine.InputSystem;
 
 public class PeekManager : Singleton<PeekManager>
@@ -40,7 +41,7 @@ public class PeekManager : Singleton<PeekManager>
         peekPanel.SetActive(true);
     }
 
-    public void OnCardSelected(int index)
+    public IEnumerator OnCardSelected(int index)
     {
         CardData chosenCard = peekCardData[index];
         // Remove the card from the deck
@@ -56,6 +57,9 @@ public class PeekManager : Singleton<PeekManager>
         // Update the CombatManager's active card
         CombatManager cm = Object.FindAnyObjectByType<CombatManager>();
         cm.lastDrawnCard = chosenCard; 
+        
+        // Delay time to avoid immediately drawing after
+        yield return new WaitForSeconds(1.5f);
 
         // Return to the HandlingCardState to finish resolving the card.
         cm.ReturnToLastState();
@@ -85,5 +89,11 @@ public class PeekManager : Singleton<PeekManager>
         cm.MoveToNewState("ChoosingAction");    
         // Forcefully move back to "Choosing Action" state instead of reverting to the previous state.
         // Returning to previous state would bring you back to Peek since "last card drawn" was a Peek card (uh oh infinite loop)
+    }
+
+    private IEnumerator TimeDelay(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Debug.Log("Waited " + time + " seconds");
     }
 }
