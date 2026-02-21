@@ -1,13 +1,17 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class EnemyChooseActionState : ITurnState
 {
     private CombatManager _cm;
+    private DiceManager _diceManager;
 
-    public EnemyChooseActionState(CombatManager cm)
+
+    public EnemyChooseActionState(CombatManager cm, DiceManager diceManager)
     {
         _cm = cm;
+        _diceManager = diceManager;
     }
 
     public void Enter()
@@ -22,7 +26,15 @@ public class EnemyChooseActionState : ITurnState
     {
         // Wait a moment for animations or whatever
         yield return new WaitForSeconds(1.5f);
-        _cm.enemyIndexMove = Random.Range(1,7) - 1;
+        
+        yield return _cm.StartCoroutine(
+            _diceManager.RollDice(result =>
+            {
+            _cm.enemyIndexMove = result;
+            })
+        );
+    
+
         _cm.enemyChosenMove = _cm.enemy.moves[_cm.enemyIndexMove];
         Debug.Log("Chosen move number" + _cm.enemyIndexMove);
 

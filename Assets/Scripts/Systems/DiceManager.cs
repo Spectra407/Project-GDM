@@ -1,11 +1,42 @@
 using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
 
 public class DiceManager : MonoBehaviour
 {
-    public int RollDice()
+    [Header("Dice Sprites")]
+    public Sprite[] diceFaces;
+
+    public Image uiImage;
+
+    public float shuffleDuration = 1.0f;
+    public float shuffleSpeed = 0.05f;
+
+    public IEnumerator RollDice(System.Action<int> onResult)
     {
-        int rolled = Random.Range(1,7);
-        Debug.Log("Rolled a"+rolled);
-        return rolled;
+        float timer = 0f;
+
+        //Shuffle the dice
+        while (timer < shuffleDuration)
+        {
+            int randomIndex = Random.Range(0, diceFaces.Length);
+            SetSprite(randomIndex);
+            timer += shuffleSpeed;
+            yield return new WaitForSeconds(shuffleSpeed);
+
+            
+        }
+        
+        //Stop the suffle and set the index
+        int finalIndex = Random.Range(0, diceFaces.Length);
+        SetSprite(finalIndex);
+
+        onResult?.Invoke(finalIndex);
+    }
+
+    //Set the picture
+    private void SetSprite(int index)
+    {
+        uiImage.sprite = diceFaces[index];
     }
 }
