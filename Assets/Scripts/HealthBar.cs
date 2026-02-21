@@ -11,15 +11,11 @@ public class HealthBar : MonoBehaviour
     private float width;
     private float baseX;
 
-    private float timer;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         width = bar.GetComponent<RectTransform>().rect.width / bar.GetComponent<Image>().sprite.pixelsPerUnit;
         baseX = bar.transform.position.x;
-        Debug.Log("Width: " + width + ", base X: " + baseX);
-        timer = 0;
     }
 
     // Update is called once per frame
@@ -34,9 +30,5 @@ public class HealthBar : MonoBehaviour
         // Update bar position
         float adjustedX = baseX - width * (1 - (float) currentHealth / (float) maxHealth);
         bar.transform.position = new Vector3(adjustedX, bar.transform.position.y, bar.transform.position.z);
-
-        timer += Time.deltaTime;
-        if (timer > 1) Debug.Log("Set x to " + adjustedX);
-        timer %= 1;
     }
 }
