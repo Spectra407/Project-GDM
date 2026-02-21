@@ -49,11 +49,11 @@ public class CardDB : MonoBehaviour
 
             card.madness = Int32.Parse(fields[10]);
 
-            //card.art = fields[11]; 
+            card.art = Resources.Load<Sprite>("CardArt/" + fields[11]); 
             //need to change so it looks for file
             //placeholder art
             //maybe use addressables later
-            card.art = Resources.Load<Sprite>("" + "sample-art");
+            // card.art = Resources.Load<Sprite>("" + "sample-art");
 
             card.effect = (fields[12]);
             
