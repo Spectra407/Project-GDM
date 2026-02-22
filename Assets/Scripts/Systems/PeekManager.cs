@@ -30,7 +30,7 @@ public class PeekManager : Singleton<PeekManager>
             {
                 peekCardVisuals[i].gameObject.SetActive(true);
                 peekCardVisuals[i].Setup(peekCardData[i]);
-                peekCardVisuals[i].transform.localScale = new Vector3(100, 100, 1);
+                peekCardVisuals[i].transform.localScale = new Vector3(200, 200, 1);
             }
             // Make the ghost cards disappear if we're not peeking as many cards
             else
