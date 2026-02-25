@@ -59,7 +59,7 @@ public class PeekManager : Singleton<PeekManager>
         cm.lastDrawnCard = chosenCard; 
         
         // Delay time to avoid immediately drawing after
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.25f);
 
         // Return to the HandlingCardState to finish resolving the card.
         cm.ReturnToLastState();

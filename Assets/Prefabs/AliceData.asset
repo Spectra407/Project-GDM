@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AliceData
   m_EditorClassIdentifier: Assembly-CSharp::AliceData
   maxHealth: 50
-  currentHealth: 46
+  currentHealth: 50
   maxMadness: 7
   startingMadness: 0
   buttons: 0
