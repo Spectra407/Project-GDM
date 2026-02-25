@@ -30,22 +30,40 @@ namespace Systems
             poisonText.text = PendingPoison + "\\U0001F9EA";
             strengthText.text = PendingStrength + "\\U0001F4AA";
 
-            if (PendingDamage == 0)
+            if (PendingDamage <= 0)
             {
-                damageText.text = "";
+                damageText.gameObject.SetActive(false);
+            }
+            else
+            {
+                damageText.gameObject.SetActive(true);
             }
 
-            if (PendingDefense == 0)
+            if (PendingDefense <= 0)
             {
-                blockText.text = "";
+                blockText.gameObject.SetActive(false);
             }
-            if (PendingPoison == 0)
+            else
             {
-                poisonText.text = "";
+                blockText.gameObject.SetActive(true);
             }
-            if (PendingStrength == 0)
+            
+            if (PendingPoison <= 0)
             {
-                strengthText.text = "";
+                poisonText.gameObject.SetActive(false);
+            }
+            else
+            {
+                poisonText.gameObject.SetActive(true);
+            }
+            
+            if (PendingStrength <= 0)
+            {
+                strengthText.gameObject.SetActive(false);
+            }
+            else
+            {
+                strengthText.gameObject.SetActive(true);
             }
 
             
@@ -63,10 +81,10 @@ namespace Systems
             AttackBonus = 0;
             AttackNum = 0;
             
-            damageText.text = "";
-            blockText.text = "";
-            poisonText.text = "";
-            strengthText.text = "";
+            damageText.gameObject.SetActive(false);
+            blockText.gameObject.SetActive(false);
+            poisonText.gameObject.SetActive(false);
+            strengthText.gameObject.SetActive(false);
         }
 
         private void ProcessSpecial(CardData card) //trigger special effects based on card ID
