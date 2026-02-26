@@ -75,6 +75,9 @@ namespace Systems
             PendingDefense = 0;
             PendingStrength = 0;
             PendingPoison = 0;
+<<<<<<< HEAD
+>>>>>>> parent of d26fcec (started implementation of jackpot, draweffect, and both shuffleeffects)
+=======
 >>>>>>> parent of d26fcec (started implementation of jackpot, draweffect, and both shuffleeffects)
 
             AttackBonus = 0;
