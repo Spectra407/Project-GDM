@@ -18,7 +18,7 @@ public class ShuffleHandEffect : SpecialEffect
     {
         //pop up prompt to shuffle or not 
         //take input 
-        bool shuffling = true; //for now
+        bool shuffling = false; //for now
 
         if (shuffling)
         {

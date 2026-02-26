@@ -24,6 +24,7 @@ public class DrawEffect : SpecialEffect
         for (int i = 0; i < Math.Min(drawNum, cm.Deck.drawPile.Count); i++)
         {
             Debug.Log("Card drawn.");
+            /* commented out for now
             CardData drawnData = cm.Deck.DrawCard();
             if (drawnData != null)
             {
@@ -38,6 +39,7 @@ public class DrawEffect : SpecialEffect
             }
             cm.lastDrawnCard = null;
             //need to implement this
+            */
         }
         return card;
     }

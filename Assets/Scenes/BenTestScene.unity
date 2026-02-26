@@ -2411,10 +2411,6 @@ MonoBehaviour:
   fightMusic: {fileID: 8300000, guid: 1593bbcf5f77a47baaf4f8c0a8891aa8, type: 3}
   hover: {fileID: 8300000, guid: 3f0138a0fa88a99ef9b34569fe2c3cd9, type: 3}
   click: {fileID: 8300000, guid: 3f0138a0fa88a99ef9b34569fe2c3cd9, type: 3}
-  shuffle: {fileID: 8300000, guid: d0eb5decfefd14f8296ac4efe0a39ef4, type: 3}
-  cardPlayed: {fileID: 8300000, guid: a45f310ca25ef2888a30258b911aee12, type: 3}
-  takeDamage: {fileID: 8300000, guid: 820cfac25fcd09da3a581763920fe403, type: 3}
-  hoverCard: {fileID: 8300000, guid: bc9b80e759509f9818c1a91a2878825f, type: 3}
   masterVolume: 1
   bgmVolume: 1
   fxVolume: 1
