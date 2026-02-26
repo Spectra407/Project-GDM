@@ -939,7 +939,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 519916708}
-  - component: {fileID: 519916710}
   - component: {fileID: 519916709}
   m_Layer: 5
   m_Name: EnemyHealthBar
@@ -985,21 +984,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   enemy: {fileID: 11400000, guid: 750be8a9aa589fd4ba5789079be98a58, type: 2}
   combatManager: {fileID: 1892167546}
-  text: {fileID: 83488795}
-  bar: {fileID: 765503098}
---- !u!114 &519916710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519916707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a17734490a61c9546b71e24e4f9bac0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthBar
-  alice: {fileID: 11400000, guid: 23c5c0773c39e3e479d7e9e73959816d, type: 2}
   text: {fileID: 83488795}
   bar: {fileID: 765503098}
 --- !u!1 &547538181
