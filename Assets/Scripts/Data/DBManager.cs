@@ -59,11 +59,8 @@ public class CardDB : MonoBehaviour
         int peek = Int32.Parse(fields[9]);
         int madness = Int32.Parse(fields[10]);
 
-        //card.art = fields[11]; 
-        //need to change so it looks for file
-        //placeholder art
         //maybe use addressables later
-        Sprite art = Resources.Load<Sprite>("" + "sample-art");
+        Sprite art = Resources.Load<Sprite>("CardArt/" + fields[11]); 
 
         SpecialEffect effect = parseEffect(fields[12]);
 
