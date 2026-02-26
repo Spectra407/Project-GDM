@@ -47,7 +47,7 @@ namespace Systems
         }
     
         // Reshuffle all cards in the deck
-        private void ShuffleAll(List<CardData> deck)
+        public void ShuffleAll(List<CardData> deck)
         {
             for (int i = deck.Count - 1; i > 0; i--)
             {
