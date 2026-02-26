@@ -9,13 +9,16 @@ namespace Systems
         public void ResolveOnStand()
         {
             //deal with any special effects (i dont think there are any really)
-            UpdateStrength(cm.dem.PendingStrength);
-            UpdatePoison(cm.dem.PendingPoison);
-            UpdateDefense(cm.dem.PendingDefense);
-            UpdateDamage(cm.dem.PendingDamage + cm.dem.AttackBonus + cm.poison);
+            UpdateStrength(cm.dem.PendingStats[CardData.CardType.Strength]);
+            UpdatePoison(cm.dem.PendingStats[CardData.CardType.Poison]);
+            UpdateDefense(cm.dem.PendingStats[CardData.CardType.Defense]);
+            UpdateDamage(cm.dem.PendingStats[CardData.CardType.Damage] + cm.dem.AttackBonus + cm.poison);
             DecayPoison();
-            Debug.Log("Gained " + cm.dem.PendingDefense + " defense, " + cm.dem.PendingStrength + " strength, and " + cm.dem.PendingPoison + " poison. Dealt " + 
-            (cm.dem.PendingDamage + cm.dem.AttackBonus + cm.poison) + " damage. Poison decayed to " + cm.poison + ".");
+            Debug.Log("Gained " + cm.dem.PendingStats[CardData.CardType.Defense] + " defense, " 
+            + cm.dem.PendingStats[CardData.CardType.Strength] + " strength, and " 
+            + cm.dem.PendingStats[CardData.CardType.Poison] + " poison. Dealt " 
+            + (cm.dem.PendingStats[CardData.CardType.Damage] + cm.dem.AttackBonus + cm.poison) + " damage. Poison decayed to " 
+            + cm.poison + ".");
             cm.dem.Reset();
         }
         private void UpdateStrength(int strength)

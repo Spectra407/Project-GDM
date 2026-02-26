@@ -20,7 +20,8 @@ public class MadnessEffect : SpecialEffect
     public CardData Execute(CombatManager cm, CardData card)
     {
         cm.madness = madnessLevel;
-        cm.dem.CheckMadness();
+        //mASSUMING MADNESS NEVER EXCEEDS MAXMADNESS
+        cm.dem.ProcessJackpot();
         return card;
     }
 }

@@ -25,24 +25,8 @@ public class MultiplierEffect : SpecialEffect
     }
     public CardData Execute(CombatManager cm, CardData card)
     {
-        switch (cardtype)
-        {
-            case CardData.CardType.Damage:
-                cm.dem.PendingDamage *= multiplier;
-                break;
-            case CardData.CardType.Poison:
-                cm.dem.PendingPoison *= multiplier;
-                break;
-            case CardData.CardType.Strength:
-                cm.dem.PendingStrength *= multiplier;
-                break;
-            case CardData.CardType.Defense:
-                cm.dem.PendingDefense *= multiplier;
-                break;
-            default:
-                Debug.Log("MultiplierEffect given invalid CardType.");
-                break;
-        }
+        //need to put check for dict
+        cm.dem.PendingStats[cardtype] *= multiplier;
         return card;
     }
 

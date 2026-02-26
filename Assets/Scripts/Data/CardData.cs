@@ -62,4 +62,14 @@ public class CardData : ScriptableObject
 
         return card;
     }
+
+    public CardData getJackpot()
+    {
+        if (jackpot > -1)
+        {
+            return CardDB.Instance.cards[jackpot];
+        }
+        return this;
+
+    }
 }

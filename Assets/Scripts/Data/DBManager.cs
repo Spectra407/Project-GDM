@@ -6,8 +6,18 @@ public class CardDB : MonoBehaviour
 {
     public List<CardData> cards = new List<CardData>();
     public string file = "card-db.csv";
-
-    public void Start() //need it to not destroy on load
+    public static CardDB Instance { get; private set; }
+    void Awake() //wont destroy on load
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+    public void Start()
     {
         Debug.Log("Started up DB manager");
         LoadCards(file);
@@ -49,14 +59,27 @@ public class CardDB : MonoBehaviour
         int peek = Int32.Parse(fields[9]);
         int madness = Int32.Parse(fields[10]);
 
-            //card.art = fields[11]; 
-            //need to change so it looks for file
-            //placeholder art
-            //maybe use addressables later
-            card.art = Resources.Load<Sprite>("" + "sample-art");
+        //card.art = fields[11]; 
+        //need to change so it looks for file
+        //placeholder art
+        //maybe use addressables later
+        Sprite art = Resources.Load<Sprite>("" + "sample-art");
 
-            card.effect = (fields[12]);
-            cards.Add(card);
-        }
+        SpecialEffect effect = parseEffect(fields[12]);
+
+        CardData card = CardData.CreateCard(cardID, cardName, description, jackpot, cardType, damage, strength, defense, poison, peek, madness, art, effect);   
+        return card;
+    }
+    private SpecialEffect parseEffect(string line) //uses effect registry to get special effect from string 
+    {
+        string[] fields = line.Split("_");
+        if (fields[0] != null)
+        {
+            SpecialEffect effect = EffectRegistry.Create(fields[0], fields[1..]); //need to figure out what to do if no additional args
+            return effect;
+
+        } 
+        else return null;
     }
 }
+

@@ -1,3 +1,4 @@
+using Systems;
 using UnityEngine;
 //for the rest of the turn, can no longer gain [cardType] stat
 //eg: no more defense for rest of the turn
@@ -19,25 +20,9 @@ public class DisableEffect : SpecialEffect
     }
     public CardData Execute(CombatManager cm, CardData card)
     {
+        //need to add check for dict
         Debug.Log(cardType + " disabled.");
-        switch (cardType)
-        {
-            case CardData.CardType.Damage:
-                cm.dem.DamageMult = 0;
-                break;
-            case CardData.CardType.Poison:
-                cm.dem.PoisonMult = 0;
-                break;
-            case CardData.CardType.Strength:
-                cm.dem.StrengthMult = 0;
-                break;
-            case CardData.CardType.Defense:
-                cm.dem.DefenseMult = 0;
-                break;
-            default:
-                Debug.Log("DisableEffect given invalid CardType.");
-                break;
-        }
+        cm.dem.DisStats[cardType] = 0;
         return card;
     }
 }

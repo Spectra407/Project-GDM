@@ -44,6 +44,7 @@ public class HandlingCardState : ITurnState
         }
         else
         {
+            _cm.dem.ProcessJackpot();
             // Resolve normal On Draw effects
             _cm.dem.ResolveOnDraw(_cm.lastDrawnCard);
             
