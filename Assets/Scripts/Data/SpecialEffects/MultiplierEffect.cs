@@ -6,30 +6,44 @@ public class MultiplierEffect : SpecialEffect
     private int multiplier;
     CardData.CardType cardtype;
 
-    static MultiplierEffect()
+    [RuntimeInitializeOnLoadMethod]
+    static void Register()
     {
         EffectRegistry.Register("MULT", args =>
             new MultiplierEffect(
-                Int32.Parse(args),
-                (CardData.CardType)System.Enum.Parse(typeof(CardData.CardType), args)
+                EffectRegistry.ParseType(args[0]),
+                int.Parse(args[1])
             )
         );
     }
 
-    public MultiplierEffect(int mult, CardData.CardType type)
+    public MultiplierEffect(CardData.CardType type, int mult)
     {
+        Debug.Log("yurt");
         multiplier = mult;
         cardtype = type;
     }
-    public void Execute(CombatManager cm, CardData card)
+    public CardData Execute(CombatManager cm, CardData card)
     {
         switch (cardtype)
         {
             case CardData.CardType.Damage:
                 cm.dem.PendingDamage *= multiplier;
                 break;
-            //do this for other effects... also need overall multiplier not at that instance maybe
+            case CardData.CardType.Poison:
+                cm.dem.PendingPoison *= multiplier;
+                break;
+            case CardData.CardType.Strength:
+                cm.dem.PendingStrength *= multiplier;
+                break;
+            case CardData.CardType.Defense:
+                cm.dem.PendingDefense *= multiplier;
+                break;
+            default:
+                Debug.Log("MultiplierEffect given invalid CardType.");
+                break;
         }
+        return card;
     }
 
 }

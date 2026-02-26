@@ -5,20 +5,42 @@ public class PerEffect : SpecialEffect
 {
     private int multiplier;
     CardData.CardType cardtype;
-    public PerEffect(int mult, CardData.CardType type)
+    [RuntimeInitializeOnLoadMethod]
+    static void Register()
+    {
+        EffectRegistry.Register("PER", args =>
+            new PerEffect(
+                EffectRegistry.ParseType(args[0]),
+                int.Parse(args[1])
+            )
+        );
+    }
+
+    public PerEffect(CardData.CardType type, int mult)
     {
         multiplier = mult;
         cardtype = type;
     }
-    public void Execute(CombatManager cm, CardData card)
+    public CardData Execute(CombatManager cm, CardData card)
     {
         switch (cardtype)
         {
             case CardData.CardType.Damage:
                 cm.dem.PendingDamage += cm.Hand.handCardViews.Count * multiplier;
                 break;
-            //do this for other effects... 
+            case CardData.CardType.Poison:
+                cm.dem.PendingPoison += cm.Hand.handCardViews.Count * multiplier;
+                break;
+            case CardData.CardType.Strength:
+                cm.dem.PendingStrength += cm.Hand.handCardViews.Count * multiplier;
+                break;
+            case CardData.CardType.Defense:
+                cm.dem.PendingDefense += cm.Hand.handCardViews.Count * multiplier;
+                break;
+            default:
+                Debug.Log("PerEffect given invalid CardType.");
+                break;
         }
+        return card;
     }
-
 }

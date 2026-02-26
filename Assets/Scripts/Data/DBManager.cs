@@ -12,6 +12,7 @@ public class CardDB : MonoBehaviour
         Debug.Log("Started up DB manager");
         LoadCards(file);
         Debug.Log("Finished loading DB");
+        
 
         for (int i = 0; i < cards.Count; i++)
         {
@@ -57,7 +58,7 @@ public class CardDB : MonoBehaviour
         
         SpecialEffect effect = parseEffect(fields[12]);
 
-        CardData card = CardData.CreateCard(cardID, cardName, description, jackpot, cardType, damage, strength, defense, poison, peek, madness, effect);   
+        CardData card = CardData.CreateCard(cardID, cardName, description, jackpot, cardType, damage, strength, defense, poison, peek, madness, art, effect);   
         return card;
     }
     private SpecialEffect parseEffect(string line) //uses effect registry to get special effect from string 

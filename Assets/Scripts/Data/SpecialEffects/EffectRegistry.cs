@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
 public static class EffectRegistry
 {
     //keeps track of all effects and their initialization in a dictionary
@@ -14,6 +18,32 @@ public static class EffectRegistry
     }
     public static SpecialEffect Create(string key, string[] args) //create a new effect instance?
     {
-        return registry[key](args);
+        if (registry.TryGetValue(key, out var factory))
+        {
+            return factory(args);
+        }
+        else
+        {
+            Debug.Log("Could not get value for " + key);
+            return null;
+        }
+    }
+    public static CardData.CardType ParseType(string s)
+    {
+        switch (s)
+        {
+            case "POI":
+                return CardData.CardType.Poison;
+            case "DMG":
+                return CardData.CardType.Damage;
+            case "STR":
+                return CardData.CardType.Strength;
+            case "DEF":
+                return CardData.CardType.Defense;
+            case "PK":
+                return CardData.CardType.Peek;
+            default:
+                return CardData.CardType.Other;
+        }  
     }
 }

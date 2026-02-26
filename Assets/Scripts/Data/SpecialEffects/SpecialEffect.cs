@@ -6,7 +6,7 @@ using UnityEngine;
 
 public interface SpecialEffect
 {
-    void Execute(CombatManager cm, CardData card);
+    CardData Execute(CombatManager cm, CardData card);
 }
 
 /*

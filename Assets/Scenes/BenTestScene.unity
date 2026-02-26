@@ -331,6 +331,37 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 593370303}
   m_SourcePrefab: {fileID: 100100000, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
+--- !u!1 &367497488
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 367497489}
+  m_Layer: 0
+  m_Name: Enemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &367497489
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367497488}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.71686, y: 0.37304, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &392728989
 GameObject:
   m_ObjectHideFlags: 0
@@ -1847,15 +1878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Systems.DeckManagerKenny
   rewardDeck: []
-  currentDeck:
-  - {fileID: 11400000, guid: 9835a9d826455a5ff91f38ad8e36195c, type: 2}
-  - {fileID: 11400000, guid: f459bab6ea0639e0abb5bc0197c62ae7, type: 2}
-  - {fileID: 11400000, guid: e1d8912a5052e2e359deb1630ec68c4e, type: 2}
-  - {fileID: 11400000, guid: a7f22a059800f56ff8c99ee48591902b, type: 2}
-  - {fileID: 11400000, guid: 659ef78a901b8e6d6bafa1b48edc7646, type: 2}
-  - {fileID: 11400000, guid: 9835a9d826455a5ff91f38ad8e36195c, type: 2}
-  - {fileID: 11400000, guid: f459bab6ea0639e0abb5bc0197c62ae7, type: 2}
-  - {fileID: 11400000, guid: a7f22a059800f56ff8c99ee48591902b, type: 2}
+  currentDeck: []
   cardDB: {fileID: 1247213315}
   peekList: []
   drawPile: []
@@ -2072,7 +2095,7 @@ MonoBehaviour:
   poison: 0
   dem: {fileID: 854305681}
   sem: {fileID: 1234180527}
-  enemy: {fileID: 0}
+  enemy: {fileID: 11400000, guid: 750be8a9aa589fd4ba5789079be98a58, type: 2}
   enemyCurrentHealth: 0
   enemyDefense: 0
   enemyStrength: 0
@@ -2305,3 +2328,4 @@ SceneRoots:
   - {fileID: 1247213316}
   - {fileID: 696984576}
   - {fileID: 1748028355}
+  - {fileID: 367497489}

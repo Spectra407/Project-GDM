@@ -8,16 +8,21 @@ namespace Systems
         public CombatManager cm;
         public int PendingDamage, PendingDefense, PendingStrength, PendingPoison;
         public int AttackNum, AttackBonus; //for strength calculations
+        public int DamageMult = 1, DefenseMult = 1, StrengthMult = 1, PoisonMult = 1; //
         public void ResolveOnDraw(CardData card)
         {
             bool shattered = ProcessMadness(card);
             if (!shattered) //do rest of stuff if not shattered
             {
-                ProcessSpecial(card);
-                ProcessPendingStats(card);
-                ProcessPeeking(card);
+                Debug.Log("drew " + card.cardName);
+                CardData playedCard = ProcessSpecial(card);
+                ProcessPendingStats(playedCard);
+                ProcessPeeking(playedCard);
                 Debug.Log("Madness " + cm.madness + 
-                ", pending damage " + PendingDamage +  ", pending defense " + PendingDefense + ", pending strength " + PendingStrength + ", pending poison " + PendingPoison);
+                ", pending damage " + PendingDamage +  
+                ", pending defense " + PendingDefense + 
+                ", pending strength " + PendingStrength + 
+                ", pending poison " + PendingPoison);
 
             }
             else //else reset stats...
@@ -33,8 +38,14 @@ namespace Systems
             PendingDefense = 0;
             PendingStrength = 0;
             PendingPoison = 0;
+
             AttackBonus = 0;
             AttackNum = 0;
+
+            DamageMult = 1;
+            DefenseMult = 1;
+            StrengthMult = 1;
+            PoisonMult = 1;
         }
 
         private bool ProcessMadness(CardData card) //adds madness of card to player's madness
@@ -58,9 +69,15 @@ namespace Systems
                 return false;
             }
         }
-        private void ProcessSpecial(CardData card) //trigger special effects based on card ID
+        private CardData ProcessSpecial(CardData card) //trigger special effects based on card ID
         {
-            Debug.Log("Special effect processed: " + card.effect);
+            if (card.effect != null)
+            {
+                Debug.Log("Special effect processed");
+                return card.effect.Execute(cm, card);
+            }
+            return card;
+            
         }
         private void ProcessPendingStats(CardData card) //calculates what the new attack, defense, etc. will be now
         {
@@ -79,21 +96,25 @@ namespace Systems
         }
         private void ProcessPendingDamage(CardData card) //deals with damage bonus too
         {
-            PendingDamage += card.damage;
-            AttackNum++;
+            PendingDamage += DamageMult * card.damage;
+
+            if (DamageMult * card.damage > 0) { //add to number attacks if this added damage
+                AttackNum++;
+            }
+
             AttackBonus = AttackNum * (cm.strength + PendingStrength);
         }
         private void ProcessPendingDefense (CardData card)
         {
-            PendingDefense += card.defense;   
+            PendingDefense += DefenseMult * card.defense;   
         }
         private void ProcessPendingStrength(CardData card)
         {
-            PendingStrength += card.strength;
+            PendingStrength += StrengthMult * card.strength;
         }
         private void ProcessPendingPoison(CardData card)
         {
-            PendingPoison += card.poison;
+            PendingPoison += PoisonMult * card.poison;
         }
         private IEnumerator DelayedShatter()
         {

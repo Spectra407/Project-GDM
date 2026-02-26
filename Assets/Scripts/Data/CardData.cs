@@ -37,12 +37,12 @@ public class CardData : ScriptableObject
     public Sprite art;
     [Header("Special effects")]
     //will turn it into SpecialEffect class soon
-    public string effect;
+    public SpecialEffect effect;
     //public SpecialEffect effect; 
     //need to create dictionary (maybe in db manager??) to associate each string in excel field with a special effect and parse out other shit
     //lowkey cardview and stuff fo
 
-    public CardData CreateCard(int ID, string name, string desc, int jp, List<CardType> type, int dmg, int str, int def, int poi, int pk, int mad, Sprite cArt, SpecialEffect eff)
+    public static CardData CreateCard(int ID, string name, string desc, int jp, List<CardType> type, int dmg, int str, int def, int poi, int pk, int mad, Sprite cArt, SpecialEffect eff)
     {
         CardData card = ScriptableObject.CreateInstance<CardData>();
 
