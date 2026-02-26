@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Systems;
+using UnityEngine.Events;
 
 public class CombatManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class CombatManager : MonoBehaviour
     public int currentHealth;
     public int tempDefense;
     public int madness;
+    public bool jackpot = false;
     //maybe move these into alice later
     public int strength;
     public int poison;
@@ -42,6 +44,8 @@ public class CombatManager : MonoBehaviour
     [Header("Enemy Dice/Text")]
     public DiceManager diceManager;
     public TMPro.TMP_Text moveText;
+    [Header("Events")]
+    public UnityEvent OnTakeDamage;
 
     void Start()
     {

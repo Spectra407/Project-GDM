@@ -45,11 +45,11 @@ public class AudioManager : MonoBehaviour
     
     private void Start()
     {
-        // CombatManager cm = (CombatManager) FindAnyObjectByType(typeof(CombatManager));
-        // cm.OnTakeDamage.AddListener(PlayTakeDamage);
-        // DeckManager.Instance.OnShuffle.AddListener(PlayShuffle);
-        // DeckManager.Instance.OnDraw.AddListener(PlayCardPlayed);
-        // CardViewHoverSystem.Instance.OnCardHover.AddListener(PlayHoverCard);
+        CombatManager cm = (CombatManager) FindAnyObjectByType(typeof(CombatManager));
+        cm.OnTakeDamage.AddListener(PlayTakeDamage);
+        DeckManager.Instance.OnShuffle.AddListener(PlayShuffle);
+        DeckManager.Instance.OnDraw.AddListener(PlayCardPlayed);
+        CardViewHoverSystem.Instance.OnCardHover.AddListener(PlayHoverCard);
     }
     public void PlayFightMusic()
     {

@@ -62,6 +62,7 @@ namespace Systems
             // Stop negative health values
             cm.enemyCurrentHealth = Mathf.Max(0, cm.enemyCurrentHealth);
             Debug.Log("Enemy health: " + cm.enemyCurrentHealth);
+            if (damage > 0) cm.OnTakeDamage.Invoke();
         }
         private void DecayPoison() //halves poison, rounded down
         {

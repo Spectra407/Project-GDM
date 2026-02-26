@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Systems
 {
@@ -13,6 +14,9 @@ namespace Systems
         // In game combat list of peeked cards, and draw pile
         public List<CardData> peekList;
         public List<CardData> drawPile;
+        [Header("Events")]
+        public UnityEvent OnShuffle;
+        public UnityEvent OnDraw;
     
         // Start() method to test
         void Start()
@@ -39,6 +43,7 @@ namespace Systems
             ShuffleAll(drawPile);
         
             Debug.Log("Deck initialized with this amount of cards: " + drawPile.Count);
+            OnShuffle.Invoke();
         }
     
         // Reshuffle all cards in the deck
@@ -62,6 +67,8 @@ namespace Systems
         
             CardData drawnCard = drawPile[0];
             drawPile.RemoveAt(0);   // Remove the card that was drawn from the draw pile
+
+            OnDraw.Invoke();
             return drawnCard;
         }
     

@@ -112,6 +112,8 @@ public class EnemyTurnState : ITurnState
         
         // Update the AliceData ScriptableObject to keep health persistent
         _cm.alice.currentHealth = _cm.currentHealth;
+
+        if (damage > 0) _cm.OnTakeDamage.Invoke();
     }
 
     public void HandleInput(string input) { } 

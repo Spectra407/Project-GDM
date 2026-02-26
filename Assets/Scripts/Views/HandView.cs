@@ -118,7 +118,8 @@ public class HandView : Singleton<HandView>
 
         // Clear the list
         handCardViews.Clear(); 
-    
+
+        DeckManager.Instance.OnShuffle.Invoke();
         Debug.Log("Hand cleared and data recycled to deck.");
     }
     
