@@ -149,7 +149,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 691412368}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &326896889
 MonoBehaviour:
@@ -168,6 +168,10 @@ MonoBehaviour:
   fightMusic: {fileID: 8300000, guid: 1593bbcf5f77a47baaf4f8c0a8891aa8, type: 3}
   hover: {fileID: 8300000, guid: 3f0138a0fa88a99ef9b34569fe2c3cd9, type: 3}
   click: {fileID: 8300000, guid: 3f0138a0fa88a99ef9b34569fe2c3cd9, type: 3}
+  shuffle: {fileID: 0}
+  cardPlayed: {fileID: 0}
+  takeDamage: {fileID: 0}
+  hoverCard: {fileID: 0}
   masterVolume: 1
   bgmVolume: 1
   fxVolume: 1
@@ -327,6 +331,7 @@ Transform:
   m_Children:
   - {fileID: 1349924646}
   - {fileID: 1260726025}
+  - {fileID: 326896888}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &780392920
@@ -1589,4 +1594,3 @@ SceneRoots:
   - {fileID: 1292112167}
   - {fileID: 691412368}
   - {fileID: 574312463}
-  - {fileID: 326896888}
