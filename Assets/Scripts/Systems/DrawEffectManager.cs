@@ -56,6 +56,7 @@ namespace Systems
         public void Reset() //reset all pending stats, etc. should be called at resolvestand?
         {
 <<<<<<< HEAD
+
             PendingStats[CardData.CardType.Damage] = 0;
             PendingStats[CardData.CardType.Defense] = 0;
             PendingStats[CardData.CardType.Poison] = 0;
@@ -75,9 +76,6 @@ namespace Systems
             PendingDefense = 0;
             PendingStrength = 0;
             PendingPoison = 0;
-<<<<<<< HEAD
->>>>>>> parent of d26fcec (started implementation of jackpot, draweffect, and both shuffleeffects)
-=======
 >>>>>>> parent of d26fcec (started implementation of jackpot, draweffect, and both shuffleeffects)
 
             AttackBonus = 0;

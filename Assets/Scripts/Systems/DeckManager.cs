@@ -18,11 +18,7 @@ namespace Systems
         void Start()
         {
             //for now, have currentDeck initialized with list of cards here (by cardID). Can store this in separate file later or have it as card metadata from csv.
-<<<<<<< HEAD
-            int[] cards = {12, 25, 25, 13, 14, 15};
-=======
             int[] cards = {26, 23, 3};
->>>>>>> parent of d26fcec (started implementation of jackpot, draweffect, and both shuffleeffects)
             //to test out:
             //draw
             //shuffles
