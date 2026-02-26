@@ -26,9 +26,6 @@ public class AudioManager : MonoBehaviour
     public float masterVolume = 1f;
     public float bgmVolume = 1f;
     public float fxVolume = 1f;
-    //other
-    private string mirrorPath;
-   
 
     void Awake()
     {
@@ -47,6 +44,7 @@ public class AudioManager : MonoBehaviour
     {
         CombatManager cm = (CombatManager) FindAnyObjectByType(typeof(CombatManager));
         cm.OnTakeDamage.AddListener(PlayTakeDamage);
+        cm.OnMirrorCrack.AddListener(PlayMirrorCracks);
         DeckManager.Instance.OnShuffle.AddListener(PlayShuffle);
         DeckManager.Instance.OnDraw.AddListener(PlayCardPlayed);
         CardViewHoverSystem.Instance.OnCardHover.AddListener(PlayHoverCard);
@@ -78,6 +76,19 @@ public class AudioManager : MonoBehaviour
     public void PlayTakeDamage()
     {
         PlaySound(takeDamage);
+    }
+    public void PlayMirrorCracks()
+    {
+        //ASSUMED MADNESS OF 7
+        CombatManager cm = (CombatManager) FindAnyObjectByType(typeof(CombatManager));
+
+        if (cm.madness <= cm.alice.maxMadness) {
+            PlaySound(mirrorCracks[cm.madness - 1]);
+        }
+        else
+        {
+            PlaySound(mirrorCracks[cm.alice.maxMadness]);
+        }
     }
     private void PlaySound(AudioClip sound)
     {

@@ -19,9 +19,15 @@ public class MadnessEffect : SpecialEffect
     }
     public CardData Execute(CombatManager cm, CardData card)
     {
-        cm.madness = madnessLevel;
-        //mASSUMING MADNESS NEVER EXCEEDS MAXMADNESS
-        cm.dem.ProcessJackpot();
+        if (cm.madness != madnessLevel)
+        {
+            cm.madness = madnessLevel;
+            //mASSUMING MADNESS NEVER EXCEEDS MAXMADNESS
+            cm.dem.ProcessJackpot();
+            //if madness decreases do we still play sound effect?
+            cm.OnMirrorCrack.Invoke();
+        }
+        
         return card;
     }
 }

@@ -984,6 +984,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardViewHoverSystem
   cardViewHover: {fileID: 1666791263}
+  OnCardHover:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &562257201
 GameObject:
   m_ObjectHideFlags: 0
@@ -2415,7 +2418,15 @@ MonoBehaviour:
   cardPlayed: {fileID: 8300000, guid: a45f310ca25ef2888a30258b911aee12, type: 3}
   takeDamage: {fileID: 8300000, guid: 820cfac25fcd09da3a581763920fe403, type: 3}
   hoverCard: {fileID: 8300000, guid: bc9b80e759509f9818c1a91a2878825f, type: 3}
-  mirrorCracks: []
+  mirrorCracks:
+  - {fileID: 8300000, guid: 51968a82c29dfb5a685a7258cd68a49f, type: 3}
+  - {fileID: 8300000, guid: 128b1c29ce56ce9c286eb5173d2fa8cd, type: 3}
+  - {fileID: 8300000, guid: 3d9551348579c79e3851bb74d8b6c2cc, type: 3}
+  - {fileID: 8300000, guid: a186e1526bdf5d822a0ef57b70580881, type: 3}
+  - {fileID: 8300000, guid: 5b0680ecf8c07b94ba9a3a105acb71d1, type: 3}
+  - {fileID: 8300000, guid: a7a7790939fc5b16fb8d34d76e1b11dd, type: 3}
+  - {fileID: 8300000, guid: 4944e76ff94c8793fa36b9a5bd7755a0, type: 3}
+  - {fileID: 8300000, guid: f4e3313d307322c9d88ba75fc52c3026, type: 3}
   masterVolume: 1
   bgmVolume: 1
   fxVolume: 1
@@ -3060,6 +3071,12 @@ MonoBehaviour:
   cardDB: {fileID: 1240691}
   peekList: []
   drawPile: []
+  OnShuffle:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDraw:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1666791262
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3599,6 +3616,9 @@ MonoBehaviour:
   lastDrawnCard: {fileID: 0}
   diceManager: {fileID: 1092980749}
   moveText: {fileID: 756027775}
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1900728759
 GameObject:
   m_ObjectHideFlags: 0

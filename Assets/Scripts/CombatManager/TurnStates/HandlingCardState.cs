@@ -34,7 +34,9 @@ public class HandlingCardState : ITurnState
 
     private void ProcessDraw()
     {
-        _cm.madness += _cm.lastDrawnCard.madness;   // Increment Madness
+        int madness = _cm.lastDrawnCard.madness;
+        _cm.madness += madness;   // Increment Madness
+        if (madness > 0) _cm.OnMirrorCrack.Invoke();
         
         if (_cm.madness > _cm.alice.maxMadness)     // Check for Shatter
         {

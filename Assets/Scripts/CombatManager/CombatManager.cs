@@ -46,6 +46,7 @@ public class CombatManager : MonoBehaviour
     public TMPro.TMP_Text moveText;
     [Header("Events")]
     public UnityEvent OnTakeDamage;
+    public UnityEvent OnMirrorCrack;
 
     void Start()
     {
