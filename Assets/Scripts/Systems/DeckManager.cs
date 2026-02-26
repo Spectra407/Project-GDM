@@ -22,7 +22,8 @@ namespace Systems
         void Start()
         {
             //for now, have currentDeck initialized with list of cards here (by cardID). Can store this in separate file later or have it as card metadata from csv.
-            int[] cards = {1, 25, 13};
+            int[] cards = {0, 1, 2, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15, 16,
+            17, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30};
             //to test out:
             //draw
             //shuffles
