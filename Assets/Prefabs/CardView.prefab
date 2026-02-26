@@ -279,7 +279,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: bd74fef84ac962048b592a3588746e42, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -325,6 +325,7 @@ GameObject:
   - component: {fileID: 7756474005744303863}
   - component: {fileID: 5194570092693264005}
   - component: {fileID: 6291701449579242839}
+  - component: {fileID: 6561509680665687403}
   m_Layer: 0
   m_Name: CardView
   m_TagString: Untagged
@@ -423,6 +424,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.6440258, y: 3.9191887, z: 1}
   m_Center: {x: 0.002895832, y: 0.0057920218, z: 0}
+--- !u!114 &6561509680665687403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4324763502435456098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34eff9f07d0ded24d8814c6a812c61ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Dissolve
+  _dissolveTime: 2
 --- !u!1 &6544398744844166984
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,7 +677,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: bd74fef84ac962048b592a3588746e42, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
