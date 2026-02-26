@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 //lets player draw [drawNum] cards
 public class DrawEffect : SpecialEffect
 {
@@ -21,22 +20,9 @@ public class DrawEffect : SpecialEffect
     }
     public CardData Execute(CombatManager cm, CardData card)
     {
-        for (int i = 0; i < Math.Min(drawNum, cm.Deck.drawPile.Count); i++)
+        for (int i = 0; i < drawNum; i++)
         {
             Debug.Log("Card drawn.");
-            CardData drawnData = cm.Deck.DrawCard();
-            if (drawnData != null)
-            {
-                //not robust yet
-                //no view in hand
-                //what if draw card drawn? several cards drawn? 
-                // yield return new WaitForSeconds(0.8f); //maybe add a little wait beforehand
-                cm.lastDrawnCard = drawnData;
-                CardView cardView = CardViewCreator.Instance.CreateCardView(drawnData, cm.transform.position, Quaternion.identity);
-                cm.StartCoroutine(HandView.Instance.AnimateCardToHand(cardView));
-                cm.dem.ResolveOnDraw(cm.lastDrawnCard);
-            }
-            cm.lastDrawnCard = null;
             //need to implement this
         }
         return card;
