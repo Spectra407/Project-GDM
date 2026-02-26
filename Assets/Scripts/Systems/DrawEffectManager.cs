@@ -1,35 +1,82 @@
 using UnityEngine;
 using System.Collections;
+using TMPro;
+
 // This script will contain all the On Draw effects for every card, ex: peek and what not.
 namespace Systems
 {
     public class DrawEffectManager : MonoBehaviour
     {   
         public CombatManager cm;
+        // [SerializeField] private GameObject calculatorPanel;
+        [SerializeField] private TMP_Text damageText;
+        [SerializeField] private TMP_Text blockText;
+        [SerializeField] private TMP_Text poisonText;
+        [SerializeField] private TMP_Text strengthText;
+        
         public int PendingDamage, PendingDefense, PendingStrength, PendingPoison;
         public int AttackNum, AttackBonus; //for strength calculations
         public int DamageMult = 1, DefenseMult = 1, StrengthMult = 1, PoisonMult = 1; //
         public void ResolveOnDraw(CardData card)
         {
-            bool shattered = ProcessMadness(card);
-            if (!shattered) //do rest of stuff if not shattered
-            {
-                Debug.Log("drew " + card.cardName);
-                CardData playedCard = ProcessSpecial(card);
-                ProcessPendingStats(playedCard);
-                ProcessPeeking(playedCard);
-                Debug.Log("Madness " + cm.madness + 
-                ", pending damage " + PendingDamage +  
-                ", pending defense " + PendingDefense + 
-                ", pending strength " + PendingStrength + 
-                ", pending poison " + PendingPoison);
+            // bool shattered = ProcessMadness(card);
+            // if (!shattered) //do rest of stuff if not shattered
+            Debug.Log("drew " + card.cardName);
+            CardData playedCard = ProcessSpecial(card);
+            ProcessPendingStats(playedCard);
+            ProcessPeeking(playedCard);
+            Debug.Log("Madness " + cm.madness + 
+            ", pending damage " + PendingDamage +  
+            ", pending defense " + PendingDefense + 
+            ", pending strength " + PendingStrength + 
+            ", pending poison " + PendingPoison);
 
-            }
-            else //else reset stats...
+            // UDATE THE UI CALCULATOR ACCORDING TO THE NEW VALUES.
+            damageText.text = PendingDamage + "\\U00002694";
+            blockText.text = PendingDefense + "\\U0001F6E1";
+            poisonText.text = PendingPoison + "\\U0001F9EA";
+            strengthText.text = PendingStrength + "\\U0001F4AA";
+
+            if (PendingDamage <= 0)
             {
-                Reset();
+                damageText.gameObject.SetActive(false);
             }
-            // Check if Alice.freeze is 0, if yes increment madness before resolving any other on draw card effects, else lower FreezeMadness by 1.            
+            else
+            {
+                damageText.gameObject.SetActive(true);
+            }
+
+            if (PendingDefense <= 0)
+            {
+                blockText.gameObject.SetActive(false);
+            }
+            else
+            {
+                blockText.gameObject.SetActive(true);
+            }
+            
+            if (PendingPoison <= 0)
+            {
+                poisonText.gameObject.SetActive(false);
+            }
+            else
+            {
+                poisonText.gameObject.SetActive(true);
+            }
+            
+            if (PendingStrength <= 0)
+            {
+                strengthText.gameObject.SetActive(false);
+            }
+            else
+            {
+                strengthText.gameObject.SetActive(true);
+            }
+
+            
+            
+
+
         }
 
         public void Reset() //reset all pending stats, etc. should be called at resolvestand?
@@ -47,30 +94,14 @@ namespace Systems
             DefenseMult = 1;
             StrengthMult = 1;
             PoisonMult = 1;
+            
+            damageText.gameObject.SetActive(false);
+            blockText.gameObject.SetActive(false);
+            poisonText.gameObject.SetActive(false);
+            strengthText.gameObject.SetActive(false);
         }
 
-        private bool ProcessMadness(CardData card) //adds madness of card to player's madness
-        {
-            cm.madness += card.madness;
-
-            return CheckMadness();
-        }
-
-        public bool CheckMadness() //checks if madness level is exceeded and shatters accordingly. 
-        {
-             if (cm.madness > cm.alice.maxMadness)
-            {
-                Debug.Log("Shatter!"); //return state. once is shatters need to also reset this and recalculate with just the card to keep.
-                cm.StartCoroutine(DelayedShatter());
-                return true;
-                //ig also make sure turn logic is good
-            }
-            else
-            {
-                return false;
-            }
-        }
-        private CardData ProcessSpecial(CardData card) //trigger special effects based on card ID
+        private void ProcessSpecial(CardData card) //trigger special effects based on card ID
         {
             if (card.effect != null)
             {
@@ -87,14 +118,7 @@ namespace Systems
             ProcessPendingDamage(card);
             ProcessPendingDefense(card);
         }
-        private void ProcessPeeking(CardData card) //if card allows you to peek, trigger that
-        {
-            if (card.peek > 0)
-            {
-                Debug.Log("Peek");
-                cm.PushNewState("Peeking");
-            }
-        }
+        
         private void ProcessPendingDamage(CardData card) //deals with damage bonus too
         {
             PendingDamage += DamageMult * card.damage;
@@ -117,11 +141,7 @@ namespace Systems
         {
             PendingPoison += PoisonMult * card.poison;
         }
-        private IEnumerator DelayedShatter()
-        {
-            yield return new WaitForEndOfFrame(); 
-            cm.MoveToNewState("Shattering");
-        }
+        
 
     }
 }

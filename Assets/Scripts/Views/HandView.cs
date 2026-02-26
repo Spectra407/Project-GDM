@@ -98,6 +98,9 @@ public class HandView : Singleton<HandView>
     
     public void ClearHand()
     {
+        // Stop the bug where if you clear the hand while hovering over the card, the hover persists.
+        CardViewHoverSystem.Instance.Hide();
+        
         // Loop through all active cards in the hand
         foreach (var card in handCardViews)
         {

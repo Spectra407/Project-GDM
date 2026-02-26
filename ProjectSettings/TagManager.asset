@@ -11,8 +11,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - CardStuff
+  - Peek UI
   - 
   - 
   - 
@@ -38,8 +38,14 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 1641920529
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: CombatButtons
+    uniqueID: 2153353501
     locked: 0
   - name: Cards
     uniqueID: 398515027

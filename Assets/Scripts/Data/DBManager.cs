@@ -49,48 +49,14 @@ public class CardDB : MonoBehaviour
         int peek = Int32.Parse(fields[9]);
         int madness = Int32.Parse(fields[10]);
 
-        //card.art = fields[11]; 
-        //need to change so it looks for file
-        //placeholder art
-        //maybe use addressables later
-        Sprite art = Resources.Load<Sprite>("" + "sample-art");
+            //card.art = fields[11]; 
+            //need to change so it looks for file
+            //placeholder art
+            //maybe use addressables later
+            card.art = Resources.Load<Sprite>("" + "sample-art");
 
-        
-        SpecialEffect effect = parseEffect(fields[12]);
-
-        CardData card = CardData.CreateCard(cardID, cardName, description, jackpot, cardType, damage, strength, defense, poison, peek, madness, art, effect);   
-        return card;
+            card.effect = (fields[12]);
+            cards.Add(card);
+        }
     }
-    private SpecialEffect parseEffect(string line) //uses effect registry to get special effect from string 
-    {
-        string[] fields = line.Split("_");
-        if (fields[0] != null)
-        {
-            SpecialEffect effect = EffectRegistry.Create(fields[0], fields[1..]); //need to figure out what to do if no additional args
-            return effect;
-
-        } 
-        else return null;
-    }
-
-        /*
-            idea: make a bunch of scripts for all the effects
-            have dictionary effect ID : function that does something
-            can parse out shit then
-
-            MULT_DMG_5 -> look up MULT in dictionary to get function
-            this function then takes field 1 (DMG) and multiplies if by field 2 (5)
-            have an add effect function that cards run when loaded
-            this parses out stuff and adds the features
-
-            MULT_type_amt: multiplies [type] (damage, etc) by [amt]
-            PER_type_amt: gain [# of cards] x [amt] of [type]
-            DRAW_amt: draw [amt] cards
-            DIS_type: can no longer gain [type] this turn
-            COPY: copy previous card's effect
-            EQ_type1_type2: gain [type1] equal to [type2]
-            MAD_amt: set madness to [amt]
-            SHUFFLECARD_amt: shuffle [amt] cards from your hand into your deck
-            SHUFFLEHAND: if you want, shuffle hand into your deck
-        */
 }

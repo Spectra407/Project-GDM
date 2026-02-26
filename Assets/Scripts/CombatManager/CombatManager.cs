@@ -22,6 +22,9 @@ public class CombatManager : MonoBehaviour
     public int enemyCurrentHealth;
     public int enemyDefense;
     public int enemyStrength;
+    // These two will be used to save the Enemy choice in EnemyChooseActionState and call them later in EnemyTurnState
+    public int enemyIndexMove;  
+    public EnemyMove enemyChosenMove;
 
     [Header("State Tracking")]
     private ITurnState currentState; 
@@ -36,6 +39,10 @@ public class CombatManager : MonoBehaviour
     public HandView Hand => HandView.Instance;
 
     private bool _isTransitioning = false; // Magic to prevent infinite loops
+    
+    [Header("Enemy Dice/Text")]
+    public DiceManager diceManager;
+    public TMPro.TMP_Text moveText;
 
     void Start()
     {
@@ -46,7 +53,8 @@ public class CombatManager : MonoBehaviour
         jackpot = false;
 
         // Kick off the game loop
-        MoveToNewState("ChoosingAction");
+        MoveToNewState("EnemyChooseActionState");
+        // This will have to start at EnemyChooseAction instead, which then MoveToNewState("ChoosingAction");
     }
 
     void Update()
@@ -104,6 +112,7 @@ public class CombatManager : MonoBehaviour
     {
         Debug.Log($"CombatManager: ReturnToLastState called from {currentState.GetType().Name}");
         
+        
         if (_isTransitioning || states.Count <= 1) return;
 
         _isTransitioning = true; 
@@ -113,8 +122,10 @@ public class CombatManager : MonoBehaviour
             if (currentState != null) currentState.Exit();
             states.Pop();
             
+            
             currentState = states.Peek();
             CurrentStateName = currentState.GetType().Name; // Resuming the card check logic
+            Debug.Log($"CombatManager: Switched to {CurrentStateName}");
             
             currentState.Enter(); 
         }
@@ -129,12 +140,14 @@ public class CombatManager : MonoBehaviour
     {
         switch (id)
         {
+            // add case "EnemyChooseAction": return new EnemyChooseActionState(this);
             case "ChoosingAction":  return new ChoosingActionState(this);
             case "HandlingCard":   return new HandlingCardState(this);
             case "Peeking":        return new PeekingState(this);
             case "Shattering":     return new ShatteringState(this);
             case "EvaluatingCards": return new EvaluatingCardsState(this);
             case "EnemyTurn":       return new EnemyTurnState(this);
+            case "EnemyChooseActionState": return new EnemyChooseActionState(this, diceManager);
             default:
                 Debug.LogError($"Unknown State ID: {id}");
                 return new ChoosingActionState(this);
