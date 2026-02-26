@@ -74,6 +74,7 @@ namespace Systems
             AttackBonus = 0;
             AttackNum = 0;
             cm.madness = 0;
+            // cm.jackpot = false;
             
             damageText.gameObject.SetActive(false);
             blockText.gameObject.SetActive(false);
@@ -83,6 +84,8 @@ namespace Systems
 
         public void ProcessJackpot()
         {
+            if (cm.jackpot) return;
+            
             if (cm.madness == cm.alice.maxMadness && !cm.jackpot) // jackpot!
             {
                 cm.jackpot = true;
