@@ -12,4 +12,6 @@ public class EnemyData : ScriptableObject
 
     [Header("Moves")]
     public EnemyMove[] moves;
+
+    public string[] moveText;
 }

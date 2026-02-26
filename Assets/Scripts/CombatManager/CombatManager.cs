@@ -38,8 +38,10 @@ public class CombatManager : MonoBehaviour
     public HandView Hand => HandView.Instance;
 
     private bool _isTransitioning = false; // Magic to prevent infinite loops
-
+    
+    [Header("Enemy Dice/Text")]
     public DiceManager diceManager;
+    public TMPro.TMP_Text moveText;
 
     void Start()
     {
