@@ -38,6 +38,7 @@ namespace Systems
             PendingDefense = 0;
             PendingStrength = 0;
             PendingPoison = 0;
+            cm.madness = 0;
 
             AttackBonus = 0;
             AttackNum = 0;

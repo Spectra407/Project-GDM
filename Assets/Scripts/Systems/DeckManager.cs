@@ -18,7 +18,7 @@ namespace Systems
         void Start()
         {
             //for now, have currentDeck initialized with list of cards here (by cardID). Can store this in separate file later or have it as card metadata from csv.
-            int[] cards = {26, 23, 3};
+            int[] cards = {3, 26, 23, 3};
             //to test out:
             //draw
             //shuffles
@@ -40,7 +40,7 @@ namespace Systems
         }
     
         // Reshuffle all cards in the deck
-        private void ShuffleAll(List<CardData> deck)
+        public void ShuffleAll(List<CardData> deck)
         {
             for (int i = deck.Count - 1; i > 0; i--)
             {

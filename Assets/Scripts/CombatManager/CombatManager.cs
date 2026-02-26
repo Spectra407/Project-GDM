@@ -9,6 +9,7 @@ public class CombatManager : MonoBehaviour
     public int currentHealth;
     public int tempDefense;
     public int madness;
+    public bool jackpot;
     //maybe move these into alice later
     public int strength;
     public int poison;
@@ -42,6 +43,7 @@ public class CombatManager : MonoBehaviour
         currentHealth = alice.currentHealth;
         madness = alice.startingMadness;
         enemyCurrentHealth = enemy.maxHealth;
+        jackpot = false;
 
         // Kick off the game loop
         MoveToNewState("ChoosingAction");
