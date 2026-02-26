@@ -16,33 +16,34 @@ MonoBehaviour:
   maxHealth: 50
   enemySprite: {fileID: 0}
   moves:
-  - moveType: 1
-    damage: 5
+  - damage: 5
     block: 0
     strength: 0
     madness: 0
-  - moveType: 1
-    damage: 8
+  - damage: 8
     block: 0
     strength: 0
     madness: 0
-  - moveType: 1
-    damage: 10
+  - damage: 10
     block: 0
     strength: 0
     madness: 0
-  - moveType: 2
-    damage: 0
+  - damage: 0
     block: 10
     strength: 0
     madness: 0
-  - moveType: -1
-    damage: 0
+  - damage: 0
     block: 0
     strength: 1
-    madness: 1
-  - moveType: 3
-    damage: 0
+    madness: 2
+  - damage: 0
     block: 0
     strength: 2
     madness: 0
+  moveText:
+  - 5 \\U00002694
+  - 8 \\U00002694
+  - 10 \\U00002694
+  - 10 \\U0001F6E1
+  - +2 MADNESS. 1 \\U0001F4AA
+  - 2 \\U0001F4AA

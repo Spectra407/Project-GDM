@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
+using TMPro;
 
 public class EnemyChooseActionState : ITurnState
 {
@@ -44,6 +45,7 @@ public class EnemyChooseActionState : ITurnState
         // PLAY THE CHOSEN INTEGER'S DICE ANIMATION, for now use a placeholder video or smtn
         // UPDATE THE TOP LEFT UI WITH THE CORRECT DICE IMAGE
         // DISPLAY THE DESCRIPTION OF THE CURRENT DICE ATTACK ON THE RIGHT OF THE DICE IMAGE
+        _cm.moveText.text = _cm.enemy.moveText[_cm.enemyIndexMove];
         
         // Wait another moment so the player sees the result
         yield return new WaitForSeconds(1.0f);
