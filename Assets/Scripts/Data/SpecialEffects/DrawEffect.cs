@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 //lets player draw [drawNum] cards
 public class DrawEffect : SpecialEffect
 {
@@ -21,7 +20,7 @@ public class DrawEffect : SpecialEffect
     }
     public CardData Execute(CombatManager cm, CardData card)
     {
-        for (int i = 0; i < Math.Min(drawNum, cm.Deck.drawPile.Count); i++)
+        for (int i = 0; i < drawNum; i++)
         {
             Debug.Log("Card drawn.");
             /* commented out for now

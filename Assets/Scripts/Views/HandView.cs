@@ -83,7 +83,6 @@ public class HandView : Singleton<HandView>
         {
             DeckManager.Instance.RecycleToDrawPile(recycledCard);
         }
-        //need to reshuffle cards?
         
         // Reset the information with only the survivor
         handCardViews.Clear();  // Remove null objects since we Destroyed the gameobjects.

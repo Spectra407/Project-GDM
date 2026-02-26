@@ -23,11 +23,8 @@ public class ShuffleHandEffect : SpecialEffect
         if (shuffling)
         {
             Debug.Log("Shuffling hand...");
-            cm.Hand.ClearHand(); //put back into drawpile
-            cm.Hand.handCardViews.Clear();
-            cm.Deck.ShuffleAll(cm.Deck.drawPile); //shuffle cards
-            cm.dem.Reset(); //reset all pending stats, etc.
-
+            //can look at shatter for similar, put all cards back into hand
+            //reset DrawEffectManager
         }
         return card;
     }

@@ -25,9 +25,7 @@ public class ShuffleCardEffect : SpecialEffect
         for (int i = 0; i < shuffleNum; i++)
         {
             Debug.Log("choose a card to shuffle into your deck");
-            
-            //let player click card... wrap inside function later?
-
+            //again, need to implement this. detect a click and have it go back in. are there functions in deck manager for this?gi
         }
         return card;
     }   
