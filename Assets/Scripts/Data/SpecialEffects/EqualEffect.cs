@@ -21,11 +21,18 @@ public class EqualEffect : SpecialEffect
     {
         type1 = t1;
         type2 = t2;
+
     }
     public CardData Execute(CombatManager cm, CardData card)
     {
         //need to add check for dict
         cm.dem.PendingStats[type1] += cm.dem.PendingStats[type2];
+        //update attack count
+        if (cm.dem.DisStats[CardData.CardType.Damage] > 0 && type1 is CardData.CardType.Damage)
+        {
+            cm.dem.AttackNum++;
+        }
+
         return card;
     }
 

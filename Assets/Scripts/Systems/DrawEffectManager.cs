@@ -85,7 +85,7 @@ namespace Systems
         public void ProcessJackpot()
         {
             if (cm.jackpot) return;
-            
+
             if (cm.madness == cm.alice.maxMadness && !cm.jackpot) // jackpot!
             {
                 cm.jackpot = true;
@@ -130,11 +130,12 @@ namespace Systems
                 AttackNum++;
             }
 
-            AttackBonus = AttackNum * (cm.strength + PendingStats[CardData.CardType.Damage]);
+            AttackBonus = AttackNum * (cm.strength + PendingStats[CardData.CardType.Strength]);
         }
         private void ProcessPendingDefense (CardData card)
         {
             PendingStats[CardData.CardType.Defense] += DisStats[CardData.CardType.Defense] * card.defense;   
+            //what about losing defense...
         }
         private void ProcessPendingStrength(CardData card)
         {
@@ -151,6 +152,7 @@ namespace Systems
             ", pending damage " + PendingStats[CardData.CardType.Damage] +  
             ", pending defense " + PendingStats[CardData.CardType.Defense] + 
             ", pending strength " + PendingStats[CardData.CardType.Strength] + 
+            ", number of attacks " + AttackNum +
             ", pending poison " + PendingStats[CardData.CardType.Poison]);
 
             // UDATE THE UI CALCULATOR ACCORDING TO THE NEW VALUES.

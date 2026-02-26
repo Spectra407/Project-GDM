@@ -25,7 +25,12 @@ public class PerEffect : SpecialEffect
     public CardData Execute(CombatManager cm, CardData card)
     {
         //need to put check for dict
-        cm.dem.PendingStats[cardtype] += cm.Hand.handCardViews.Count * multiplier;
+        cm.dem.PendingStats[cardtype] += cm.Hand.handCardViews.Count * multiplier * cm.dem.DisStats[cardtype];
+        //update attack count
+        if (cm.Hand.handCardViews.Count * multiplier * cm.dem.DisStats[cardtype] > 0 && cardtype is CardData.CardType.Damage)
+        {
+            cm.dem.AttackNum++;
+        }
         return card;
     }
 }

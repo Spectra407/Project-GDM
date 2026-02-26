@@ -27,6 +27,12 @@ public class MultiplierEffect : SpecialEffect
     {
         //need to put check for dict
         cm.dem.PendingStats[cardtype] *= multiplier;
+        //update attack count
+        if (cm.dem.DisStats[CardData.CardType.Damage] > 0 && cardtype is CardData.CardType.Damage)
+        {
+            cm.dem.AttackNum++;
+        }
+
         return card;
     }
 

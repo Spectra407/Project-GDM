@@ -19,7 +19,7 @@
 17,Detached Head,2 🛡️ per card,-1,Defense,0,0,0,0,0,0,,PER_DEF_2,
 18,Wide Grin,Copy the previous card,-1,Other,0,0,0,0,0,0,,COPY,
 19,The Mushroomâ€™s Edge,5 ⚔️ 1 👁️,-1,Other,5,0,0,0,1,0,,,
-20,Pupa Shell,10 🛡️,-1,Other,10,0,0,0,0,0,,,
+20,Pupa Shell,10 🛡️,-1,Other,0,0,10,0,0,0,,,
 21,Shell Smash,Deal ⚔️ equal to your 🛡️,-1,Damage,0,0,0,0,0,0,Attack,EQ_DMG_DEF,
 22,Relaxing Exhale,Set your MADNESS to 4,-1,Other,0,0,0,0,0,0,,MAD_4,
 23,Frozen Time,Shuffle a card in your hand back into your deck.,-1,Other,0,0,0,0,0,0,,SHUFFLECARD_1,
