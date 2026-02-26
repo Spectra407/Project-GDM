@@ -66,7 +66,7 @@ public class EnemyTurnState : ITurnState
     {
         if (move.damage != 0)
         {
-            Debug.Log($"The Card Soldier stabs Alice for {move.damage} - {_cm.tempDefense} damage!");
+            Debug.Log($"The Card Soldier stabs Alice for {move.damage} + {_cm.enemyStrength} - {_cm.tempDefense} damage!");
             AliceTakeDamage(move.damage + _cm.enemyStrength);
             Debug.Log($"Alice Health: {_cm.currentHealth}");
         }
