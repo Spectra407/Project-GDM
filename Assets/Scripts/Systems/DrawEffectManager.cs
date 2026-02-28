@@ -55,7 +55,7 @@ namespace Systems
             UpdateUI();
         }
 
-        public void Reset() //reset all pending stats, etc. should be called at resolvestand?
+        public void ResetForJackpot() // Called after hitting Jackpot to recalculate all cards, does not reset Madness and Jackpot!
         {
             PendingStats[CardData.CardType.Damage] = 0;
             PendingStats[CardData.CardType.Defense] = 0;
@@ -74,8 +74,37 @@ namespace Systems
 
             AttackBonus = 0;
             AttackNum = 0;
+
+            damageText.gameObject.SetActive(false);
+            blockText.gameObject.SetActive(false);
+            poisonText.gameObject.SetActive(false);
+            strengthText.gameObject.SetActive(false);
+        }
+        
+        public void ResetForStand() // Called during ResolveOnStand in StandEffectManager and when you Shatter in HandlingCardState, resets everything properly
+        {
+            PendingStats[CardData.CardType.Damage] = 0;
+            PendingStats[CardData.CardType.Defense] = 0;
+            PendingStats[CardData.CardType.Poison] = 0;
+            PendingStats[CardData.CardType.Strength] = 0;
+            
+            MultStats[CardData.CardType.Damage] = 1;
+            MultStats[CardData.CardType.Defense] = 1;
+            MultStats[CardData.CardType.Poison] = 1;
+            MultStats[CardData.CardType.Strength] = 1;
+
+            DisStats[CardData.CardType.Damage] = 1;
+            DisStats[CardData.CardType.Defense] = 1;
+            DisStats[CardData.CardType.Poison] = 1;
+            DisStats[CardData.CardType.Strength] = 1;
+
+            AttackBonus = 0;
+            AttackNum = 0;
+
+              
             cm.madness = 0;
-            // cm.jackpot = false;
+            cm.jackpot = false;
+            
 
             damageText.gameObject.SetActive(false);
             blockText.gameObject.SetActive(false);
@@ -92,7 +121,7 @@ namespace Systems
                 cm.jackpot = true;
                 Debug.Log("You hit the jackpot!");
 
-                Reset();
+                ResetForJackpot();
                 
                 List<CardData> cards = cm.Hand.GetHandData();
                 //iterate through hand, replacing all cards with jackpots and reprocess resolve on draw...

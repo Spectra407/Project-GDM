@@ -19,8 +19,9 @@ namespace Systems
                       + cm.dem.PendingStats[CardData.CardType.Poison] + " poison. Dealt " 
                       + (cm.dem.PendingStats[CardData.CardType.Damage] + cm.dem.AttackBonus + cm.poison) + " damage. Poison decayed to " 
                       + cm.poison + ".");
-            cm.dem.Reset();
+            cm.dem.ResetForStand();
         }
+        
         private void UpdateStrength(int strength)
         {
             cm.strength += strength;
