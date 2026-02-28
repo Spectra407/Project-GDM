@@ -1,15 +1,33 @@
+using Data.SpecialEffects;
 using UnityEngine;
 //sets madness to [madnessLevel]
 public class MadnessEffect : SpecialEffect
 {
     private int madnessLevel;
+    [RuntimeInitializeOnLoadMethod]
+    static void Register()
+    {
+        EffectRegistry.Register("MAD", args =>
+            new MadnessEffect(
+                int.Parse(args[0])
+            )
+        );
+    }
     public MadnessEffect(int madness)
     {
         madnessLevel = madness;
     }
-    public void Execute(CombatManager cm, CardData card)
+    public CardData  Execute(CombatManager cm, CardData card)
     {
-        cm.madness = madnessLevel;
-        // cm.dem.CheckMadness();   Unnecessary check
+        if (cm.madness != madnessLevel)
+        {
+            cm.madness = madnessLevel;
+            //mASSUMING MADNESS NEVER EXCEEDS MAXMADNESS
+            cm.dem.ProcessJackpot();
+            //if madness decreases do we still play sound effect?
+            cm.OnMirrorCrack.Invoke();
+        }
+        
+        return card;
     }
 }
