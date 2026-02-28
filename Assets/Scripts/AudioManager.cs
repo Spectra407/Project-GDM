@@ -83,6 +83,7 @@ public class AudioManager : MonoBehaviour
         CombatManager cm = (CombatManager) FindAnyObjectByType(typeof(CombatManager));
 
         if (cm.madness <= cm.alice.maxMadness) {
+            Debug.Log("Playing mirror crack sound number " + (cm.madness - 1));
             PlaySound(mirrorCracks[cm.madness - 1]);
         }
         else

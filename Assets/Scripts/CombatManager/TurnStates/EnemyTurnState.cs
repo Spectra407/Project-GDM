@@ -86,8 +86,8 @@ public class EnemyTurnState : ITurnState
         if (move.madness != 0)
         {
             Debug.Log($"The Card Soldier inflicts {move.madness} madness upon you!");
-            _cm.OnMirrorCrack.Invoke();
             _cm.madness += move.madness;
+            _cm.OnMirrorCrack.Invoke();
         }
     }
 
