@@ -8,7 +8,9 @@ namespace Systems
 {
     public class DrawEffectManager : MonoBehaviour
     {   
+        private bool isProcessing = false;
         public CombatManager cm;
+        
         // [SerializeField] private GameObject calculatorPanel;
         [SerializeField] private TMP_Text damageText;
         [SerializeField] private TMP_Text blockText;
@@ -114,9 +116,10 @@ namespace Systems
 
         public void ProcessJackpot()
         {
-            if (cm.jackpot) return;
+            if (isProcessing) return; // Exit if we are already in the middle of a recalculation
+            isProcessing = true;
 
-            if (cm.madness == cm.alice.maxMadness && !cm.jackpot) // jackpot!
+            if (cm.madness == cm.alice.maxMadness && !cm.jackpot) // Hit jackpot!
             {
                 cm.jackpot = true;
                 Debug.Log("You hit the jackpot!");
@@ -132,6 +135,21 @@ namespace Systems
                     ResolveOnDraw(cards[i]);
                 }
             }
+            else if (cm.madness != cm.alice.maxMadness && cm.jackpot)   // Fell out of jackpot, lost jackpot status
+            {
+                cm.jackpot = false;
+                Debug.Log("Fell out of jackpot :(");
+                ResetForJackpot();
+
+                List<CardData> cards = cm.Hand.GetHandData();
+                //iterate through hand, replacing all cards with normal non-jackpot and reprocess resolve on draw...
+                for (int i = 0; i < cards.Count; i++)
+                {
+                    ResolveOnDraw(cards[i]); 
+                }
+            }
+
+            isProcessing = false;
             // need to add logic for if you fall out of jackpot
             
         }
