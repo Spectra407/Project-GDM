@@ -45,8 +45,7 @@ namespace Systems
         public void ResolveOnDraw(CardData card)
         {
             Debug.Log("drew " + card.cardName);
-
-            ProcessSpecial(card);
+            
             if (cm.jackpot) //if currently jackpot and drew jackpot card, replace with jackpot card
             {
                 card = card.getJackpot();

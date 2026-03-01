@@ -29,6 +29,7 @@ namespace Data.SpecialEffects
         public CardData Execute(CombatManager cm, CardData card)
         {
             //need to add check for dict
+            Debug.Log("Added current defense" + cm.dem.PendingStats[type2] + " to pending damage"  + cm.dem.PendingStats[type1]);
             cm.dem.PendingStats[type1] += cm.dem.PendingStats[type2];
             //update attack count
             if (cm.dem.DisStats[CardData.CardType.Damage] > 0 && type1 is CardData.CardType.Damage)
