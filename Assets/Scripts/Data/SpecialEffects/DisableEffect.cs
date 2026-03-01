@@ -24,6 +24,7 @@ public class DisableEffect : SpecialEffect
         //need to add check for dict
         Debug.Log(cardType + " disabled.");
         cm.dem.DisStats[cardType] = 0;
+        cm.dem.PendingStats[cardType] = 0;  // Reset the disabled stat too
         return card;
     }
 }

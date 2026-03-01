@@ -23,17 +23,18 @@ namespace Systems
         void Start()
         {
             //for now, have currentDeck initialized with list of cards here (by cardID). Can store this in separate file later or have it as card metadata from csv.
-            int[] cards = {0, 1, 2, 3, 3, 3, 4, 4, 5, 6, 10};
+            int[] cards = {0, 1, 2, 10, 14, 22, 22, 25, 25, 29};
             //to test out:
-            //poison
-            //strength
-            //draw
-            //copy
-            //per
-            //mult
-            //madness
-            //shuffles
-            //disable
+            //poison - GOOD
+            //strength - GOOD
+            //draw - Need to implement
+            //copy - Need to process current card with the CardData of previous card
+            //per - Need to apply for all future too
+            //mult - Need to apply for all future too
+            //madness - Need to implement "falling out of jackpot" (ex: at 7 but then set to 4)
+            //shuffles - Need to implement
+            //disable - GOOD
+            //equal - TEST
             for (int i = 0; i < cards.Length; i++)
             {
                 currentDeck.Add(cardDB.cards[cards[i]]);

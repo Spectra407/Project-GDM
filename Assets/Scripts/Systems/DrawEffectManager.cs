@@ -131,8 +131,9 @@ namespace Systems
                     cards[i] = cards[i].getJackpot();
                     ResolveOnDraw(cards[i]);
                 }
-                //need logic for if player falls out of jackpot...
             }
+            // need to add logic for if you fall out of jackpot
+            
         }
         private CardData ProcessSpecial(CardData card) //trigger special effects based on card ID
         {
