@@ -27,7 +27,15 @@ public class CopyEffect : SpecialEffect
         }
         else
         {
-            CardData copiedCard = cards[cards.Count - 2];
+            CardData copiedCard;
+            if (cm.jackpot)
+            {
+                copiedCard = cards[cards.Count - 2].getJackpot();
+            }
+            else
+            {
+                copiedCard = cards[cards.Count - 2];
+            }
             Debug.Log("Copied card: " + copiedCard.cardName);
             //do we need to make sure to skip rest of current iteration?
             return copiedCard;
