@@ -34,7 +34,7 @@ namespace Systems
             //madness - GOOD
             //shuffles - Need to implement
             //disable - GOOD
-            //equal - Need to test
+            //equal - GOOD
             for (int i = 0; i < cards.Length; i++)
             {
                 currentDeck.Add(cardDB.cards[cards[i]]);
