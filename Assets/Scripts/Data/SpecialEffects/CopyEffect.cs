@@ -19,10 +19,13 @@ public class CopyEffect : SpecialEffect
     public CardData Execute(CombatManager cm, CardData card)
     {
         List<CardData> cards = cm.Hand.GetHandData();
+        
+        // Index of the card that triggered the copy
+        int index = cards.FindIndex(c => c.InstanceID == card.InstanceID);  
 
-        if (cards.Count < 2) //no previous card to copy
+        if (index <= 0) 
         {
-            Debug.Log("No card copied: not enough cards in hand.");
+            Debug.Log("No valid card behind this instance.");
             return card;
         }
         else
@@ -30,14 +33,13 @@ public class CopyEffect : SpecialEffect
             CardData copiedCard;
             if (cm.jackpot)
             {
-                copiedCard = cards[cards.Count - 2].getJackpot();
+                copiedCard = cards[index - 1].getJackpot();
             }
             else
             {
-                copiedCard = cards[cards.Count - 2];
+                copiedCard = cards[index - 1];
             }
             Debug.Log("Copied card: " + copiedCard.cardName);
-            //do we need to make sure to skip rest of current iteration?
             return copiedCard;
         }
     }

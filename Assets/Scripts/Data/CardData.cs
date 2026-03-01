@@ -9,6 +9,7 @@ public class CardData : ScriptableObject
     public int cardID; //unique ID
     public string cardName;     //cardName will be used as and ID to trigger the card's effect.
     public string description;
+    public string InstanceID = System.Guid.NewGuid().ToString();    // Instance ID unique to each card instance (to differentiate duplicates)
 
     [Header("Card Type for Visual Changes")]
     public int jackpot; //cardID of jackpot version of card, -1 if NA
