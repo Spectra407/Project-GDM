@@ -39,6 +39,13 @@ public class CopyEffect : SpecialEffect
             {
                 copiedCard = cards[index - 1];
             }
+
+            if (copiedCard.cardType.Contains(CardData.CardType.Bomb))
+            {
+                // Don't copy bombs
+                Debug.Log("Previous card is a bomb, skip copy effect");
+                return card;
+            }
             Debug.Log("Copied card: " + copiedCard.cardName);
             return copiedCard;
         }
