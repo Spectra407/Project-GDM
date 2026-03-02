@@ -31,6 +31,8 @@ public class CombatManager : MonoBehaviour
     private ITurnState currentState; 
     private Stack<ITurnState> states = new Stack<ITurnState>();
     public string CurrentStateName { get; private set; }
+    public bool isDrawing = false;
+    public int pendingDraws = 0;
 
     [Header("Active Card Data")]
     public CardData lastDrawnCard;

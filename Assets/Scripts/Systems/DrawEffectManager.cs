@@ -9,6 +9,7 @@ namespace Systems
     public class DrawEffectManager : MonoBehaviour
     {   
         private bool isProcessing = false;
+        public bool isRecalculating = false;
         public CombatManager cm;
         
         // [SerializeField] private GameObject calculatorPanel;
@@ -128,11 +129,13 @@ namespace Systems
                 List<CardData> cards = cm.Hand.GetHandData();
                 //iterate through hand, replacing all cards with jackpots and reprocess resolve on draw...
                 //UNDER THE ASSUMPTION THIS IS ALL THAT CHANGES FOR CARDS. DOES NOT TAKE INTO ACCOUNT MADNESS, WEIRD EFFECTS THAT INTERUPT GAMEFLOW (DRAW ETC), SO ON
+                isRecalculating = true;
                 for (int i = 0; i < cards.Count; i++)
                 {
                     cards[i] = cards[i].getJackpot();
                     ResolveOnDraw(cards[i]);
                 }
+                isRecalculating = false;
             }
             else if (cm.madness != cm.alice.maxMadness && cm.jackpot)   // Fell out of jackpot, lost jackpot status
             {
@@ -142,10 +145,12 @@ namespace Systems
 
                 List<CardData> cards = cm.Hand.GetHandData();
                 //iterate through hand, replacing all cards with normal non-jackpot and reprocess resolve on draw...
+                isRecalculating = true;
                 for (int i = 0; i < cards.Count; i++)
                 {
                     ResolveOnDraw(cards[i]); 
                 }
+                isRecalculating = false;
             }
 
             isProcessing = false;

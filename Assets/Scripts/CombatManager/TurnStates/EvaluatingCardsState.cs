@@ -13,6 +13,8 @@ public class EvaluatingCardsState : ITurnState
 
     public void Enter()
     {
+        _cm.pendingDraws = 0;      
+        _cm.isDrawing = false;
         // Evaluate damage and defense of cards in hand
         _cm.StartCoroutine(DelayedEvaluationSequence());
 

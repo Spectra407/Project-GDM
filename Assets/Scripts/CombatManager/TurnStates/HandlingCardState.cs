@@ -16,20 +16,21 @@ public class HandlingCardState : ITurnState
 
     public void Enter()
     {
+        _currentPhase = Phase.Start;
         Debug.Log("Current phase is " + _currentPhase);
-        
-        // Exit if there's no card data to process (ex: Draw an empty deck)
+        _cm.StartCoroutine(EnterNextFrame());
+    }
+
+    private IEnumerator EnterNextFrame()
+    {
+        yield return null; // wait one frame for lastDrawnCard to be set by DrawOne
+    
         if (_cm.lastDrawnCard == null)
         {
             _cm.MoveToNewState("ChoosingAction");
-            return;
+            yield break;
         }
-        
-        if (_currentPhase == Phase.Start || _currentPhase == Phase.CheckingPeek)
-        {
-            // Increment madness and check for shatter, then resolve on draw effects and check for peek
-            ProcessDraw();
-        }
+        ProcessDraw();
     }
 
     private void ProcessDraw()
@@ -78,9 +79,14 @@ public class HandlingCardState : ITurnState
 
     public void FinishTurn()
     {
+        Debug.Log($"FinishTurn called. pendingDraws = {_cm.pendingDraws}, isDrawing = {_cm.isDrawing}");
         _currentPhase = Phase.Done;
-        _cm.lastDrawnCard = null; // Clear the data for the next draw
-        _cm.MoveToNewState("ChoosingAction");
+        _cm.lastDrawnCard = null;
+    
+        if (_cm.pendingDraws > 0)
+            DrawEffect.DrawNext(_cm); // Draw the next queued card
+        else
+            _cm.MoveToNewState("ChoosingAction");
     }
     
     

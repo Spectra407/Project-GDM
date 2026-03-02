@@ -25,19 +25,9 @@ public class ChoosingActionState : ITurnState
 
     private void PerformHit()
     {
-        // Yoink data from the deck
-        CardData drawnData = _cm.Deck.DrawCard();
-
-        if (drawnData != null)
-        {
-            // Store the data and create the card in your hand.
-            _cm.lastDrawnCard = drawnData;
-            
-            CardView cardView = CardViewCreator.Instance.CreateCardView(drawnData, _cm.transform.position, Quaternion.identity);
-            _cm.StartCoroutine(HandView.Instance.AnimateCardToHand(cardView));
-            
-            _cm.MoveToNewState("HandlingCard");
-        }
+        _cm.pendingDraws += 1;
+        DrawEffect.DrawNext(_cm);   
+        // Reusing DrawEffect.cs to simulate a Draw 1, ported over old system here into DrawEffect.cs
     }
 
     private void PerformStand()
