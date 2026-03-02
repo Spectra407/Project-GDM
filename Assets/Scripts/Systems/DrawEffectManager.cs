@@ -152,7 +152,7 @@ namespace Systems
             // need to add logic for if you fall out of jackpot
             
         }
-        private CardData ProcessSpecial(CardData card) //trigger special effects based on card ID
+        public CardData ProcessSpecial(CardData card) //trigger special effects based on card ID
         {
             if (card.effect != null)
             {

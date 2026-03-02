@@ -23,12 +23,12 @@ namespace Systems
         void Start()
         {
             //for now, have currentDeck initialized with list of cards here (by cardID). Can store this in separate file later or have it as card metadata from csv.
-            int[] cards = {18,4,6};
+            int[] cards = {18,10,1};
             //to test out:
             //poison - GOOD
             //strength - GOOD
             //draw - Need to implement
-            //copy - Need to process current card with the CardData of previous card
+            //copy - Need to retrigger special effects of copied cards too and not just the stats
             //per - Need to apply for all future too
             //mult - Need to apply for all future too
             //madness - GOOD
