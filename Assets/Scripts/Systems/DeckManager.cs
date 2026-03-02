@@ -27,7 +27,7 @@ namespace Systems
             //to test out:
             //poison - GOOD
             //strength - GOOD
-            //draw - Need to implement
+            //draw - GOOD
             //copy - Need to retrigger special effects of copied cards too and not just the stats
             //per - Need to apply for all future too
             //mult - Need to apply for all future too
