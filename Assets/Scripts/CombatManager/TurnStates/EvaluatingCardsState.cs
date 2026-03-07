@@ -28,27 +28,9 @@ public class EvaluatingCardsState : ITurnState
         yield return new WaitForSeconds(2.0f);
         
         Debug.Log("Calculating total damage...");
-        
-        // Calculate damage from the remaining cards in hand
-        // IMPLEMENT POISON CALC LATER
-        // int totalDamage = 0;
-        // int totalDefense = 0;
-        // foreach (var cardView in _cm.Hand.handCardViews)
-        // {
-        //     if (cardView != null && cardView.data != null)
-        //     {
-        //         totalDamage += cardView.data.damage; // Summing the card values
-        //         totalDefense += cardView.data.defense;
-        //     }
-        // }
-
-        // Apply damage to the enemy
 
         _cm.sem.ResolveOnStand();
-        // REPLACE THIS WITH ENEMYTAKEDAMAGE(TOTALDAMAGE) LATER
-        // _cm.enemyCurrentHealth -= totalDamage;
-        // _cm.tempDefense += totalDefense;
-        // Debug.Log($"Dealt {totalDamage} damage! Enemy Health: {_cm.enemyCurrentHealth}. You gained {totalDefense} block!");
+        
     }
 
     private IEnumerator FinishEvaluationSequence()

@@ -12,13 +12,16 @@ namespace Systems
             UpdateStrength(cm.dem.PendingStats[CardData.CardType.Strength]);
             UpdatePoison(cm.dem.PendingStats[CardData.CardType.Poison]);
             UpdateDefense(cm.dem.PendingStats[CardData.CardType.Defense]);
-            UpdateDamage(cm.dem.PendingStats[CardData.CardType.Damage] + cm.dem.AttackBonus + cm.poison);
-            DecayPoison();
+            UpdateDamage(cm.dem.PendingStats[CardData.CardType.Damage] + cm.dem.AttackBonus + cm.poison);   // Deal the damage
             Debug.Log("Gained " + cm.dem.PendingStats[CardData.CardType.Defense] + " defense, " 
                       + cm.dem.PendingStats[CardData.CardType.Strength] + " strength, and " 
                       + cm.dem.PendingStats[CardData.CardType.Poison] + " poison. Dealt " 
-                      + (cm.dem.PendingStats[CardData.CardType.Damage] + cm.dem.AttackBonus + cm.poison) + " damage. Poison decayed to " 
-                      + cm.poison + ".");
+                      + (cm.dem.PendingStats[CardData.CardType.Damage] + cm.dem.AttackBonus + cm.poison) + " damage.");
+            
+            DecayPoison();
+            
+            Debug.Log("Poison decayed to " 
+                                        + cm.poison + ".");
             cm.dem.ResetForStand();
         }
         

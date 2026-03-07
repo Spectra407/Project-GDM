@@ -23,7 +23,7 @@ namespace Systems
         void Start()
         {
             //for now, have currentDeck initialized with list of cards here (by cardID). Can store this in separate file later or have it as card metadata from csv.
-            int[] cards = {22, 26, 18, 4, 3, 10, 23};
+            int[] cards = {6, 6, 7, 8, 18, 25};
             //to test out:
             //poison - GOOD
             //strength - GOOD
