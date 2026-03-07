@@ -23,16 +23,18 @@ namespace Systems
         void Start()
         {
             //for now, have currentDeck initialized with list of cards here (by cardID). Can store this in separate file later or have it as card metadata from csv.
-            int[] cards = {0,1,2,3,3,3,4,4,5};
+            int[] cards = {22, 18, 4, 3, 10, 23};
             //to test out:
             //poison - GOOD
             //strength - GOOD
             //draw - GOOD
-            //copy - Need to retrigger special effects of copied cards too and not just the stats
+            //copy - Copy card has to be unique! Can't have 2 copy cards in the same deck, logic too wonky to implement otherwise
+            //copy - GOOD
             //per - Need to apply for all future too
             //mult - Need to apply for all future too
             //madness - GOOD
-            //shuffles - Need to implement
+            //shuffle 1 card - Need to implement
+            //shuffle hand - Need to implement
             //disable - GOOD
             //equal - GOOD
             for (int i = 0; i < cards.Length; i++)
@@ -49,7 +51,7 @@ namespace Systems
         public void SetDeck(List<CardData> deck)
         {
             drawPile = new List<CardData>(deck);
-            ShuffleAll(drawPile);
+            //ShuffleAll(drawPile);
         
             Debug.Log("Deck initialized with this amount of cards: " + drawPile.Count);
             OnShuffle.Invoke();     // Invoke SFX for deck shuffle

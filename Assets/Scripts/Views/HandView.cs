@@ -155,4 +155,9 @@ public class HandView : Singleton<HandView>
             }
         }
     }
+    
+    public void RefreshHandPositions(float duration = 0.15f)
+    {
+        StartCoroutine(UpdateCardPositions(duration));
+    }
 }

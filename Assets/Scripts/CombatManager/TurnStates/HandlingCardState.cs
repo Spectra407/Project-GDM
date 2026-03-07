@@ -4,6 +4,7 @@ using UnityEngine;
 public class HandlingCardState : ITurnState
 {
     private CombatManager _cm;
+    public bool isShufflePending = false;
     
     // Tracks where we are in the processing of a single card
     private enum Phase { Start, CheckingPeek, Done }
@@ -65,6 +66,8 @@ public class HandlingCardState : ITurnState
 
     private void ProcessPeekOrFinish()
     {
+        if (isShufflePending) return;
+        
         // Check if card has a Peek value
         if (_cm.lastDrawnCard.peek > 0)
         {

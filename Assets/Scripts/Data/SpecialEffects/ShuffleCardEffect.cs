@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 using Data.SpecialEffects;
 
 //player shuffles [cardNum] cards back into their deck
@@ -22,13 +23,20 @@ public class ShuffleCardEffect : SpecialEffect
     }
     public CardData Execute(CombatManager cm, CardData card)
     {
-        //does the player choose?
-        int shuffleNum = Math.Min(cm.Hand.handCardViews.Count, cardNum); //assuming you can choose this card to shuffle back in as well, makes sure you cant shuffle in more than you have
-        for (int i = 0; i < shuffleNum; i++)
-        {
-            Debug.Log("choose a card to shuffle into your deck");
-            //again, need to implement this. detect a click and have it go back in. are there functions in deck manager for this?gi
-        }
+        if (cm.dem.isRecalculating) return card;
+        if (cm.dem.isreshuffling) return card;
+    
+        // Set flag immediately, before any yielding
+        if (cm.currentState is HandlingCardState hcs)
+            hcs.isShufflePending = true;
+    
+        cm.StartCoroutine(DelayedShuffle(cm));
         return card;
-    }   
+    }
+
+    private IEnumerator DelayedShuffle(CombatManager cm)
+    {
+        yield return new WaitForEndOfFrame();
+        cm.MoveToNewState("ShufflingCard");
+    }
 }

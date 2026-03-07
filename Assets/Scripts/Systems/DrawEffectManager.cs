@@ -9,7 +9,10 @@ namespace Systems
     public class DrawEffectManager : MonoBehaviour
     {   
         private bool isProcessing = false;
+        public bool isreshuffling = false;
         public bool isRecalculating = false;
+        
+
         public CombatManager cm;
         
         // [SerializeField] private GameObject calculatorPanel;
@@ -46,13 +49,15 @@ namespace Systems
         public void ResolveOnDraw(CardData card)
         {
             Debug.Log("drew " + card.cardName);
-            //ProcessSpecial(card);
-            if (cm.jackpot) //if currently jackpot and drew jackpot card, replace with jackpot card
-            {
+            if (cm.jackpot)
                 card = card.getJackpot();
-            }
 
             CardData playedCard = ProcessSpecial(card);
+    
+            // Only update lastDrawnCard outside of recalculation
+            if (playedCard != card && !isRecalculating)
+                cm.lastDrawnCard = playedCard;
+    
             ProcessPendingStats(playedCard);
             UpdateUI();
         }
@@ -127,6 +132,7 @@ namespace Systems
                 ResetForJackpot();
                 
                 List<CardData> cards = cm.Hand.GetHandData();
+                cards = cards.GetRange(0, cards.Count - 1);
                 //iterate through hand, replacing all cards with jackpots and reprocess resolve on draw...
                 //UNDER THE ASSUMPTION THIS IS ALL THAT CHANGES FOR CARDS. DOES NOT TAKE INTO ACCOUNT MADNESS, WEIRD EFFECTS THAT INTERUPT GAMEFLOW (DRAW ETC), SO ON
                 isRecalculating = true;
@@ -144,6 +150,7 @@ namespace Systems
                 ResetForJackpot();
 
                 List<CardData> cards = cm.Hand.GetHandData();
+                cards = cards.GetRange(0, cards.Count - 1);
                 //iterate through hand, replacing all cards with normal non-jackpot and reprocess resolve on draw...
                 isRecalculating = true;
                 for (int i = 0; i < cards.Count; i++)
@@ -166,8 +173,8 @@ namespace Systems
             }
             return card;
         }
-        
-        private void ProcessPendingStats(CardData card) //calculates what the new attack, defense, etc. will be now
+
+        public void ProcessPendingStats(CardData card) //calculates what the new attack, defense, etc. will be now
         {
             ProcessPendingStrength(card);
             ProcessPendingPoison(card);

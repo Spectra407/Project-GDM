@@ -28,7 +28,7 @@ public class CombatManager : MonoBehaviour
     public EnemyMove enemyChosenMove;
 
     [Header("State Tracking")]
-    private ITurnState currentState; 
+    public ITurnState currentState; 
     private Stack<ITurnState> states = new Stack<ITurnState>();
     public string CurrentStateName { get; private set; }
     public bool isDrawing = false;
@@ -155,6 +155,7 @@ public class CombatManager : MonoBehaviour
             case "EvaluatingCards": return new EvaluatingCardsState(this);
             case "EnemyTurn":       return new EnemyTurnState(this);
             case "EnemyChooseActionState": return new EnemyChooseActionState(this, diceManager);
+            case "ShufflingCard": return new ShufflingCardState(this);
             default:
                 Debug.LogError($"Unknown State ID: {id}");
                 return new ChoosingActionState(this);

@@ -19,6 +19,9 @@ public class MadnessEffect : SpecialEffect
     }
     public CardData  Execute(CombatManager cm, CardData card)
     {
+        Debug.Log($"MadnessEffect.Execute called. isRecalculating = {cm.dem.isRecalculating}");
+        if (cm.dem.isRecalculating) return card;
+        
         if (cm.madness != madnessLevel)
         {
             cm.madness = madnessLevel;

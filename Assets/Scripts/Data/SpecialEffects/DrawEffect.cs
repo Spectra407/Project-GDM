@@ -22,18 +22,18 @@ public class DrawEffect : SpecialEffect
     }
     public CardData Execute(CombatManager cm, CardData card)
     {
-        if (cm.dem.isRecalculating)
+        if (cm.dem.isRecalculating || cm.dem.isreshuffling)
         {
             Debug.Log("DrawEffect suppressed during recalculation.");
-            return card; // don't queue during jackpot recalc
+            return card;
         }
         if (cm.CurrentStateName == "Shattering")
         {
             Debug.Log("DrawEffect suppressed during Shattering.");
             return card;
         }
-        
-        Debug.Log($"Execute called. isDrawing = {cm.isDrawing}, pendingDraws before = {cm.pendingDraws}");
+    
+        Debug.Log($"Execute called. isDrawing = {cm.isDrawing}, pendingDraws = {cm.pendingDraws}, isRecalculating = {cm.dem.isRecalculating}");
         cm.pendingDraws += drawNum;
         if (!cm.isDrawing)
             DrawNext(cm);
@@ -57,6 +57,9 @@ public class DrawEffect : SpecialEffect
     {
         CardData drawnData = cm.Deck.DrawCard();
         if (drawnData == null) { cm.pendingDraws = 0; cm.isDrawing = false; yield break; }
+        
+        // PROBLEM: SCRIPTABLE OBJECTS ARE SHARED, SO THE NEW INSTANCEID OVERWRITES THE PREVIOUS DUPLICATE'S BC OF MUTABILITY
+        drawnData.InstanceID = System.Guid.NewGuid().ToString();    // New InstanceID when drawn
 
         CardView cardView = CardViewCreator.Instance.CreateCardView(
             drawnData, cm.transform.position, Quaternion.identity);
