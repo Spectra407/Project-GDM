@@ -23,15 +23,15 @@ namespace Systems
         void Start()
         {
             //for now, have currentDeck initialized with list of cards here (by cardID). Can store this in separate file later or have it as card metadata from csv.
-            int[] cards = {7,6, 6, 25,8, 18};
+            int[] cards = {0,1,2,3,3,3,4,4,5};  // Beginner deck is {0,1,2,3,3,3,4,4,5}
             //to test out:
             //poison - GOOD
             //strength - GOOD
             //draw - GOOD
             //copy - Copy card has to be unique! Can't have 2 copy cards in the same deck, logic too wonky to implement otherwise
             //copy - GOOD
-            //per - Need to apply for all future too
-            //mult - Need to apply for all future too
+            //per - GOOD
+            //mult - GOOD
             //madness - GOOD
             //shuffle 1 card - GOOD
             //shuffle hand - GOOD
