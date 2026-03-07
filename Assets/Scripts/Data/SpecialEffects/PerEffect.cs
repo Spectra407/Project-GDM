@@ -5,7 +5,7 @@ using Systems;
 //eg: 2 damage per card in hand
 public class PerEffect : SpecialEffect
 {
-    private int multiplier;
+    private int percard_multiplier;
     CardData.CardType cardtype;
     [RuntimeInitializeOnLoadMethod]
     static void Register()
@@ -20,19 +20,19 @@ public class PerEffect : SpecialEffect
 
     public PerEffect(CardData.CardType type, int mult)
     {
-        multiplier = mult;
+        percard_multiplier = mult;
         cardtype = type;
     }
     public CardData Execute(CombatManager cm, CardData card)
     {
-        //need to put check for dict
-        cm.dem.PendingStats[cardtype] += cm.Hand.handCardViews.Count * multiplier * cm.dem.DisStats[cardtype];
+        cm.dem.PerStats[cardtype] += percard_multiplier * cm.dem.DisStats[cardtype];
         //update attack count
-        if (cm.Hand.handCardViews.Count * multiplier * cm.dem.DisStats[cardtype] > 0 && cardtype is CardData.CardType.Damage)
+        if (cm.dem.DisStats[CardData.CardType.Damage] > 0 && cardtype is CardData.CardType.Damage)
         {
             cm.dem.AttackNum++;
         }
         return card;
     }
+    
 
 }

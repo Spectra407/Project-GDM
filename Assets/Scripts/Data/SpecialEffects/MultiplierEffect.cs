@@ -24,9 +24,8 @@ public class MultiplierEffect : SpecialEffect
     }
     public CardData Execute(CombatManager cm, CardData card)
     {
-        //need to put check for dict
-        cm.dem.PendingStats[cardtype] *= multiplier;
-        //update attack count
+        cm.dem.MultStats[cardtype] *= multiplier;
+        //update attack count for Royal Decree jackpot
         if (cm.dem.DisStats[CardData.CardType.Damage] > 0 && cardtype is CardData.CardType.Damage)
         {
             cm.dem.AttackNum++;
