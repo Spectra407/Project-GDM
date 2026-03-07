@@ -8,17 +8,27 @@ namespace Systems
         public CombatManager cm;
         public void ResolveOnStand()
         {
-            UpdateStrength(cm.dem.PendingStats[CardData.CardType.Strength] 
+            int handCount = cm.Hand.handCardViews.Count;
+            Debug.Log($"ResolveOnStand: handCount={handCount}, " +
+                      $"PendingPoison={cm.dem.PendingStats[CardData.CardType.Poison]}, " +
+                      $"PerPoison={cm.dem.PerStats[CardData.CardType.Poison]}, " +
+                      $"MultPoison={cm.dem.MultStats[CardData.CardType.Poison]}");
+
+            UpdateStrength((cm.dem.PendingStats[CardData.CardType.Strength] 
+                            + cm.dem.PerStats[CardData.CardType.Strength] * handCount)
                            * cm.dem.MultStats[CardData.CardType.Strength]);
-            UpdatePoison(cm.dem.PendingStats[CardData.CardType.Poison] 
+            UpdatePoison((cm.dem.PendingStats[CardData.CardType.Poison] 
+                          + cm.dem.PerStats[CardData.CardType.Poison] * handCount)
                          * cm.dem.MultStats[CardData.CardType.Poison]);
-            UpdateDefense(cm.dem.PendingStats[CardData.CardType.Defense] 
+            UpdateDefense((cm.dem.PendingStats[CardData.CardType.Defense] 
+                           + cm.dem.PerStats[CardData.CardType.Defense] * handCount)
                           * cm.dem.MultStats[CardData.CardType.Defense]);
 
-            int totalDamage = (cm.dem.PendingStats[CardData.CardType.Damage] 
+            int totalDamage = ((cm.dem.PendingStats[CardData.CardType.Damage]
+                                + cm.dem.PerStats[CardData.CardType.Damage] * handCount)
                                * cm.dem.MultStats[CardData.CardType.Damage]
                                + cm.dem.AttackBonus)
-                              + (cm.poison);
+                              + cm.poison;
 
             UpdateDamage(totalDamage);
 

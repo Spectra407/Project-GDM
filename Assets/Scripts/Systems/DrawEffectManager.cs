@@ -45,6 +45,13 @@ namespace Systems
             {CardData.CardType.Strength, 1},
             {CardData.CardType.Poison, 1}
         };
+        public Dictionary<CardData.CardType, int> PerStats = new()
+        {
+            { CardData.CardType.Damage, 0 },
+            { CardData.CardType.Defense, 0 },
+            { CardData.CardType.Strength, 0 },
+            { CardData.CardType.Poison, 0 }
+        };
 
         public void ResolveOnDraw(CardData card)
         {
@@ -82,6 +89,11 @@ namespace Systems
             DisStats[CardData.CardType.Defense] = 1;
             DisStats[CardData.CardType.Poison] = 1;
             DisStats[CardData.CardType.Strength] = 1;
+            
+            PerStats[CardData.CardType.Damage] = 0;
+            PerStats[CardData.CardType.Defense] = 0;
+            PerStats[CardData.CardType.Strength] = 0;
+            PerStats[CardData.CardType.Poison] = 0;
 
             AttackBonus = 0;
             AttackNum = 0;
@@ -108,6 +120,11 @@ namespace Systems
             DisStats[CardData.CardType.Defense] = 1;
             DisStats[CardData.CardType.Poison] = 1;
             DisStats[CardData.CardType.Strength] = 1;
+            
+            PerStats[CardData.CardType.Damage] = 0;
+            PerStats[CardData.CardType.Defense] = 0;
+            PerStats[CardData.CardType.Strength] = 0;
+            PerStats[CardData.CardType.Poison] = 0;
 
             AttackBonus = 0;
             AttackNum = 0;
@@ -212,10 +229,12 @@ namespace Systems
         
         private void UpdateUI()
         {
-            int displayDamage = PendingStats[CardData.CardType.Damage] * MultStats[CardData.CardType.Damage];
-            int displayDefense = PendingStats[CardData.CardType.Defense] * MultStats[CardData.CardType.Defense];
-            int displayStrength = PendingStats[CardData.CardType.Strength] * MultStats[CardData.CardType.Strength];
-            int displayPoison = PendingStats[CardData.CardType.Poison] * MultStats[CardData.CardType.Poison];
+            int handCount = cm.Hand.handCardViews.Count;
+            int displayDamage = (PendingStats[CardData.CardType.Damage] + PerStats[CardData.CardType.Damage] * handCount) * MultStats[CardData.CardType.Damage];
+            int displayDefense = (PendingStats[CardData.CardType.Defense] + PerStats[CardData.CardType.Defense] * handCount) * MultStats[CardData.CardType.Defense];
+            int displayStrength = (PendingStats[CardData.CardType.Strength] + PerStats[CardData.CardType.Strength] * handCount) * MultStats[CardData.CardType.Strength];
+            int displayPoison = (PendingStats[CardData.CardType.Poison] + PerStats[CardData.CardType.Poison] * handCount) * MultStats[CardData.CardType.Poison];
+
 
             Debug.Log("Madness " + cm.madness + 
                       ", pending damage " + displayDamage +  
