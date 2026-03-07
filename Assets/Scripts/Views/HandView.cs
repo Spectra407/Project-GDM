@@ -129,6 +129,10 @@ public class HandView : Singleton<HandView>
 
         // Clear the list
         handCardViews.Clear(); 
+        
+        // Shuffle deck again
+        DeckManager.Instance.ShuffleAll(DeckManager.Instance.drawPile);
+        DeckManager.Instance.OnShuffle.Invoke();
     
         Debug.Log("Hand cleared and data recycled to deck.");
     }
@@ -150,5 +154,10 @@ public class HandView : Singleton<HandView>
                 }
             }
         }
+    }
+    
+    public void RefreshHandPositions(float duration = 0.15f)
+    {
+        StartCoroutine(UpdateCardPositions(duration));
     }
 }

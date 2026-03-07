@@ -1,12 +1,25 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Data.SpecialEffects;
 using UnityEngine;
 public class CardDB : MonoBehaviour
 {
     public List<CardData> cards = new List<CardData>();
     public string file = "card-db.csv";
-
+    
+    public static CardDB Instance { get; private set; }
+    void Awake() //wont destroy on load
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+    
     public void Start() //need it to not destroy on load
     {
         Debug.Log("Started up DB manager");
@@ -27,37 +40,46 @@ public class CardDB : MonoBehaviour
 
         for (int i = 1; i < lines.Length; i++)
         {
-            /*
-                LOWKEY ALL THIS SHOULD HAPPEN ON THE CARDDATA SIDE SO WE CAN PRIVATIZE AND ORGANIZE BETTER....
-            */
-            string[] fields = lines[i].Split(',');
-
-            CardData card = ScriptableObject.CreateInstance<CardData>();
-
-            card.cardID = Int32.Parse(fields[0]); //might not be needed, redundant with index
-            card.cardName = fields[1];
-            card.description = fields[2];
-            card.jackpot = Int32.Parse(fields[3]); //maybe change to reference card itself later...
-            List<CardData.CardType> cardType = new List<CardData.CardType>();
-            cardType.Add((CardData.CardType)Enum.Parse(typeof(CardData.CardType), fields[4])); 
-            card.cardType = cardType; 
-            card.damage = Int32.Parse(fields[5]);
-            card.strength = Int32.Parse(fields[6]);
-            card.defense = Int32.Parse(fields[7]);
-            card.poison = Int32.Parse(fields[8]);
-            card.peek = Int32.Parse(fields[9]);
-
-            card.madness = Int32.Parse(fields[10]);
-
-            card.art = Resources.Load<Sprite>("CardArt/" + fields[11]); 
-            //need to change so it looks for file
-            //placeholder art
-            //maybe use addressables later
-            // card.art = Resources.Load<Sprite>("" + "sample-art");
-
-            card.effect = (fields[12]);
-            
+            CardData card = parseLine(lines[i]);
             cards.Add(card);
         }
+    }
+    
+    private CardData parseLine(string line)
+    {
+        string[] fields = line.Split(',');
+
+        int cardID = Int32.Parse(fields[0]); //might not be needed, redundant with index
+        string cardName = fields[1];
+        string description = fields[2];
+        int jackpot = Int32.Parse(fields[3]); //maybe change to reference card itself later...
+        List<CardData.CardType> cardType = new List<CardData.CardType>();
+        cardType.Add((CardData.CardType)Enum.Parse(typeof(CardData.CardType), fields[4])); 
+        int damage = Int32.Parse(fields[5]);
+        int strength = Int32.Parse(fields[6]);
+        int defense = Int32.Parse(fields[7]);
+        int poison = Int32.Parse(fields[8]);
+        int peek = Int32.Parse(fields[9]);
+        int madness = Int32.Parse(fields[10]);
+
+        //maybe use addressables later
+        Sprite art = Resources.Load<Sprite>("CardArt/" + fields[11]); 
+
+        SpecialEffect effect = parseEffect(fields[12]);
+
+        CardData card = CardData.CreateCard(cardID, cardName, description, jackpot, cardType, damage, strength, defense, poison, peek, madness, art, effect);   
+        return card;
+    }
+    
+    private SpecialEffect parseEffect(string line) //uses effect registry to get special effect from string 
+    {
+        string[] fields = line.Split("_");
+        if (fields[0] != null)
+        {
+            SpecialEffect effect = EffectRegistry.Create(fields[0], fields[1..]); //need to figure out what to do if no additional args
+            return effect;
+
+        } 
+        else return null;
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 public class HandlingCardState : ITurnState
 {
     private CombatManager _cm;
+    public bool isShufflePending = false;
     
     // Tracks where we are in the processing of a single card
     private enum Phase { Start, CheckingPeek, Done }
@@ -16,34 +17,38 @@ public class HandlingCardState : ITurnState
 
     public void Enter()
     {
+        _currentPhase = Phase.Start;
         Debug.Log("Current phase is " + _currentPhase);
-        
-        // Exit if there's no card data to process (ex: Draw an empty deck)
+        _cm.StartCoroutine(EnterNextFrame());
+    }
+
+    private IEnumerator EnterNextFrame()
+    {
+        yield return null; // wait one frame for lastDrawnCard to be set by DrawOne
+    
         if (_cm.lastDrawnCard == null)
         {
             _cm.MoveToNewState("ChoosingAction");
-            return;
+            yield break;
         }
-        
-        if (_currentPhase == Phase.Start || _currentPhase == Phase.CheckingPeek)
-        {
-            // Increment madness and check for shatter, then resolve on draw effects and check for peek
-            ProcessDraw();
-        }
+        ProcessDraw();
     }
 
     private void ProcessDraw()
     {
-        _cm.madness += _cm.lastDrawnCard.madness;   // Increment Madness
+        int madness = _cm.lastDrawnCard.madness;
+        _cm.madness += madness;   // Increment Madness
+        if (madness > 0) _cm.OnMirrorCrack.Invoke();
         
         if (_cm.madness > _cm.alice.maxMadness)     // Check for Shatter
         {
             // Trigger Shatter.
-            _cm.dem.Reset();    // Reset all pending. We will "redo" the resolve on draw for the survivor inside ShatteringState. 
+            _cm.dem.ResetForStand();    // Reset all pending. We will "redo" the resolve on draw for the survivor inside ShatteringState. 
             _cm.StartCoroutine(DelayedShatter());
         }
         else
         {
+            _cm.dem.ProcessJackpot();
             // Resolve normal On Draw effects
             _cm.dem.ResolveOnDraw(_cm.lastDrawnCard);
             
@@ -61,6 +66,8 @@ public class HandlingCardState : ITurnState
 
     private void ProcessPeekOrFinish()
     {
+        if (isShufflePending) return;
+        
         // Check if card has a Peek value
         if (_cm.lastDrawnCard.peek > 0)
         {
@@ -75,9 +82,14 @@ public class HandlingCardState : ITurnState
 
     public void FinishTurn()
     {
+        Debug.Log($"FinishTurn called. pendingDraws = {_cm.pendingDraws}, isDrawing = {_cm.isDrawing}");
         _currentPhase = Phase.Done;
-        _cm.lastDrawnCard = null; // Clear the data for the next draw
-        _cm.MoveToNewState("ChoosingAction");
+        _cm.lastDrawnCard = null;
+    
+        if (_cm.pendingDraws > 0)
+            DrawEffect.DrawNext(_cm); // Draw the next queued card
+        else
+            _cm.MoveToNewState("ChoosingAction");
     }
     
     

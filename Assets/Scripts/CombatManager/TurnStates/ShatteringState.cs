@@ -21,6 +21,9 @@ public class ShatteringState : ITurnState
 
     public void Enter()
     {
+        _cm.pendingDraws = 0;     
+        _cm.isDrawing = false;
+        
         Debug.Log("MADNESS LIMIT REACHED! Alice must choose a survivor.");
         _hasSelected = false;
         

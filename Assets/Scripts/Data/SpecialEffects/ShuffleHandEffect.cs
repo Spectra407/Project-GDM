@@ -1,18 +1,35 @@
+using System.Collections;
+using Data.SpecialEffects;
 using UnityEngine;
-//lets player choose if they would like to shuffle their whole hand back into their deck
+
 public class ShuffleHandEffect : SpecialEffect
 {
-    public void Execute(CombatManager cm, CardData card)
+    [RuntimeInitializeOnLoadMethod]
+    static void Register()
     {
-        //pop up prompt to shuffle or not 
-        //take input 
-        bool shuffling = true; //for now
+        EffectRegistry.Register("SHUFFLEHAND", args =>
+            new ShuffleHandEffect()
+        );
+    }
 
-        if (shuffling)
-        {
-            Debug.Log("Shuffling hand...");
-            //can look at shatter for similar, put all cards back into hand
-            //reset DrawEffectManager
-        }
+    public ShuffleHandEffect() { }
+
+    public CardData Execute(CombatManager cm, CardData card)
+    {
+        Debug.Log($"ShuffleHandEffect.Execute called. isRecalculating={cm.dem.isRecalculating}, isreshuffling={cm.dem.isreshuffling}");
+        if (cm.dem.isRecalculating) return card;
+        if (cm.dem.isreshuffling) return card;
+
+        if (cm.currentState is HandlingCardState hcs)
+            hcs.isShufflePending = true;
+
+        cm.StartCoroutine(DelayedShuffleHand(cm));
+        return card;
+    }
+
+    private IEnumerator DelayedShuffleHand(CombatManager cm)
+    {
+        yield return new WaitForEndOfFrame();
+        cm.MoveToNewState("ShufflingHand");
     }
 }

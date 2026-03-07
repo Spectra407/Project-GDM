@@ -87,6 +87,7 @@ public class EnemyTurnState : ITurnState
         {
             Debug.Log($"The Card Soldier inflicts {move.madness} madness upon you!");
             _cm.madness += move.madness;
+            _cm.OnMirrorCrack.Invoke();     // Invoke mirror crack sfx
         }
     }
 
@@ -112,6 +113,8 @@ public class EnemyTurnState : ITurnState
         
         // Update the AliceData ScriptableObject to keep health persistent
         _cm.alice.currentHealth = _cm.currentHealth;
+        
+        if (damage > 0) _cm.OnTakeDamage.Invoke();  // Invoke take damage sfx
     }
 
     public void HandleInput(string input) { } 

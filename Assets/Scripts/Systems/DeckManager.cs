@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Systems
 {
@@ -13,22 +14,29 @@ namespace Systems
         // In game combat list of peeked cards, and draw pile
         public List<CardData> peekList;
         public List<CardData> drawPile;
+        
+        [Header("Events")]
+        public UnityEvent OnShuffle;
+        public UnityEvent OnDraw;
     
         // Start() method to test
         void Start()
         {
             //for now, have currentDeck initialized with list of cards here (by cardID). Can store this in separate file later or have it as card metadata from csv.
-            int[] cards = {0, 1, 2, 3, 3, 3, 4, 4, 5, 6, 10};
+            int[] cards = {6, 6, 7, 8, 18, 25};
             //to test out:
-            //poison
-            //strength
-            //draw
-            //copy
-            //per
-            //mult
-            //madness
-            //shuffles
-            //disable
+            //poison - GOOD
+            //strength - GOOD
+            //draw - GOOD
+            //copy - Copy card has to be unique! Can't have 2 copy cards in the same deck, logic too wonky to implement otherwise
+            //copy - GOOD
+            //per - Need to apply for all future too
+            //mult - Need to apply for all future too
+            //madness - GOOD
+            //shuffle 1 card - GOOD
+            //shuffle hand - GOOD
+            //disable - GOOD
+            //equal - GOOD
             for (int i = 0; i < cards.Length; i++)
             {
                 currentDeck.Add(cardDB.cards[cards[i]]);
@@ -46,10 +54,11 @@ namespace Systems
             ShuffleAll(drawPile);
         
             Debug.Log("Deck initialized with this amount of cards: " + drawPile.Count);
+            OnShuffle.Invoke();     // Invoke SFX for deck shuffle
         }
     
         // Reshuffle all cards in the deck
-        private void ShuffleAll(List<CardData> deck)
+        public void ShuffleAll(List<CardData> deck)
         {
             for (int i = deck.Count - 1; i > 0; i--)
             {
@@ -69,6 +78,8 @@ namespace Systems
         
             CardData drawnCard = drawPile[0];
             drawPile.RemoveAt(0);   // Remove the card that was drawn from the draw pile
+            
+            OnDraw.Invoke();    // Invoke SFX for draw
             return drawnCard;
         }
     
