@@ -59,14 +59,16 @@ public class DrawEffect : SpecialEffect
         if (drawnData == null) { cm.pendingDraws = 0; cm.isDrawing = false; yield break; }
         
         // PROBLEM: SCRIPTABLE OBJECTS ARE SHARED, SO THE NEW INSTANCEID OVERWRITES THE PREVIOUS DUPLICATE'S BC OF MUTABILITY
-        drawnData.InstanceID = System.Guid.NewGuid().ToString();    // New InstanceID when drawn
+        drawnData.InstanceID = System.Guid.NewGuid().ToString();    // New InstanceID when drawn,
+                                                                    // doesn't rly work dw bout it I gave up on troubleshooting this lmao
+                                                                    // Just make it so that you can't have duplicate Copy card effects
 
         CardView cardView = CardViewCreator.Instance.CreateCardView(
             drawnData, cm.transform.position, Quaternion.identity);
         yield return cm.StartCoroutine(HandView.Instance.AnimateCardToHand(cardView));
 
-        cm.MoveToNewState("HandlingCard"); // Exit() runs here, wiping lastDrawnCard is now harmless
-        cm.lastDrawnCard = drawnData;      // ← set AFTER the transition
+        cm.MoveToNewState("HandlingCard"); 
+        cm.lastDrawnCard = drawnData;      
     }
 
 

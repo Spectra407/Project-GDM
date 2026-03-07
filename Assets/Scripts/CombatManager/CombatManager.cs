@@ -47,6 +47,10 @@ public class CombatManager : MonoBehaviour
     public DiceManager diceManager;
     public TMPro.TMP_Text moveText;
     
+    [Header("Shuffle Hand UI")]
+    public GameObject shuffleYesButton;
+    public GameObject shuffleNoButton;
+    
     [Header("SFX Events")]
     public UnityEvent OnTakeDamage;
     public UnityEvent OnMirrorCrack;
@@ -156,6 +160,7 @@ public class CombatManager : MonoBehaviour
             case "EnemyTurn":       return new EnemyTurnState(this);
             case "EnemyChooseActionState": return new EnemyChooseActionState(this, diceManager);
             case "ShufflingCard": return new ShufflingCardState(this);
+            case "ShufflingHand": return new ShufflingHandState(this);
             default:
                 Debug.LogError($"Unknown State ID: {id}");
                 return new ChoosingActionState(this);

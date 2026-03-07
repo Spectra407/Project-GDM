@@ -25,8 +25,7 @@ public class ShuffleCardEffect : SpecialEffect
     {
         if (cm.dem.isRecalculating) return card;
         if (cm.dem.isreshuffling) return card;
-    
-        // Set flag immediately, before any yielding
+        
         if (cm.currentState is HandlingCardState hcs)
             hcs.isShufflePending = true;
     

@@ -23,7 +23,7 @@ namespace Systems
         void Start()
         {
             //for now, have currentDeck initialized with list of cards here (by cardID). Can store this in separate file later or have it as card metadata from csv.
-            int[] cards = {22, 18, 4, 3, 10, 23};
+            int[] cards = {22, 26, 18, 4, 3, 10, 23};
             //to test out:
             //poison - GOOD
             //strength - GOOD
@@ -33,8 +33,8 @@ namespace Systems
             //per - Need to apply for all future too
             //mult - Need to apply for all future too
             //madness - GOOD
-            //shuffle 1 card - Need to implement
-            //shuffle hand - Need to implement
+            //shuffle 1 card - GOOD
+            //shuffle hand - GOOD
             //disable - GOOD
             //equal - GOOD
             for (int i = 0; i < cards.Length; i++)
@@ -51,7 +51,7 @@ namespace Systems
         public void SetDeck(List<CardData> deck)
         {
             drawPile = new List<CardData>(deck);
-            //ShuffleAll(drawPile);
+            ShuffleAll(drawPile);
         
             Debug.Log("Deck initialized with this amount of cards: " + drawPile.Count);
             OnShuffle.Invoke();     // Invoke SFX for deck shuffle

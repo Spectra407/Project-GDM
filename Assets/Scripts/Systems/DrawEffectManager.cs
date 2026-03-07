@@ -54,10 +54,14 @@ namespace Systems
 
             CardData playedCard = ProcessSpecial(card);
     
-            // Only update lastDrawnCard outside of recalculation
-            if (playedCard != card && !isRecalculating)
-                cm.lastDrawnCard = playedCard;
-    
+            // If Copy returned a different card, process that card's special effect too
+            if (playedCard != card)
+            {
+                if (!isRecalculating)
+                    cm.lastDrawnCard = playedCard;
+                playedCard = ProcessSpecial(playedCard); 
+            }
+
             ProcessPendingStats(playedCard);
             UpdateUI();
         }
@@ -161,7 +165,6 @@ namespace Systems
             }
 
             isProcessing = false;
-            // need to add logic for if you fall out of jackpot
             
         }
         public CardData ProcessSpecial(CardData card) //trigger special effects based on card ID
