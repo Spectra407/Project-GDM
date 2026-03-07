@@ -185,44 +185,50 @@ namespace Systems
             ProcessPendingDefense(card);
         }
 
-        private void ProcessPendingDamage(CardData card) //deals with damage bonus too
+        private void ProcessPendingDamage(CardData card)
         {
             PendingStats[CardData.CardType.Damage] += DisStats[CardData.CardType.Damage] * card.damage;
 
-            if (DisStats[CardData.CardType.Damage] * card.damage > 0) { //add to number attacks if this added damage
+            if (DisStats[CardData.CardType.Damage] * card.damage > 0)
                 AttackNum++;
-            }
 
             AttackBonus = AttackNum * (cm.strength + PendingStats[CardData.CardType.Strength]);
         }
 
-        private void ProcessPendingDefense (CardData card)
+        private void ProcessPendingDefense(CardData card)
         {
-            PendingStats[CardData.CardType.Defense] += DisStats[CardData.CardType.Defense] * card.defense;   
-            //what about losing defense...   
+            PendingStats[CardData.CardType.Defense] += DisStats[CardData.CardType.Defense] * card.defense;
         }
+
         private void ProcessPendingStrength(CardData card)
         {
             PendingStats[CardData.CardType.Strength] += DisStats[CardData.CardType.Strength] * card.strength;
         }
+
         private void ProcessPendingPoison(CardData card)
         {
             PendingStats[CardData.CardType.Poison] += DisStats[CardData.CardType.Poison] * card.poison;
         }
+        
         private void UpdateUI()
         {
-            Debug.Log("Madness " + cm.madness + 
-                      ", pending damage " + PendingStats[CardData.CardType.Damage] +  
-                      ", pending defense " + PendingStats[CardData.CardType.Defense] + 
-                      ", pending strength " + PendingStats[CardData.CardType.Strength] + 
-                      ", number of attacks " + AttackNum +
-                      ", pending poison " + PendingStats[CardData.CardType.Poison]);
+            int displayDamage = PendingStats[CardData.CardType.Damage] * MultStats[CardData.CardType.Damage];
+            int displayDefense = PendingStats[CardData.CardType.Defense] * MultStats[CardData.CardType.Defense];
+            int displayStrength = PendingStats[CardData.CardType.Strength] * MultStats[CardData.CardType.Strength];
+            int displayPoison = PendingStats[CardData.CardType.Poison] * MultStats[CardData.CardType.Poison];
 
-            // UDATE THE UI CALCULATOR ACCORDING TO THE NEW VALUES.
-            damageText.text = PendingStats[CardData.CardType.Damage] + "\\U00002694";
-            blockText.text = PendingStats[CardData.CardType.Defense] + "\\U0001F6E1";
-            poisonText.text = PendingStats[CardData.CardType.Poison] + "\\U0001F9EA";
-            strengthText.text = PendingStats[CardData.CardType.Strength] + "\\U0001F4AA";
+            Debug.Log("Madness " + cm.madness + 
+                      ", pending damage " + displayDamage +  
+                      ", pending defense " + displayDefense + 
+                      ", pending strength " + displayStrength +
+                      ", number of attacks " + AttackNum +
+                      ", pending poison " + displayPoison);
+            
+            // UPDATE THE UI CALCULATOR ACCORDING TO THE NEW VALUES.
+            damageText.text = displayDamage + "\\U00002694";
+            blockText.text = displayDefense + "\\U0001F6E1";
+            poisonText.text = displayPoison + "\\U0001F9EA";
+            strengthText.text = displayStrength + "\\U0001F4AA";
 
             if (PendingStats[CardData.CardType.Damage] <= 0)
             {

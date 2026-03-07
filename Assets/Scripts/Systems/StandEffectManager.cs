@@ -8,20 +8,27 @@ namespace Systems
         public CombatManager cm;
         public void ResolveOnStand()
         {
-            //deal with any special effects (i dont think there are any really)
-            UpdateStrength(cm.dem.PendingStats[CardData.CardType.Strength]);
-            UpdatePoison(cm.dem.PendingStats[CardData.CardType.Poison]);
-            UpdateDefense(cm.dem.PendingStats[CardData.CardType.Defense]);
-            UpdateDamage(cm.dem.PendingStats[CardData.CardType.Damage] + cm.dem.AttackBonus + cm.poison);   // Deal the damage
-            Debug.Log("Gained " + cm.dem.PendingStats[CardData.CardType.Defense] + " defense, " 
-                      + cm.dem.PendingStats[CardData.CardType.Strength] + " strength, and " 
-                      + cm.dem.PendingStats[CardData.CardType.Poison] + " poison. Dealt " 
-                      + (cm.dem.PendingStats[CardData.CardType.Damage] + cm.dem.AttackBonus + cm.poison) + " damage.");
-            
+            UpdateStrength(cm.dem.PendingStats[CardData.CardType.Strength] 
+                           * cm.dem.MultStats[CardData.CardType.Strength]);
+            UpdatePoison(cm.dem.PendingStats[CardData.CardType.Poison] 
+                         * cm.dem.MultStats[CardData.CardType.Poison]);
+            UpdateDefense(cm.dem.PendingStats[CardData.CardType.Defense] 
+                          * cm.dem.MultStats[CardData.CardType.Defense]);
+
+            int totalDamage = (cm.dem.PendingStats[CardData.CardType.Damage] 
+                               * cm.dem.MultStats[CardData.CardType.Damage]
+                               + cm.dem.AttackBonus)
+                              + (cm.poison);
+
+            UpdateDamage(totalDamage);
+
+            Debug.Log("Gained " + cm.tempDefense + " defense, " 
+                      + cm.strength + " strength, and " 
+                      + cm.poison + " poison. Dealt " 
+                      + totalDamage + " damage.");
+
             DecayPoison();
-            
-            Debug.Log("Poison decayed to " 
-                                        + cm.poison + ".");
+            Debug.Log("Poison decayed to " + cm.poison + ".");
             cm.dem.ResetForStand();
         }
         
