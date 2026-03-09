@@ -31,7 +31,7 @@ namespace Systems
         mult - GOOD
         madness - GOOD
         shuffle 1 card - GOOD
-        shuffle hand - GOOD
+        shuffle hand - GOOD, Consider making the card exhaust itself, this is too strong of an effect by itself -Kenny
         disable - GOOD
         equal - GOOD
         */
