@@ -4,6 +4,7 @@ using UnityEngine;
 public class CardViewCreator : Singleton<CardViewCreator>
 {
     [SerializeField] private CardView cardViewPrefab;
+    public float scale;
 
     public CardView CreateCardView(CardData data, Vector3 position, Quaternion rotation)
     {
@@ -15,7 +16,7 @@ public class CardViewCreator : Singleton<CardViewCreator>
         
         // Adjust the size and position
         cardView.transform.localScale = Vector3.zero;   
-        cardView.transform.DOScale(Vector3.one, 0.15f);     
+        cardView.transform.DOScale(new Vector3(scale, scale, scale), 0.15f);     
         return cardView;
     }
 }
