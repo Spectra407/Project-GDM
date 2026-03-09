@@ -6,8 +6,9 @@ namespace Systems
 {
     public class DeckManager : PersistentSingleton<DeckManager>
     {
-        [SerializeField] private List<CardData> rewardDeck;   // Deck of possible reward cards
-        [SerializeField] private List<CardData> currentDeck;  // Current player deck, start with the Starter Deck
+        private bool _isInitialized = false;    // Turns to true during the first enemy encounter. First time setup of the starter deck.
+        [SerializeField] public List<CardData> rewardDeck;   // Deck of possible reward cards
+        [SerializeField] public List<CardData> currentDeck;  // Current player deck, start with the Starter Deck
 
         public CardDB cardDB; // Has all cards loaded in from database
     
@@ -18,35 +19,55 @@ namespace Systems
         [Header("Events")]
         public UnityEvent OnShuffle;
         public UnityEvent OnDraw;
-    
-        // Start() method to test
-        void Start()
+        
+        /*
+        card effect testing summary:
+        poison - GOOD
+        strength - GOOD
+        draw - GOOD
+        copy - Copy card has to be unique! Can't have 2 copy cards in the same deck, logic too wonky to implement otherwise
+        copy - GOOD
+        per - GOOD, Have to double-check calculator visuals not updating properly on per card effects later -Kenny
+        mult - GOOD
+        madness - GOOD
+        shuffle 1 card - GOOD
+        shuffle hand - GOOD, Consider making the card exhaust itself, this is too strong of an effect by itself -Kenny
+        disable - GOOD
+        equal - GOOD
+        */
+
+        public void SetupDecks(List<CardData> allCards, List<int> bombIDs)
         {
-            //for now, have currentDeck initialized with list of cards here (by cardID). Can store this in separate file later or have it as card metadata from csv.
-            int[] cards = {0,1,2,3,3,3,4,4,5};  // Beginner deck is {0,1,2,3,3,3,4,4,5}
-            //to test out:
-            //poison - GOOD
-            //strength - GOOD
-            //draw - GOOD
-            //copy - Copy card has to be unique! Can't have 2 copy cards in the same deck, logic too wonky to implement otherwise
-            //copy - GOOD
-            //per - GOOD
-            //mult - GOOD
-            //madness - GOOD
-            //shuffle 1 card - GOOD
-            //shuffle hand - GOOD
-            //disable - GOOD
-            //equal - GOOD
-            for (int i = 0; i < cards.Length; i++)
+            Debug.Log($"SetupDecks called. _isInitialized={_isInitialized}, currentDeck count={currentDeck.Count}");
+
+            
+            // Initialize starter deck only on first fight
+            if (!_isInitialized)
             {
-                currentDeck.Add(cardDB.cards[cards[i]]);
-                Debug.Log("Added card" + i + " to deck");
+                // Reward deck setup
+                foreach (CardData card in allCards)
+                    if (card.cardID >= 6 && card.cardID < 31)   
+                        // cardID 6 is right after the starter deck and bombs, card ID 31 is right before the Jackpot version of cards
+                        rewardDeck.Add(card);
+                ShuffleAll(rewardDeck);
+                
+                int[] starterIDs = {0, 1, 2};   // Player starter deck without bombs
+                currentDeck = new List<CardData>();
+                foreach (int id in starterIDs)
+                    currentDeck.Add(allCards[id]);
+        
+                _isInitialized = true;
             }
-            SetDeck(currentDeck);
-            Debug.Log("Finished setting up deck.");
+
+            // Build the draw pile from currentDeck + this fight's bombs
+            List<CardData> fightDeck = new List<CardData>(currentDeck);
+            foreach (int id in bombIDs)
+                fightDeck.Add(allCards[id]);
+
+            SetDeck(fightDeck); // drawPile gets bombs, but currentDeck stays clean
+            Debug.Log($"Fight deck: {fightDeck.Count} cards ({currentDeck.Count} permanent + {bombIDs.Count} bombs).");
         }
-    
-    
+        
         // Set up the draw pile and copy the current deck at the start of combat
         public void SetDeck(List<CardData> deck)
         {
@@ -100,6 +121,26 @@ namespace Systems
             ShuffleAll(drawPile);
             
             return peekList;
+        }
+        
+        // Essentially peek 3 cards from the reward deck
+        public List<CardData> GetRewardOffers(int count)
+        {
+            ShuffleAll(rewardDeck);
+            
+            // Reset reward deck if not enough cards
+            if (rewardDeck.Count < count)
+            {
+                Debug.Log("Reward deck reset.");   // Doesn't really work rn, placeholder since game isn't long enough for this to matter.
+            }
+
+            List<CardData> offers = new List<CardData>();
+            for (int i = 0; i < Mathf.Min(count, rewardDeck.Count); i++)
+            {
+                offers.Add(rewardDeck[i]);
+            }
+
+            return offers;
         }
         
 

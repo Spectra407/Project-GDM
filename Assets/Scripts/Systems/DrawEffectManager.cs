@@ -52,6 +52,7 @@ namespace Systems
             { CardData.CardType.Strength, 0 },
             { CardData.CardType.Poison, 0 }
         };
+        public Dictionary<(CardData.CardType, CardData.CardType), bool> EqualStats = new();
 
         public void ResolveOnDraw(CardData card)
         {
@@ -95,6 +96,8 @@ namespace Systems
             PerStats[CardData.CardType.Strength] = 0;
             PerStats[CardData.CardType.Poison] = 0;
 
+            EqualStats.Clear();
+
             AttackBonus = 0;
             AttackNum = 0;
 
@@ -125,6 +128,8 @@ namespace Systems
             PerStats[CardData.CardType.Defense] = 0;
             PerStats[CardData.CardType.Strength] = 0;
             PerStats[CardData.CardType.Poison] = 0;
+            
+            EqualStats.Clear();
 
             AttackBonus = 0;
             AttackNum = 0;
@@ -230,10 +235,10 @@ namespace Systems
         private void UpdateUI()
         {
             int handCount = cm.Hand.handCardViews.Count;
-            int displayDamage = (PendingStats[CardData.CardType.Damage] + PerStats[CardData.CardType.Damage] * handCount) * MultStats[CardData.CardType.Damage];
-            int displayDefense = (PendingStats[CardData.CardType.Defense] + PerStats[CardData.CardType.Defense] * handCount) * MultStats[CardData.CardType.Defense];
-            int displayStrength = (PendingStats[CardData.CardType.Strength] + PerStats[CardData.CardType.Strength] * handCount) * MultStats[CardData.CardType.Strength];
-            int displayPoison = (PendingStats[CardData.CardType.Poison] + PerStats[CardData.CardType.Poison] * handCount) * MultStats[CardData.CardType.Poison];
+            int displayDamage = (PendingStats[CardData.CardType.Damage] + GetEqualBonus(CardData.CardType.Damage) +  PerStats[CardData.CardType.Damage] * handCount) * MultStats[CardData.CardType.Damage];
+            int displayDefense = (PendingStats[CardData.CardType.Defense] + GetEqualBonus(CardData.CardType.Defense) + PerStats[CardData.CardType.Defense] * handCount) * MultStats[CardData.CardType.Defense];
+            int displayStrength = (PendingStats[CardData.CardType.Strength] + GetEqualBonus(CardData.CardType.Strength) + PerStats[CardData.CardType.Strength] * handCount) * MultStats[CardData.CardType.Strength];
+            int displayPoison = (PendingStats[CardData.CardType.Poison] + GetEqualBonus(CardData.CardType.Poison) + PerStats[CardData.CardType.Poison] * handCount) * MultStats[CardData.CardType.Poison];
 
 
             Debug.Log("Madness " + cm.madness + 
@@ -284,6 +289,17 @@ namespace Systems
             {
                 strengthText.gameObject.SetActive(true);
             }
+        }
+        
+        public int GetEqualBonus(CardData.CardType type1)
+        {
+            int bonus = 0;
+            foreach (var kvp in EqualStats)
+                if (kvp.Key.Item1 == type1)
+                    bonus += Mathf.Max(0, PendingStats[kvp.Key.Item2]); 
+                    // Clamps the value so that you don't get negative values
+                    // Example: -4 defense, Deal damage equal to your defense would do -4 damage otherwise
+            return bonus;
         }
 
 

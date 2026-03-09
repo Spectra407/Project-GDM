@@ -16,6 +16,7 @@ public class ShufflingCardState : ITurnState
     public void Enter()
     {
         Debug.Log("Choose a card to shuffle back into your deck.");
+        CardViewHoverSystem.Instance.Hide();    // Hide the zoom effect thing so that it doesn't persist
         _hasSelected = false;
         _cm.StartCoroutine(EnableSelectionDelay());
         // TURN ON UI indicator here

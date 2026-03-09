@@ -32,6 +32,8 @@ public class AudioManager : MonoBehaviour
 
     void Awake()
     {
+        transform.SetParent(null);  // Detach from the parent so that DontDestroyOnLoad can work even when we put it under a parent for cleanliness.
+        
         if (instance == null)
         {
             instance = this;
@@ -43,9 +45,19 @@ public class AudioManager : MonoBehaviour
         }
     }
     
-    private void Start()
+    // Call this from CombatManager.Start() instead of using Start()
+    public void SubscribeToScene()
     {
-        CombatManager cm = (CombatManager) FindAnyObjectByType(typeof(CombatManager));
+        CombatManager cm = FindAnyObjectByType<CombatManager>();
+    
+        // Clear old sound first to avoid double conflicts
+        cm.OnTakeDamage.RemoveListener(PlayTakeDamage);
+        cm.OnMirrorCrack.RemoveListener(PlayMirrorCracks);
+        DeckManager.Instance.OnShuffle.RemoveListener(PlayShuffle);
+        DeckManager.Instance.OnDraw.RemoveListener(PlayCardPlayed);
+        CardViewHoverSystem.Instance.OnCardHover.RemoveListener(PlayHoverCard);
+
+        // Find and attach sound with new scene's objects
         cm.OnTakeDamage.AddListener(PlayTakeDamage);
         cm.OnMirrorCrack.AddListener(PlayMirrorCracks);
         DeckManager.Instance.OnShuffle.AddListener(PlayShuffle);

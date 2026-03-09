@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Data.SpecialEffects;
+using Systems;
 using UnityEngine;
+using Object = UnityEngine.Object;
+
 public class CardDB : MonoBehaviour
 {
     public List<CardData> cards = new List<CardData>();
@@ -11,6 +14,8 @@ public class CardDB : MonoBehaviour
     public static CardDB Instance { get; private set; }
     void Awake() //wont destroy on load
     {
+        transform.SetParent(null);  // Detach from the parent so that DontDestroyOnLoad can work even when we put it under a parent for cleanliness.
+        
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -22,16 +27,12 @@ public class CardDB : MonoBehaviour
     
     public void Start() //need it to not destroy on load
     {
+        if (cards.Count > 0) return;    // Skip if we alrdy loaded before
+            
         Debug.Log("Started up DB manager");
         LoadCards(file);
         Debug.Log("Finished loading DB");
-
-        for (int i = 0; i < cards.Count; i++)
-        {
-            CardData card = cards[i];
-            Debug.Log("Cardname: " + card.cardName);
-        }
-        Debug.Log("Finished iterating DB");
+        
     }
     public void LoadCards(string file) //load all cards from DB into a list of cards
     {
