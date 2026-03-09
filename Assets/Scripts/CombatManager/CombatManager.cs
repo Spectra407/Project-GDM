@@ -161,6 +161,7 @@ public class CombatManager : MonoBehaviour
             case "EnemyChooseActionState": return new EnemyChooseActionState(this, diceManager);
             case "ShufflingCard": return new ShufflingCardState(this);
             case "ShufflingHand": return new ShufflingHandState(this);
+            case "Victory": return new VictoryState(this);
             default:
                 Debug.LogError($"Unknown State ID: {id}");
                 return new ChoosingActionState(this);

@@ -49,6 +49,7 @@ public class EvaluatingCardsState : ITurnState
         if (_cm.enemyCurrentHealth <= 0)
         {
             Debug.Log("Victory!"); // Victory logic would go here
+            _cm.MoveToNewState("Victory");
         }
         else
         {

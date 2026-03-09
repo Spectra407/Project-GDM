@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Data.SpecialEffects;
+using Systems;
 using UnityEngine;
+using Object = UnityEngine.Object;
+
 public class CardDB : MonoBehaviour
 {
     public List<CardData> cards = new List<CardData>();
@@ -25,13 +28,11 @@ public class CardDB : MonoBehaviour
         Debug.Log("Started up DB manager");
         LoadCards(file);
         Debug.Log("Finished loading DB");
-
-        for (int i = 0; i < cards.Count; i++)
-        {
-            CardData card = cards[i];
-            Debug.Log("Cardname: " + card.cardName);
-        }
-        Debug.Log("Finished iterating DB");
+        
+        CombatManager cm = Object.FindAnyObjectByType<CombatManager>();
+        List<int> bombIDs = new List<int>(cm.enemy.bombCardIDs);
+        
+        DeckManager.Instance.SetupDecks(cards, bombIDs);
     }
     public void LoadCards(string file) //load all cards from DB into a list of cards
     {
