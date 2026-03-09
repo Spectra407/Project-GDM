@@ -23,7 +23,7 @@ namespace Systems
         void Start()
         {
             //for now, have currentDeck initialized with list of cards here (by cardID). Can store this in separate file later or have it as card metadata from csv.
-            int[] cards = {0,1,2,3,3,3,4,4,5};  // Beginner deck is {0,1,2,3,3,3,4,4,5}
+            int[] cards = {0,1,2,3,3,3,4,4,4,5,5, 16,17,24,27,10,6,7,8};  // Beginner deck is {0,1,2,3,3,3,4,4,5}
             //to test out:
             //poison - GOOD
             //strength - GOOD

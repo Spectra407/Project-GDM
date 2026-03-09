@@ -1684,11 +1684,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2359630138189020273, guid: 96f9154c257bc6c4e9a5dcece7abc546, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -494
+      value: -523
       objectReference: {fileID: 0}
     - target: {fileID: 2359630138189020273, guid: 96f9154c257bc6c4e9a5dcece7abc546, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 25
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2359630138189020273, guid: 96f9154c257bc6c4e9a5dcece7abc546, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -2319,7 +2319,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: fa136a148deae4b0b96bd96022ba7fcf, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -4816,7 +4816,7 @@ MonoBehaviour:
   poison: 0
   dem: {fileID: 1122482831}
   sem: {fileID: 710607509}
-  enemy: {fileID: 11400000, guid: 750be8a9aa589fd4ba5789079be98a58, type: 2}
+  enemy: {fileID: 11400000, guid: e036a1195b2b22a4faf72200c71b53ff, type: 2}
   enemyCurrentHealth: 0
   enemyDefense: 0
   enemyStrength: 0
