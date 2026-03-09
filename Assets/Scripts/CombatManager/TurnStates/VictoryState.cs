@@ -59,6 +59,9 @@ public class VictoryState : ITurnState
 
     private void SelectReward(CardData chosen)
     {
+        // Remove chosen reward card so it's not offered again next round
+        DeckManager.Instance.rewardDeck.Remove(chosen);
+        
         // Add to current deck permanently
         DeckManager.Instance.currentDeck.Add(chosen);
         Debug.Log($"Added {chosen.cardName} to deck. currentDeck now has {DeckManager.Instance.currentDeck.Count} cards.");
@@ -67,7 +70,8 @@ public class VictoryState : ITurnState
 
         _picksRemaining--;
         RewardManager.Instance.HideRewards();
-
+        
+        
         if (_picksRemaining > 0)
         {
             // Offer another set of cards

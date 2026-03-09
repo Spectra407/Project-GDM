@@ -7,7 +7,7 @@ namespace Systems
     public class DeckManager : PersistentSingleton<DeckManager>
     {
         private bool _isInitialized = false;    // Turns to true during the first enemy encounter. First time setup of the starter deck.
-        [SerializeField] private List<CardData> rewardDeck;   // Deck of possible reward cards
+        [SerializeField] public List<CardData> rewardDeck;   // Deck of possible reward cards
         [SerializeField] public List<CardData> currentDeck;  // Current player deck, start with the Starter Deck
 
         public CardDB cardDB; // Has all cards loaded in from database
@@ -126,11 +126,12 @@ namespace Systems
         // Essentially peek 3 cards from the reward deck
         public List<CardData> GetRewardOffers(int count)
         {
-            // Reshuffle if not enough cards
+            ShuffleAll(rewardDeck);
+            
+            // Reset reward deck if not enough cards
             if (rewardDeck.Count < count)
             {
-                ShuffleAll(rewardDeck);
-                Debug.Log("Reward deck reshuffled.");
+                Debug.Log("Reward deck reset.");   // Doesn't really work rn, placeholder since game isn't long enough for this to matter.
             }
 
             List<CardData> offers = new List<CardData>();
@@ -138,10 +139,6 @@ namespace Systems
             {
                 offers.Add(rewardDeck[i]);
             }
-
-            // Remove offered cards so they aren't offered again next round
-            foreach (var card in offers)
-                rewardDeck.Remove(card);
 
             return offers;
         }
