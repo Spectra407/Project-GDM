@@ -14,6 +14,8 @@ public class CardDB : MonoBehaviour
     public static CardDB Instance { get; private set; }
     void Awake() //wont destroy on load
     {
+        transform.SetParent(null);  // Detach from the parent so that DontDestroyOnLoad can work even when we put it under a parent for cleanliness.
+        
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -25,14 +27,12 @@ public class CardDB : MonoBehaviour
     
     public void Start() //need it to not destroy on load
     {
+        if (cards.Count > 0) return;    // Skip if we alrdy loaded before
+            
         Debug.Log("Started up DB manager");
         LoadCards(file);
         Debug.Log("Finished loading DB");
         
-        CombatManager cm = Object.FindAnyObjectByType<CombatManager>();
-        List<int> bombIDs = new List<int>(cm.enemy.bombCardIDs);
-        
-        DeckManager.Instance.SetupDecks(cards, bombIDs);
     }
     public void LoadCards(string file) //load all cards from DB into a list of cards
     {

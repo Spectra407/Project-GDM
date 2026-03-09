@@ -62,8 +62,14 @@ public class CombatManager : MonoBehaviour
         madness = alice.startingMadness;
         enemyCurrentHealth = enemy.maxHealth;
         jackpot = false;
+        
+        // Attach AudioManager to its correct sounds
+        AudioManager.instance.SubscribeToScene();
+        
+        // Set up the deck for this fight using this scene's enemy
+        DeckManager.Instance.SetupDecks(CardDB.Instance.cards, new List<int>(enemy.bombCardIDs));
 
-        // Kick off the game loop
+        // Start the game loop
         MoveToNewState("EnemyChooseActionState");
         // This will have to start at EnemyChooseAction instead, which then MoveToNewState("ChoosingAction");
     }

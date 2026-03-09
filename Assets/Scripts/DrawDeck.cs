@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class DrawDeck : MonoBehaviour
 {
     public GameObject cardPrefab;
-    public DeckManager deck;
 
     public Vector3 positionShift;
 
@@ -21,7 +20,9 @@ public class DrawDeck : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int count = deck.drawPile.Count;
+        if (DeckManager.Instance == null) return;
+        
+        int count = DeckManager.Instance.drawPile.Count;
         if (count < myCount)
         {
             while (count != myCount)

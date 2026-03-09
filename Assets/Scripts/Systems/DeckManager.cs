@@ -38,6 +38,9 @@ namespace Systems
 
         public void SetupDecks(List<CardData> allCards, List<int> bombIDs)
         {
+            Debug.Log($"SetupDecks called. _isInitialized={_isInitialized}, currentDeck count={currentDeck.Count}");
+
+            
             // Initialize starter deck only on first fight
             if (!_isInitialized)
             {

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Systems;
+using UnityEngine.SceneManagement;
 
 public class VictoryState : ITurnState
 {
@@ -60,6 +61,8 @@ public class VictoryState : ITurnState
     {
         // Add to current deck permanently
         DeckManager.Instance.currentDeck.Add(chosen);
+        Debug.Log($"Added {chosen.cardName} to deck. currentDeck now has {DeckManager.Instance.currentDeck.Count} cards.");
+
         Debug.Log($"Added {chosen.cardName} to deck.");
 
         _picksRemaining--;
@@ -73,7 +76,8 @@ public class VictoryState : ITurnState
         else
         {
             Debug.Log("Rewards selected. Proceeding...");
-            // MOVE TO NEXT SCENE/STATE?? HERE
+            // MOVE TO NEXT SCENE HERE
+            SceneManager.LoadScene("Scenes/SecondFightTestScene");
         }
     }
 
