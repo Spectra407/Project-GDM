@@ -62,6 +62,7 @@ public class ShatteringState : ITurnState
                 
                 // Byebye other cards
                 _cm.Hand.StartCoroutine(_cm.Hand.ShatterSequence(clickedCard));
+                _cm.dem.ResetForStand();    // Reset all pending. We will "redo" the resolve on draw for the survivor inside ShatteringState. 
                 
                 // Move to EvaluatingCards
                 _cm.dem.ResolveOnDraw(clickedCard.data);
