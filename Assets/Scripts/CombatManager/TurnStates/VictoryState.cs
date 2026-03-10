@@ -79,9 +79,13 @@ public class VictoryState : ITurnState
         }
         else
         {
+            // Gain money according to the enemy
+            _cm.alice.AddGold(_cm.enemy.goldReward);
+            Debug.Log($"Earned {_cm.enemy.goldReward} gold.");
             Debug.Log("Rewards selected. Proceeding...");
             // MOVE TO NEXT SCENE HERE
-            SceneManager.LoadScene("Scenes/SecondFightTestScene");
+            SceneManager.LoadScene("SecondFightTestScene"); // Either next fight or "ShopScene"
+            // Maybe use SceneManager.LoadScene(_cm.enemy.nextSceneName); so we can put into the enemydata what the next scene is
         }
     }
 

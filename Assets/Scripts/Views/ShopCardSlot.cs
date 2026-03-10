@@ -1,0 +1,35 @@
+﻿using UnityEngine;
+using TMPro;
+
+public class ShopCardSlot : MonoBehaviour
+{
+    [SerializeField] private CardView cardView;
+    [SerializeField] private TMP_Text priceText;
+    [SerializeField] private GameObject soldOverlay;
+
+    public CardData card { get; private set; }
+    public int price { get; private set; }
+    private ShopManager _shop;
+
+    public void Setup(CardData cardData, int cardPrice, ShopManager shop)
+    {
+        card = cardData;
+        price = cardPrice;
+        _shop = shop;
+
+        cardView.Setup(card);
+        priceText.text = $"{price}g";
+        soldOverlay.SetActive(false);
+    }
+
+    public void OnClickBuy()  // Use with button OnClick effect
+    {
+        _shop.TryBuyCard(this);
+    }
+
+    public void MarkAsSold()
+    {
+        soldOverlay.SetActive(true);
+        priceText.text = "SOLD";
+    }
+}
