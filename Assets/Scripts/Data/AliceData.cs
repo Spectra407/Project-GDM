@@ -12,13 +12,27 @@ public class AliceData : ScriptableObject
     public int maxMadness = 7; 
     public int startingMadness = 0;
 
-    [Header("Cash money (buttons)")] public int buttons;
+    [Header("Cash money (buttons)")] public int gold;
     
     
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void AddGold(int amount)
+    {
+        gold += amount;
+        Debug.Log($"Gold: {gold}");
+    }
+
+    public bool SpendGold(int amount)
+    {
+        if (gold < amount) return false;
+        gold -= amount;
+        Debug.Log($"Spent: {amount}. Remaining gold: {gold}");
+        return true;
     }
     
     // Ended up moving this into the CombatManager itself in the EnemyTurnState!

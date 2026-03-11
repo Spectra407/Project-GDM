@@ -8,6 +8,7 @@ public class CardViewHoverSystem : Singleton<CardViewHoverSystem>
 
     public void Show(CardData card, Vector3 position)
     {
+        if (cardViewHover == null) return;
         OnCardHover.Invoke();
         cardViewHover.gameObject.SetActive(true);
         cardViewHover.Setup(card);
