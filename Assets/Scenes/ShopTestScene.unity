@@ -2419,6 +2419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardViewCreator
   cardViewPrefab: {fileID: 1206280978220538393, guid: e0bf9f2ac272bc14d9a013bd554f986d, type: 3}
+  scale: 0
 --- !u!1 &608426213
 GameObject:
   m_ObjectHideFlags: 0
@@ -6841,7 +6842,7 @@ MonoBehaviour:
   goldText: {fileID: 1903748856}
   minPrice: 20
   maxPrice: 40
-  nextSceneName: SecondFightTestScene
+  nextSceneName: SecondFightSceneUpdated
   alice: {fileID: 11400000, guid: 23c5c0773c39e3e479d7e9e73959816d, type: 2}
 --- !u!4 &1698192992
 Transform:
