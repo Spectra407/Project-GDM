@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FirstEnemyData
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Card Soldier
-  maxHealth: 50
+  maxHealth: 1
   enemySprite: {fileID: 0}
   moves:
   - damage: 5

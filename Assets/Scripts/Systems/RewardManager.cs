@@ -16,7 +16,7 @@ public class RewardManager : Singleton<RewardManager>
             {
                 rewardCardVisuals[i].gameObject.SetActive(true);
                 rewardCardVisuals[i].Setup(offers[i]);
-                rewardCardVisuals[i].transform.localScale = new Vector3(200, 200, 1);
+                rewardCardVisuals[i].transform.localScale = new Vector3(130, 130, 1);
             }
             else
             {

@@ -19,6 +19,7 @@ public class PeekManager : Singleton<PeekManager>
 
     public void ShowPeek(int count)
     {
+        Debug.Log(gameObject.name);
         // Disable interaction with the 3D hand
         HandView.Instance.SetHandInteractable(false);
         
