@@ -1,20 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Systems;
 
 public class ShopManager : MonoBehaviour
 {
-    [SerializeField] private List<ShopCardSlot> cardSlots; // Card slots in UI, 6 for now?
+    [SerializeField] private List<ShopCardSlot> cardSlots; // Card slots in UI, 8 for now?
     [SerializeField] private TMP_Text goldText;
     [SerializeField] private int minPrice = 20;
     [SerializeField] private int maxPrice = 40;
     [SerializeField] private string nextSceneName; // scene to load after the shop
     [SerializeField] public AliceData alice;
 
+    private bool canInteract = false;
+
     private void Start()
     {
-        List<CardData> offers = DeckManager.Instance.GetRewardOffers(6);    // 6 card options for now?
+        canInteract = true;
+    
+        List<CardData> offers = DeckManager.Instance.GetRewardOffers(8);
         for (int i = 0; i < cardSlots.Count; i++)
         {
             if (i < offers.Count)
@@ -31,8 +36,11 @@ public class ShopManager : MonoBehaviour
         UpdateGoldUI();
     }
 
+    
+
     public void TryBuyCard(ShopCardSlot slot)
     {
+        if (!canInteract) return;
         if (alice.SpendGold(slot.price))
         {
             DeckManager.Instance.currentDeck.Add(slot.card);

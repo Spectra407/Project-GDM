@@ -29,6 +29,7 @@ public class ShopCardSlot : MonoBehaviour
 
     public void MarkAsSold()
     {
+        if (_shop == null) return;
         soldOverlay.SetActive(true);
         priceText.text = "SOLD";
     }

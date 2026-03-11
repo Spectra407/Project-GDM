@@ -75,7 +75,7 @@ public class CardDB : MonoBehaviour
     private SpecialEffect parseEffect(string line) //uses effect registry to get special effect from string 
     {
         string[] fields = line.Split("_");
-        if (fields[0] != null)
+        if (!string.IsNullOrWhiteSpace(fields[0]))
         {
             SpecialEffect effect = EffectRegistry.Create(fields[0], fields[1..]); //need to figure out what to do if no additional args
             return effect;
