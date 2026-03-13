@@ -16,4 +16,4 @@ MonoBehaviour:
   currentHealth: 50
   maxMadness: 7
   startingMadness: 0
-  buttons: 0
+  gold: 0

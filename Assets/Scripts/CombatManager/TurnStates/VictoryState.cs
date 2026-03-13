@@ -79,10 +79,22 @@ public class VictoryState : ITurnState
         }
         else
         {
+            CardViewHoverSystem.Instance.Hide();    // Hide it to avoid some bugs when initializing the shop scene
+            
+            // Gain money according to the enemy
+            _cm.alice.AddGold(_cm.enemy.goldReward);
+            Debug.Log($"Earned {_cm.enemy.goldReward} gold.");
             Debug.Log("Rewards selected. Proceeding...");
             // MOVE TO NEXT SCENE HERE
-            SceneManager.LoadScene("Scenes/SecondFightTestScene");
+            _cm.StartCoroutine(DelayedSceneLoad(_cm.enemy.nextSceneName)); // Either next fight or "ShopScene"
+            // Maybe use SceneManager.LoadScene(_cm.enemy.nextSceneName); so we can put into the enemydata what the next scene is
         }
+    }
+
+    private IEnumerator DelayedSceneLoad(string sceneName)
+    {
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(sceneName);
     }
 
     public void HandleInput(string inputID) { }

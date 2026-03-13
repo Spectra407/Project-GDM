@@ -43,7 +43,6 @@ public class HandlingCardState : ITurnState
         if (_cm.madness > _cm.alice.maxMadness)     // Check for Shatter
         {
             // Trigger Shatter.
-            _cm.dem.ResetForStand();    // Reset all pending. We will "redo" the resolve on draw for the survivor inside ShatteringState. 
             _cm.StartCoroutine(DelayedShatter());
         }
         else
