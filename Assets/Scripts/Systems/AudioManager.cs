@@ -87,7 +87,7 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayHoverCard()
     {
-        PlaySound(hoverCard);
+        PlaySound(hoverCard, 0.4f);
     }
     public void PlayTakeDamage()
     {
@@ -107,9 +107,14 @@ public class AudioManager : MonoBehaviour
             PlaySound(mirrorCracks[cm.alice.maxMadness]);
         }
     }
-    private void PlaySound(AudioClip sound)
+    private void PlaySound(AudioClip sound, float volumeMultiplier = 1f)
     {
-        effects.PlayOneShot(sound);
+        if (sound == null) return;
+        float finalVolume = fxVolume * volumeMultiplier;
+        
+        // Add a tiny bit of pitch variance so every sound feels unique
+        effects.pitch = Random.Range(0.95f, 1.05f);
+        effects.PlayOneShot(sound, finalVolume);
     }
 }
 

@@ -74,6 +74,11 @@ public class CardView : MonoBehaviour
 
     void OnMouseEnter()
     {
+        // Play hover sound
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayHoverCard();
+        }
         
         // If this is a shop card, we use the Overlay System instead of moving it
         if (isShopCard)
