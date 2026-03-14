@@ -12,18 +12,42 @@ using UnityEngine.Rendering;
 public class HandView : Singleton<HandView>
 {
     [SerializeField] private SplineContainer splineContainer;
-    [Header("Balatro Hand Settings")]
+    [SerializeField] public Transform drawDeckTransformPosition; // Slide the deck visual here
     
     public readonly List<CardView> handCardViews = new();
     public bool isShattering = false;
 
     public IEnumerator AnimateCardToHand(CardView cardView)
     {
+        // 1. Force position and rotation at the deck
+        Vector3 spawnPos = drawDeckTransformPosition != null ? drawDeckTransformPosition.position : Vector3.zero;
+        cardView.transform.position = spawnPos;
+        cardView.transform.rotation = Quaternion.Euler(0, 0, 90f);
+        
+        // 2. Add to list but DON'T rearrange the whole hand yet
         handCardViews.Add(cardView);
-        Debug.Log(handCardViews.Count);
-        yield return UpdateCardPositions(0.15f);
-    }
 
+        // 3. Calculate where THIS specific card needs to go
+        // (This is a simplified version of your layout math)
+        float idealSpacing = 1.8f;
+        float maxTotalWidth = 10.0f;
+        int count = handCardViews.Count;
+        float currentSpacing = Mathf.Min(idealSpacing, maxTotalWidth / Mathf.Max(1, count - 1));
+        float totalWidth = (count - 1) * currentSpacing;
+        float xPos = (-totalWidth / 2f) + ((count - 1) * currentSpacing);
+        
+        Vector3 targetPos = transform.position + new Vector3(xPos, 0, -0.01f * (count - 1));
+
+        // 4. PERFORM THE FLIGHT: This is the actual animation
+        if (AudioManager.instance != null) AudioManager.instance.PlayCardPlayed();
+        
+        // Fly the card from deck to its new slot
+        cardView.transform.DOMove(targetPos, 0.4f).SetEase(Ease.OutBack);
+        yield return cardView.transform.DORotate(Vector3.zero, 0.4f).SetEase(Ease.OutBack).WaitForCompletion();
+
+        // 5. Now update everyone else's position to accommodate the new card
+        yield return UpdateCardPositions(0.2f);
+    }
     
     
     private IEnumerator UpdateCardPositions(float duration)
@@ -55,6 +79,11 @@ public class HandView : Singleton<HandView>
             float xPos = startX + (i * currentSpacing);
             float normalizedIndex = (count > 1) ? (i - (count - 1) / 2f) : 0f;
             float baseTilt = -normalizedIndex * 3f;
+            
+            if (card.TryGetComponent<SortingGroup>(out var sg))
+            {
+                sg.sortingOrder = i;
+            }
 
             
         
@@ -65,8 +94,8 @@ public class HandView : Singleton<HandView>
             // Only animate if not currently hovered to prevent jitter
             if (card.gameObject.activeInHierarchy)
             {
-                card.transform.DOMove(card.homePos, duration);
-                card.transform.DORotateQuaternion(card.homeRot, duration);
+                card.transform.DOMove(card.homePos, duration).SetEase(Ease.OutBack);
+                card.transform.DORotateQuaternion(card.homeRot, duration).SetEase(Ease.OutBack);
             }
         }
         yield return new WaitForSeconds(duration);

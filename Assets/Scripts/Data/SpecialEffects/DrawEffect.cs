@@ -62,10 +62,12 @@ public class DrawEffect : SpecialEffect
         drawnData.InstanceID = System.Guid.NewGuid().ToString();    // New InstanceID when drawn,
                                                                     // doesn't rly work dw bout it I gave up on troubleshooting this lmao
                                                                     // Just make it so that you can't have duplicate Copy card effects
-
+        Vector3 spawnPos = HandView.Instance.drawDeckTransformPosition.position;
+                                                                    
         CardView cardView = CardViewCreator.Instance.CreateCardView(
-            drawnData, cm.transform.position, Quaternion.identity);
+            drawnData, spawnPos, Quaternion.identity);
         yield return cm.StartCoroutine(HandView.Instance.AnimateCardToHand(cardView));
+        yield return new WaitForSeconds(0.1f);
 
         cm.MoveToNewState("HandlingCard"); 
         cm.lastDrawnCard = drawnData;      

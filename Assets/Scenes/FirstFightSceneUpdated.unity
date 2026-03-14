@@ -3504,6 +3504,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandView
   splineContainer: {fileID: 1612124923}
+  drawDeckTransformPosition: {fileID: 1930545996}
   isShattering: 0
 --- !u!4 &1222198704
 Transform:
