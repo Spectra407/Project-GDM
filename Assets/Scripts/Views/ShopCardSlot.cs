@@ -18,6 +18,9 @@ public class ShopCardSlot : MonoBehaviour
         _shop = shop;
 
         cardView.Setup(card);
+        cardView.homePos = cardView.transform.position;
+        cardView.homeRot = cardView.transform.rotation;
+        
         priceText.text = $"{price}g";
         soldOverlay.SetActive(false);
     }

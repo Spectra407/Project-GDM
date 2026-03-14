@@ -5,12 +5,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Systems;
+using UnityEngine.Rendering;
 
 // This script is responsible for the visual organization of the cards in the player's hand and contains the data for the cards in hand.
 // It also takes care of the Shatter sequence and deletes/animates the cards getting deleted
 public class HandView : Singleton<HandView>
 {
     [SerializeField] private SplineContainer splineContainer;
+    [Header("Balatro Hand Settings")]
+    
     public readonly List<CardView> handCardViews = new();
     public bool isShattering = false;
 
@@ -21,38 +24,54 @@ public class HandView : Singleton<HandView>
         yield return UpdateCardPositions(0.15f);
     }
 
+    
+    
     private IEnumerator UpdateCardPositions(float duration)
     {
         handCardViews.RemoveAll(c => !c);
-        if (handCardViews.Count == 0) yield break;  // Break when there's no cards
-        
-        float cardSpacing = 1f / 12f;       // Adjust according to how many max cards we are expecting, here its at 12
-        float firstCardPosition = 0.5f - (handCardViews.Count - 1) * cardSpacing / 2;  
-        Spline spline = splineContainer.Spline;
-        for (int i = 0; i < handCardViews.Count; i++)   // Adjust the position of each card on the spline when a new card is added.
+        int count = handCardViews.Count;
+        if (count == 0) yield break;
+
+        // Define your spacing where cards don't touch
+        float idealSpacing = 1.8f;  // Individual card spacing
+        float maxTotalWidth = 10.0f;     // When should the cards start overlapping
+
+        // Calculate the width if we used ideal spacing
+        float intendedWidth = (count - 1) * idealSpacing;
+
+        // Dynamic Spacing: Use ideal spacing UNLESS it exceeds max width
+        float currentSpacing = (intendedWidth <= maxTotalWidth) 
+            ? idealSpacing 
+            : maxTotalWidth / Mathf.Max(1, count - 1);
+
+        float totalWidth = (count - 1) * currentSpacing;
+        float startX = -totalWidth / 2f;
+
+        for (int i = 0; i < count; i++)
         {
             CardView card = handCardViews[i];
-            // If the card was destroyed mid-animation, skip
             if (!card) continue;
-            
-            Transform t = card.transform;
-            
-            float p = firstCardPosition + (i * cardSpacing);
-            Vector3 splinePosition = spline.EvaluatePosition(p);
-            Vector3 forward = spline.EvaluateTangent(p);
-            Vector3 up = spline.EvaluateUpVector(p);
-            Quaternion rotation = Quaternion.LookRotation(-up, Vector3.Cross(-up, forward).normalized);
 
-            Vector3 targetPos = splinePosition + transform.position + 0.01f * i * Vector3.back;
+            float xPos = startX + (i * currentSpacing);
+            float normalizedIndex = (count > 1) ? (i - (count - 1) / 2f) : 0f;
+            float baseTilt = -normalizedIndex * 3f;
+
             
-            // Utilize DOTween to make cards move smoothly and not teleport around
-            
-            t.DOMove(targetPos, duration);
-            t.DORotate(rotation.eulerAngles, duration);
+        
+            // Update the Home position with the new dynamic spacing
+            card.homePos = transform.position + new Vector3(xPos, 0, -0.01f * i);
+            card.homeRot = Quaternion.Euler(0, 0, baseTilt); 
+
+            // Only animate if not currently hovered to prevent jitter
+            if (card.gameObject.activeInHierarchy)
+            {
+                card.transform.DOMove(card.homePos, duration);
+                card.transform.DORotateQuaternion(card.homeRot, duration);
+            }
         }
         yield return new WaitForSeconds(duration);
     }
-
+    
     public List<CardData> GetHandData()
     {
         // Take every CardView in the hand and return its CardData in a list

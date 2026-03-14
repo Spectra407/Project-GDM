@@ -1480,7 +1480,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -290, y: 210}
+  m_AnchoredPosition: {x: -391, y: 245}
   m_SizeDelta: {x: 117.63, y: 311.49}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &547538183
@@ -3504,6 +3504,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandView
   splineContainer: {fileID: 1612124923}
+  maxHandWidth: 8
+  baseSpacing: 1.2
+  tiltIntensity: 0
   isShattering: 0
 --- !u!4 &1222198704
 Transform:
