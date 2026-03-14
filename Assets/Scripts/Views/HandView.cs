@@ -19,16 +19,12 @@ public class HandView : Singleton<HandView>
 
     public IEnumerator AnimateCardToHand(CardView cardView)
     {
-        // 1. Force position and rotation at the deck
         Vector3 spawnPos = drawDeckTransformPosition != null ? drawDeckTransformPosition.position : Vector3.zero;
         cardView.transform.position = spawnPos;
         cardView.transform.rotation = Quaternion.Euler(0, 0, 90f);
         
-        // 2. Add to list but DON'T rearrange the whole hand yet
         handCardViews.Add(cardView);
-
-        // 3. Calculate where THIS specific card needs to go
-        // (This is a simplified version of your layout math)
+        
         float idealSpacing = 1.8f;
         float maxTotalWidth = 10.0f;
         int count = handCardViews.Count;
@@ -38,14 +34,14 @@ public class HandView : Singleton<HandView>
         
         Vector3 targetPos = transform.position + new Vector3(xPos, 0, -0.01f * (count - 1));
 
-        // 4. PERFORM THE FLIGHT: This is the actual animation
+        // Animation
         if (AudioManager.instance != null) AudioManager.instance.PlayCardPlayed();
         
         // Fly the card from deck to its new slot
         cardView.transform.DOMove(targetPos, 0.4f).SetEase(Ease.OutBack);
         yield return cardView.transform.DORotate(Vector3.zero, 0.4f).SetEase(Ease.OutBack).WaitForCompletion();
 
-        // 5. Now update everyone else's position to accommodate the new card
+        // Update everyone else's position to accommodate the new card
         yield return UpdateCardPositions(0.2f);
     }
     
