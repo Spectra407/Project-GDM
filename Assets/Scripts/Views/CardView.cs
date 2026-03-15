@@ -114,8 +114,8 @@ public class CardView : MonoBehaviour
         transform.DOMove(homePos + Vector3.up * 0.8f, 0.15f).SetEase(Ease.OutBack);
         transform.DORotate(Vector3.zero, 0.15f);
         
-        // Scale relative to its original size (120%)
-        transform.DOScale(originalScale * 1.2f, 0.15f); 
+        // Scale relative to its original size (130%)
+        transform.DOScale(originalScale * 1.3f, 0.15f); 
         
         GetComponent<SortingGroup>().sortingOrder = 100; 
     }
@@ -123,29 +123,31 @@ public class CardView : MonoBehaviour
     void OnMouseExit()
     {
         if (isAnimating) return;
-        
+
         if (isShopCard)
         {
             CardViewHoverSystem.Instance.Hide();
             wrapper.SetActive(true);
             return;
         }
-    
-        if (isPeek || !isHovered) return;
-        isHovered = false;
 
+        if (isPeek || !isHovered) return;
+
+        // Only un-hover if the mouse has moved away from the home position, avoids janky up and down
+        Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(
+            new Vector3(Input.mousePosition.x, Input.mousePosition.y, 
+                Camera.main.WorldToScreenPoint(homePos).z));
+
+        if (Vector2.Distance(mouseWorld, homePos) < 1.2f) return;
+
+        isHovered = false;
         transform.DOKill();
         transform.DOMove(homePos, 0.15f);
         transform.DORotateQuaternion(homeRot, 0.15f);
         transform.DOScale(originalScale, 0.15f);
-    
-        // Get the SortingGroup and put it back to its original depth
+
         if (TryGetComponent<SortingGroup>(out var sg))
-        {
-            // Calculate the index manually if you aren't storing it, 
-            // or just pull it from the HandView list.
             sg.sortingOrder = HandView.Instance.handCardViews.IndexOf(this);
-        }
     }
     
     // Use this to clear Peeked cards
