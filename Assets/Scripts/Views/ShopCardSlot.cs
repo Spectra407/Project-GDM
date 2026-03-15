@@ -5,7 +5,6 @@ public class ShopCardSlot : MonoBehaviour
 {
     [SerializeField] private CardView cardView;
     [SerializeField] private TMP_Text priceText;
-    [SerializeField] private GameObject soldOverlay;
 
     public CardData card { get; private set; }
     public int price { get; private set; }
@@ -22,7 +21,6 @@ public class ShopCardSlot : MonoBehaviour
         cardView.homeRot = cardView.transform.rotation;
         
         priceText.text = $"{price}g";
-        soldOverlay.SetActive(false);
     }
 
     public void OnClickBuy()  // Use with button OnClick effect
@@ -33,7 +31,6 @@ public class ShopCardSlot : MonoBehaviour
     public void MarkAsSold()
     {
         if (_shop == null) return;
-        soldOverlay.SetActive(true);
-        priceText.text = "SOLD";
+        priceText.text = "SOLD OUT";
     }
 }

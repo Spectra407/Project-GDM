@@ -7,7 +7,6 @@ using Systems;
 public class ShopManager : MonoBehaviour
 {
     [SerializeField] private List<ShopCardSlot> cardSlots; // Card slots in UI, 8 for now?
-    [SerializeField] private TMP_Text goldText;
     [SerializeField] private int minPrice = 20;
     [SerializeField] private int maxPrice = 40;
     [SerializeField] private string nextSceneName; // scene to load after the shop
@@ -33,7 +32,6 @@ public class ShopManager : MonoBehaviour
                 cardSlots[i].gameObject.SetActive(false);
             }
         }
-        UpdateGoldUI();
     }
 
     
@@ -46,7 +44,6 @@ public class ShopManager : MonoBehaviour
             DeckManager.Instance.currentDeck.Add(slot.card);
             Debug.Log($"Bought {slot.card.cardName} for {slot.price} gold.");
             slot.MarkAsSold();
-            UpdateGoldUI();
         }
         else
         {
@@ -58,10 +55,5 @@ public class ShopManager : MonoBehaviour
     public void LeaveShop()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
-    }
-
-    private void UpdateGoldUI()
-    {
-        goldText.text = $"{alice.gold} gold";
     }
 }
