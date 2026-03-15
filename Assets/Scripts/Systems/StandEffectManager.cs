@@ -10,6 +10,19 @@ namespace Systems
         {
             int handCount = cm.Hand.handCardViews.Count;
             
+            // Calculate bomb strength buff to give to enemy
+            int bombStrength = 0;
+            foreach (var cardView in cm.Hand.handCardViews)
+            {
+                if (cardView?.data != null && cardView.data.cardType.Contains(CardData.CardType.Bomb))
+                    bombStrength += cardView.data.strength;
+            }
+            if (bombStrength > 0)
+            {
+                cm.enemyStrength += bombStrength;
+                Debug.Log($"Bomb cards gave {bombStrength} strength to the enemy!");
+            }
+            
             int equalDamage = cm.dem.GetEqualBonus(CardData.CardType.Damage);
             int equalDefense = cm.dem.GetEqualBonus(CardData.CardType.Defense);
             int equalStrength = cm.dem.GetEqualBonus(CardData.CardType.Strength);

@@ -15,6 +15,13 @@ public class CardView : MonoBehaviour
     [SerializeField] private SpriteRenderer imageSR;
     [SerializeField] private GameObject wrapper;
     
+    [Header("Card Background")]
+    [SerializeField] private SpriteRenderer cardBackgroundSR;
+    [SerializeField] private Sprite defaultCardSprite;
+    [SerializeField] private Sprite bombCardSprite;
+    [SerializeField] private Color defaultTextColor = new Color(0.541f, 0f, 0f, 1f);
+    [SerializeField] private Color bombTextColor = Color.white;
+    
     [Header("Card Hover stuff")]
     [HideInInspector] public Vector3 homePos;
     [HideInInspector] public Quaternion homeRot;
@@ -69,8 +76,13 @@ public class CardView : MonoBehaviour
         madness.text = data.madness.ToString();
         imageSR.sprite = data.art;
         
-        
-
+        // Swap card background and text color based on bombs
+        if (cardBackgroundSR != null)
+            cardBackgroundSR.sprite = data.cardType.Contains(CardData.CardType.Bomb) ? bombCardSprite : defaultCardSprite;
+        bool isBomb = data.cardType.Contains(CardData.CardType.Bomb);
+        Color textColor = isBomb ? bombTextColor : defaultTextColor;
+        description.color = textColor;
+        madness.color = textColor;
     }
 
     void OnMouseEnter()

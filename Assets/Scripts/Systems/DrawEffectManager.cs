@@ -224,6 +224,7 @@ namespace Systems
 
         private void ProcessPendingStrength(CardData card)
         {
+            if (card.cardType.Contains(CardData.CardType.Bomb)) return;
             PendingStats[CardData.CardType.Strength] += DisStats[CardData.CardType.Strength] * card.strength;
         }
 
