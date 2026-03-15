@@ -75,6 +75,8 @@ public class CardView : MonoBehaviour
 
     void OnMouseEnter()
     {
+        if (isAnimating) return;
+        
         // Play hover sound
         if (AudioManager.instance != null)
         {
@@ -108,6 +110,8 @@ public class CardView : MonoBehaviour
 
     void OnMouseExit()
     {
+        if (isAnimating) return;
+        
         if (isShopCard)
         {
             CardViewHoverSystem.Instance.Hide();

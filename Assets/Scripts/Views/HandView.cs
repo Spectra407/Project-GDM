@@ -207,6 +207,31 @@ public class HandView : Singleton<HandView>
         Debug.Log("Hand cleared and data recycled to deck.");
     }
     
+    public IEnumerator AnimateCardToDeck(CardView cardView)
+    {
+        Vector3 deckPos = drawDeckTransformPosition != null ? drawDeckTransformPosition.position : Vector3.zero;
+
+        handCardViews.Remove(cardView);
+        cardView.isAnimating = true;
+
+        cardView.transform.DOMove(deckPos, 0.4f).SetEase(Ease.InBack);
+        cardView.transform.DORotate(new Vector3(0, 0, 90f), 0.4f).SetEase(Ease.InBack);
+        cardView.transform.DOScale(Vector3.zero, 0.4f).SetEase(Ease.InBack).OnComplete(() =>
+        {
+            if (cardView != null)
+            {
+                if (cardView.data != null)
+                    DeckManager.Instance.RecycleToDrawPile(cardView.data);
+                Destroy(cardView.gameObject);
+            }
+        });
+
+        yield return new WaitForSeconds(0.4f);
+
+        // Reposition remaining cards to close the gap
+        yield return UpdateCardPositions(0.3f);
+    }
+    
     public void SetHandInteractable(bool isInteractable)
     {
         foreach (var card in handCardViews)

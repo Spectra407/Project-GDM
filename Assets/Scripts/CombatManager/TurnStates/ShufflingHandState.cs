@@ -13,12 +13,14 @@ public class ShufflingHandState : ITurnState
 
     public void Enter()
     {
-        Debug.Log("ShufflingHandState entered —> waiting for Yes/No input.");
+        Debug.Log("ShufflingHandState entered");
         HandView.Instance.SetHandInteractable(false);
-        // TURN ON Yes/No UI buttons here
         _cm.shuffleYesButton.SetActive(true);
         _cm.shuffleNoButton.SetActive(true);
+        Debug.Log($"Yes active: {_cm.shuffleYesButton.activeSelf}, No active: {_cm.shuffleNoButton.activeSelf}");
     }
+    
+    
 
     public void HandleInput(string inputID)
     {
@@ -29,19 +31,18 @@ public class ShufflingHandState : ITurnState
 
     private void ConfirmShuffle()
     {
-        // Recycle all cards including the ShuffleHand card back into deck
-        foreach (var cv in HandView.Instance.handCardViews)
-        {
-            if (cv == null) continue;
-            DeckManager.Instance.RecycleToDrawPile(cv.data);
-            GameObject.Destroy(cv.gameObject);
-        }
-        HandView.Instance.handCardViews.Clear();
+        _cm.StartCoroutine(ConfirmShuffleAnimated());
+    }
 
-        // Reset all stats and madness since hand is now empty
+    private IEnumerator ConfirmShuffleAnimated()
+    {
         _cm.dem.ResetForJackpot();
         _cm.madness = _cm.alice.startingMadness;
         _cm.jackpot = false;
+
+        float totalDuration = 0.4f + (HandView.Instance.handCardViews.Count * 0.05f);
+        HandView.Instance.ClearHand();
+        yield return new WaitForSeconds(totalDuration);
 
         _cm.MoveToNewState("ChoosingAction");
     }
@@ -53,7 +54,25 @@ public class ShufflingHandState : ITurnState
         _cm.MoveToNewState("ChoosingAction");
     }
 
-    public void Update() { }
+    public void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Camera cam = Camera.main;
+            RectTransform yesRect = _cm.shuffleYesButton.GetComponent<RectTransform>();
+            RectTransform noRect = _cm.shuffleNoButton.GetComponent<RectTransform>();
+
+            Debug.Log($"Mouse pos: {Input.mousePosition}");
+            Debug.Log($"Yes contains: {RectTransformUtility.RectangleContainsScreenPoint(yesRect, Input.mousePosition, cam)}");
+            Debug.Log($"No contains: {RectTransformUtility.RectangleContainsScreenPoint(noRect, Input.mousePosition, cam)}");
+
+            if (RectTransformUtility.RectangleContainsScreenPoint(yesRect, Input.mousePosition, cam))
+                ConfirmShuffle();
+            else if (RectTransformUtility.RectangleContainsScreenPoint(noRect, Input.mousePosition, cam))
+                CancelShuffle();
+        }
+    }
+    
     public void Exit()
     {
         HandView.Instance.SetHandInteractable(true);
