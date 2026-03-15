@@ -50,11 +50,12 @@ public class ShufflingCardState : ITurnState
 
     private void ShuffleCard(CardView cardView)
     {
-        HandView.Instance.handCardViews.Remove(cardView);
-        GameObject.Destroy(cardView.gameObject);
-        HandView.Instance.RefreshHandPositions();
-    
-        DeckManager.Instance.RecycleToDrawPile(cardView.data);
+        _cm.StartCoroutine(ShuffleCardAnimated(cardView));
+    }
+
+    private IEnumerator ShuffleCardAnimated(CardView cardView)
+    {
+        yield return HandView.Instance.AnimateCardToDeck(cardView);
         RecalculateHand();
         _cm.MoveToNewState("ChoosingAction");
     }

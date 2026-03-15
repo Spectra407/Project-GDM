@@ -370,6 +370,17 @@ MonoBehaviour:
   madness: {fileID: 5369998218075479468}
   imageSR: {fileID: 2166093388934414383}
   wrapper: {fileID: 3657559663009678475}
+  cardBackgroundSR: {fileID: 1191777462977784407}
+  defaultCardSprite: {fileID: -6102757112415190358, guid: 8121ac60e62a10f428ff42cd2b4b4778, type: 3}
+  bombCardSprite: {fileID: 8538185564803274513, guid: fb7914f28c9192f418697ad1e856106b, type: 3}
+  homePos: {x: 0, y: 0, z: 0}
+  homeRot: {x: 0, y: 0, z: 0, w: 0}
+  isShopCard: 0
+  bounceSpeed: 2
+  bounceAmount: 0.05
+  tiltSpeed: 1.5
+  tiltAmount: 2
+  isAnimating: 0
   data: {fileID: 0}
 --- !u!210 &7756474005744303863
 SortingGroup:
