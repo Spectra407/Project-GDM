@@ -23,6 +23,8 @@ public class DrawDeck : MonoBehaviour
         if (DeckManager.Instance == null) return;
         
         int count = DeckManager.Instance.drawPile.Count;
+        if (count == myCount) return;
+        
         if (count < myCount)
         {
             while (count != myCount)
@@ -37,7 +39,7 @@ public class DrawDeck : MonoBehaviour
             while (count != myCount)
             {
                 GameObject card = Instantiate(cardPrefab);
-                card.transform.position += gameObject.transform.position + myCount * positionShift;
+                card.transform.position = gameObject.transform.position + myCount * positionShift;
                 cards.Add(card);
                 Debug.Log("spawned card at " + card.transform.position);
                 myCount++;
