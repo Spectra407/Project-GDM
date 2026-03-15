@@ -28,6 +28,7 @@ public class CardView : MonoBehaviour
     [SerializeField] private float tiltSpeed = 1.5f;
     [SerializeField] private float tiltAmount = 2f;
     private float randomOffset;
+    [HideInInspector] public bool isAnimating = false;
     
     [Header("Card Data, do not drag anything into here manually")]
     public CardData data;
@@ -41,7 +42,7 @@ public class CardView : MonoBehaviour
     void Update()
     {
         // Only animate passively if it's in the hand and NOT being hovered
-        if (isHovered || isShopCard || isPeek) return;
+        if (isHovered || isShopCard || isPeek || isAnimating) return;
         
         if (homePos == Vector3.zero) return;
 
