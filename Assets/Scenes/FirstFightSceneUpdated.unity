@@ -5579,7 +5579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   cardPrefab: {fileID: 6815848264401545326, guid: ed58047e869a22841afdaf7f43707816, type: 3}
-  positionShift: {x: 0.05, y: 0.02, z: 0}
+  positionShift: {x: 0.02, y: 0.02, z: -0.01}
 --- !u!1 &1969167733
 GameObject:
   m_ObjectHideFlags: 0
