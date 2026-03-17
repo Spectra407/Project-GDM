@@ -16,23 +16,13 @@ public class EnemyTurnState : ITurnState
         
         BannerManager.Instance.ShowBanner("Enemy Turn");
         
-        // Start a Coroutine via the CombatManager to handle the "thinking" time
         _cm.StartCoroutine(ExecuteEnemyMove());
     }
 
-    // private (EnemyMove move, int indexMove) ChooseEnemyMove()
-    // {
-    //     EnemyMove[] moves = _cm.enemy.moves;
-    //     int index = Random.Range(0, moves.Length);
-    //     Debug.Log("Chosen move number " + index);
-        
-    //     return (moves[index], index);
-    // }
-
+    
     private IEnumerator ExecuteEnemyMove()
     {
         // Wait a moment for animations or whatever
-        // CALL THE ANIMATION
         yield return new WaitForSeconds(1.5f);
         
         // ENEMY RESETS BLOCK
@@ -40,10 +30,12 @@ public class EnemyTurnState : ITurnState
         
         
         // ENEMY ATTACKS
-        ExecuteMoveEffects(_cm.enemyChosenMove);
-        // Play portrait animations attacking each other
-        PortraitAnimator.Instance.PlayEnemyAttack();
-        PortraitAnimator.Instance.PlayAliceHit();
+        foreach (EnemyMove move in _cm.enemyChosenMoves)
+        {
+            ExecuteMoveEffects(move);
+            PortraitAnimator.Instance.PlayEnemyAttack();
+            yield return new WaitForSeconds(0.5f);
+        }
         
         // Wait another moment so the player sees the result
         yield return new WaitForSeconds(1.0f);
@@ -59,7 +51,6 @@ public class EnemyTurnState : ITurnState
             // Reset the turn back to Alice
             _cm.tempDefense = 0;
             _cm.MoveToNewState("EnemyChooseActionState"); 
-            // This should be updated to go to EnemyChooseAction
         }
     }
     
@@ -76,12 +67,14 @@ public class EnemyTurnState : ITurnState
         {
             Debug.Log($"The Card Soldier gains {move.block} block!");
             _cm.enemyDefense += move.block;
+            AudioManager.instance.PlayGainShield();
         }
         
         if (move.strength != 0)
         {
             Debug.Log($"The Card Soldier gains {move.strength} strength!");
             _cm.enemyStrength += move.strength;
+            AudioManager.instance.PlayGainStrength();
         }
         
         if (move.madness != 0)
@@ -101,6 +94,7 @@ public class EnemyTurnState : ITurnState
         {
             // Defense big enough to tank full hit
             _cm.tempDefense -= damage;
+            AudioManager.instance.PlayBluntDamage();
         }
         else
         {
@@ -108,6 +102,7 @@ public class EnemyTurnState : ITurnState
             damage -= _cm.tempDefense;
             _cm.tempDefense = 0;
             _cm.currentHealth -= damage;
+            _cm.OnTakeDamage.Invoke();  // Invoke take damage sfx, sharper sound
         }
         // Stop negative health values
         _cm.currentHealth = Mathf.Max(0, _cm.currentHealth);
@@ -115,7 +110,10 @@ public class EnemyTurnState : ITurnState
         // Update the AliceData ScriptableObject to keep health persistent
         _cm.alice.currentHealth = _cm.currentHealth;
         
-        if (damage > 0) _cm.OnTakeDamage.Invoke();  // Invoke take damage sfx
+        if (damage > 0)
+        {
+            PortraitAnimator.Instance.PlayAliceHit();
+        }
     }
 
     public void HandleInput(string input) { } 

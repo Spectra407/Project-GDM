@@ -29,25 +29,27 @@ public class EnemyChooseActionState : ITurnState
     {
         // Wait a moment for animations or whatever
         yield return new WaitForSeconds(1.5f);
-        
-        yield return _cm.StartCoroutine(
-            _diceManager.RollDice(result =>
-            {
-            _cm.enemyIndexMove = result;
-            })
-        );
-    
 
-        _cm.enemyChosenMove = _cm.enemy.moves[_cm.enemyIndexMove];
-        Debug.Log("Chosen move number" + _cm.enemyIndexMove);
+        _cm.enemyChosenMoves.Clear();
+        string combinedText = "";
 
-        // CALL var (_cm.enemyChosenMove, _cm.enemyIndexMove) = ChooseEnemyMove();
-        // UPDATE enemyChosenMove to this new move and enemyIndexMove to this new index, used to easily call PlayDiceAnimation(2) or smtn for all the UI elements.
+        for (int i = 0; i < _cm.enemy.attackCount; i++)
+        {
+            if (i > 0) yield return new WaitForSeconds(0.5f);
+
+            int rolledIndex = 0;
+            yield return _cm.StartCoroutine(
+                _diceManager.RollDice(result => rolledIndex = result)
+            );
+
+            _cm.enemyChosenMoves.Add(_cm.enemy.moves[rolledIndex]);
+            Debug.Log("Chosen move number " + rolledIndex);
+
+            combinedText += (i > 0 ? "\n" : "") + _cm.enemy.moveText[rolledIndex];
+        }
         
-        // PLAY THE CHOSEN INTEGER'S DICE ANIMATION, for now use a placeholder video or smtn
-        // UPDATE THE TOP LEFT UI WITH THE CORRECT DICE IMAGE
-        // DISPLAY THE DESCRIPTION OF THE CURRENT DICE ATTACK ON THE RIGHT OF THE DICE IMAGE
-        _cm.moveText.text = _cm.enemy.moveText[_cm.enemyIndexMove];
+        // DISPLAY THE DESCRIPTION OF THE ATTACK
+        _cm.moveText.text = combinedText;
         
         // Wait another moment so the player sees the result
         yield return new WaitForSeconds(1.0f);

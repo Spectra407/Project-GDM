@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ef2c792a282f4341bd99bd179a09008, type: 3}
-  m_Name: FirstEnemyData
+  m_Name: CheshireCat
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  enemyName: Card Soldier
-  maxHealth: 75
+  enemyName: Cheshire Cat
+  maxHealth: 200
   enemySprite: {fileID: 0}
   moves:
-  - damage: 5
+  - damage: 12
     block: 0
     strength: 0
     madness: 0
@@ -24,30 +24,30 @@ MonoBehaviour:
     block: 0
     strength: 0
     madness: 0
-  - damage: 10
+  - damage: 5
     block: 0
     strength: 0
     madness: 0
-  - damage: 2
-    block: 10
-    strength: 0
-    madness: 0
-  - damage: 0
+  - damage: 1
     block: 0
-    strength: 1
+    strength: 0
     madness: 2
   - damage: 0
-    block: 5
+    block: 15
     strength: 2
     madness: 0
+  - damage: 0
+    block: 10
+    strength: 4
+    madness: 0
   moveText:
-  - 5\U00002694
+  - 12\U00002694
   - 8\U00002694
-  - 10\U00002694
-  - 2\U00002694 10\U0001F6E1
-  - 2\U0001FA9E 1\U0001F4AA
-  - 2\U0001F4AA 5\U0001F6E1
-  attackCount: 1
-  goldReward: 40
-  nextSceneName: SecondFightSceneUpdated
-  bombCardIDs: 030000000300000003000000040000000400000005000000
+  - 5\U00002694
+  - 1\U00002694 2\U0001FA9E
+  - 15\U0001F6E1 2\U0001F4AA
+  - 10\U0001F6E1 4\U0001F4AA
+  attackCount: 2
+  goldReward: 50
+  nextSceneName: ShopTestScene
+  bombCardIDs: 03000000030000000300000004000000040000000400000005000000

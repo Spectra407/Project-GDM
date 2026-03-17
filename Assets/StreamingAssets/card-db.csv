@@ -3,7 +3,7 @@
 1,Hedgehog Mallet,8 ⚔️,-1,Damage,8,0,0,0,0,0,Attack,,
 2,Vorpal Snicker,14 ⚔️ \n Jackpot: 20 ⚔️ instead,31,Damage,14,0,0,0,0,0,Attack,,
 3,Whispering Shadows,,-1,Bomb,0,0,0,0,0,1,Madness1,,did not add elite or queen stuff yet
-4,Deepening Delusions, -2 🛡️,-1,Bomb,2,0,-2,0,0,2,Madness2,,did not add elite or queen stuff yet
+4,Deepening Delusions, -2 🛡️,-1,Bomb,0,0,-2,0,0,2,Madness2,,did not add elite or queen stuff yet
 5,Journeyâ€™s End,Enemy gains 2 💪,-1,Bomb,0,2,0,0,0,3,Madness3,,did not add elite or queen stuff yet
 6,Insidious Brew,10 🧪 \n Jackpot: 20 🧪 instead,32,Poison,0,0,0,10,0,0,Poison,,
 7,Poisoned Cocktail,2x 🧪 \n Jackpot: 3x 🧪 instead,33,Poison,0,0,0,0,0,0,Poison,MULT_POI_2,

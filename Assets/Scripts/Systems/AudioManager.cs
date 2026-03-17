@@ -21,8 +21,12 @@ public class AudioManager : MonoBehaviour
     public AudioClip shuffle;
     public AudioClip cardPlayed;
     public AudioClip takeDamage;
+    public AudioClip bluntTakeDamage;
     public AudioClip hoverCard;
     public List<AudioClip> mirrorCracks;
+    public AudioClip gainShield;
+    public AudioClip gainStrength;
+    public AudioClip poisonDamage;
     
     [Header("Volume Settings")]
     public float masterVolume = 1f;
@@ -91,7 +95,11 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayTakeDamage()
     {
-        PlaySound(takeDamage);
+        PlaySound(takeDamage, 2f);
+    }
+    public void PlayBluntDamage()
+    {
+        PlaySound(bluntTakeDamage);
     }
     public void PlayMirrorCracks()
     {
@@ -107,6 +115,20 @@ public class AudioManager : MonoBehaviour
             PlaySound(mirrorCracks[cm.alice.maxMadness]);
         }
     }
+    public void PlayGainShield()
+    {
+        PlaySound(gainShield, 0.3f);
+    }
+    public void PlayGainStrength()
+    {
+        PlaySound(gainStrength, 0.6f);
+    }
+    public void PlayPoisonDamage()
+    {
+        PlaySound(poisonDamage, 1.5f);
+    }
+    
+    
     private void PlaySound(AudioClip sound, float volumeMultiplier = 1f)
     {
         if (sound == null) return;

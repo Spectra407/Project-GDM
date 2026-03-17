@@ -9,7 +9,7 @@ public class DiceManager : MonoBehaviour
 
     public Image uiImage;
 
-    public float shuffleDuration = 0.5f;
+    public float shuffleDuration = 0.05f;
     public float shuffleSpeed = 0.05f;
 
     public IEnumerator RollDice(System.Action<int> onResult)
