@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 501a7c14642bdbe4ca1cb347ad00a6e6
+guid: ef848b7d320fd4246a4baa0f0242b58a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7979795126475042679
-    second: EnemyRedBar_0
+      213: 2597683020522512424
+    second: AliceHpBottom_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: EnemyRedBar_0
+      name: AliceHpBottom_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 358
-        width: 435
-        height: 35
+        x: 96
+        y: 306
+        width: 549
+        height: 138
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 980df0a7c92124190800000000000000
-      internalID: -7979795126475042679
+      spriteID: 820ee4da1f2dc0420800000000000000
+      internalID: 2597683020522512424
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      EnemyRedBar_0: -7979795126475042679
+      AliceHpBottom_0: 2597683020522512424
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

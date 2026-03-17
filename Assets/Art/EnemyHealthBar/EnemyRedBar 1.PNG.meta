@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: ce71c241be64a4841923bde4bb867431
+guid: 9de7bd63f14345746a4256c4ba4c717f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1974528665623412496
-    second: BattleBorder_0
-  - first:
-      213: 9109318206979273682
-    second: BattleBorder_1
+      213: -1408344881565173675
+    second: EnemyRedBar 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -103,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BattleBorder_0
+      name: EnemyRedBar 1_0
       rect:
         serializedVersion: 2
-        x: 27
-        y: 79
-        width: 3118
-        height: 1536
+        x: 0
+        y: 358
+        width: 435
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,30 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0f0c0bed3a01994e0800000000000000
-      internalID: -1974528665623412496
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BattleBorder_1
-      rect:
-        serializedVersion: 2
-        x: 943
-        y: 411
-        width: 2816
-        height: 1556
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2d37ff065acca6e70800000000000000
-      internalID: 9109318206979273682
+      spriteID: 558711dbacd847ce0800000000000000
+      internalID: -1408344881565173675
       vertices: []
       indices: 
       edges: []
@@ -160,8 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BattleBorder_0: -1974528665623412496
-      BattleBorder_1: 9109318206979273682
+      EnemyRedBar 1_0: -1408344881565173675
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

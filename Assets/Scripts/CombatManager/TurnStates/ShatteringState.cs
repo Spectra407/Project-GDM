@@ -28,6 +28,7 @@ public class ShatteringState : ITurnState
         _hasSelected = false;
         
         // TURN ON UI FOR SHATTER EFFECTS HERE
+        BannerManager.Instance.ShowBanner("SHATTERED: Choose 1 card to keep");
         
         _cm.StartCoroutine(EnableSelectionDelay());
     }

@@ -45,6 +45,10 @@ namespace Systems
                               + cm.poison;
 
             UpdateDamage(totalDamage);
+            
+            // Play animations of portraits attacking
+            PortraitAnimator.Instance.PlayAliceAttack();
+            PortraitAnimator.Instance.PlayEnemyHit();
 
             Debug.Log("Gained " + cm.tempDefense + " defense, " 
                       + cm.strength + " strength, and " 

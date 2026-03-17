@@ -14,6 +14,8 @@ public class EnemyTurnState : ITurnState
     {
         Debug.Log("Enemy is preparing to attack...");
         
+        BannerManager.Instance.ShowBanner("Enemy Turn");
+        
         // Start a Coroutine via the CombatManager to handle the "thinking" time
         _cm.StartCoroutine(ExecuteEnemyMove());
     }
@@ -36,12 +38,12 @@ public class EnemyTurnState : ITurnState
         // ENEMY RESETS BLOCK
         _cm.enemyDefense = 0;
         
-        // ENEMY CHOOSES ATTACK (PUT THIS INTO SEPARATE STATE LATER WITH ANIMATIONS)
-        // var (move, index) = ChooseEnemyMove();
-        // Debug.Log("Enemy has chosen a move.");
         
         // ENEMY ATTACKS
-        ExecuteMoveEffects(_cm.enemyChosenMove);   // Replace move with _cm.enemyChosenMove
+        ExecuteMoveEffects(_cm.enemyChosenMove);
+        // Play portrait animations attacking each other
+        PortraitAnimator.Instance.PlayEnemyAttack();
+        PortraitAnimator.Instance.PlayAliceHit();
         
         // Wait another moment so the player sees the result
         yield return new WaitForSeconds(1.0f);

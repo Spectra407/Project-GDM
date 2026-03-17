@@ -29,7 +29,7 @@ public class EnemyHealthBar : MonoBehaviour
         text.text = string.Format("{0:D2}/{1}", currentHealth, maxHealth);
 
         // Update bar position
-        float adjustedX = baseX - width * (1 - (float) currentHealth / (float) maxHealth);
+        float adjustedX = baseX + width * (1 - (float)currentHealth / (float)maxHealth);
         bar.transform.position = new Vector3(adjustedX, bar.transform.position.y, bar.transform.position.z);
     }
 }
