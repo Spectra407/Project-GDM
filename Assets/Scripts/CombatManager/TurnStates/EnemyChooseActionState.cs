@@ -19,6 +19,8 @@ public class EnemyChooseActionState : ITurnState
     {
         Debug.Log("Enemy is choosing an action...");
         
+        BannerManager.Instance.ShowBanner("Enemy Choosing New Action ->");
+        
         // Start a Coroutine via the CombatManager to handle the "thinking" time
         _cm.StartCoroutine(EnemyChoose());
     }
@@ -49,6 +51,9 @@ public class EnemyChooseActionState : ITurnState
         
         // Wait another moment so the player sees the result
         yield return new WaitForSeconds(1.0f);
+        
+        BannerManager.Instance.ShowBanner("Your Turn");
+        yield return new WaitForSeconds(1.5f);
 
         // Give the turn back to Alice
         _cm.MoveToNewState("ChoosingAction"); 
