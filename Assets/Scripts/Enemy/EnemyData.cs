@@ -16,6 +16,9 @@ public class EnemyData : ScriptableObject
 
     public string[] moveText;
     
+    [Header("Attack Count")]
+    public int attackCount; // Set to 2 for cheshire cat
+    
     [Header("Gold Reward")]
     public int goldReward;
     
