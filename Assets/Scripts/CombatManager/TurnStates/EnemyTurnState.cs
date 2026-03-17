@@ -67,12 +67,14 @@ public class EnemyTurnState : ITurnState
         {
             Debug.Log($"The Card Soldier gains {move.block} block!");
             _cm.enemyDefense += move.block;
+            AudioManager.instance.PlayGainShield();
         }
         
         if (move.strength != 0)
         {
             Debug.Log($"The Card Soldier gains {move.strength} strength!");
             _cm.enemyStrength += move.strength;
+            AudioManager.instance.PlayGainStrength();
         }
         
         if (move.madness != 0)
@@ -92,6 +94,7 @@ public class EnemyTurnState : ITurnState
         {
             // Defense big enough to tank full hit
             _cm.tempDefense -= damage;
+            AudioManager.instance.PlayBluntDamage();
         }
         else
         {
@@ -99,6 +102,7 @@ public class EnemyTurnState : ITurnState
             damage -= _cm.tempDefense;
             _cm.tempDefense = 0;
             _cm.currentHealth -= damage;
+            _cm.OnTakeDamage.Invoke();  // Invoke take damage sfx, sharper sound
         }
         // Stop negative health values
         _cm.currentHealth = Mathf.Max(0, _cm.currentHealth);
@@ -108,7 +112,6 @@ public class EnemyTurnState : ITurnState
         
         if (damage > 0)
         {
-            _cm.OnTakeDamage.Invoke();  // Invoke take damage sfx
             PortraitAnimator.Instance.PlayAliceHit();
         }
     }

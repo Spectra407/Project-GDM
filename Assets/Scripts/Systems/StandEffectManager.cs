@@ -67,6 +67,7 @@ namespace Systems
             {
                 cm.strength = 0;
             }
+            if (cm.strength > 0) AudioManager.instance.PlayGainStrength();
         }
         private void UpdatePoison(int poison)
         {
@@ -83,6 +84,7 @@ namespace Systems
             {
                 cm.tempDefense = 0;
             }
+            if(cm.tempDefense >0) AudioManager.instance.PlayGainShield();
         }
         private void UpdateDamage(int damage) //deal [damage] damage to the enemy
         {
@@ -90,6 +92,7 @@ namespace Systems
             {
                 // Defense big enough to tank full hit
                 cm.enemyDefense -= damage;
+                AudioManager.instance.PlayBluntDamage();
             }
             else
             {
@@ -97,14 +100,15 @@ namespace Systems
                 damage -= cm.enemyDefense;
                 cm.enemyDefense = 0;
                 cm.enemyCurrentHealth -= damage;
+                cm.OnTakeDamage.Invoke();   // Invoke SFX deal damage, sharper sword sound
             }
             // Stop negative health values
             cm.enemyCurrentHealth = Mathf.Max(0, cm.enemyCurrentHealth);
             Debug.Log("Enemy health: " + cm.enemyCurrentHealth);
-            if (damage > 0) cm.OnTakeDamage.Invoke();   // Invoke SFX deal damage
         }
         private void DecayPoison() //halves poison, rounded down
         {
+            if (cm.poison >0) AudioManager.instance.PlayPoisonDamage();
             cm.poison = (int) Math.Floor(cm.poison/2.0);
         }
     }
