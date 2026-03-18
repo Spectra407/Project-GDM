@@ -16,7 +16,7 @@ MonoBehaviour:
   maxHealth: 150
   enemySprite: {fileID: 0}
   moves:
-  - damage: 12
+  - damage: 10
     block: 0
     strength: 0
     madness: 0
@@ -27,26 +27,26 @@ MonoBehaviour:
   - damage: 5
     block: 0
     strength: 0
-    madness: 0
+    madness: 1
   - damage: 1
     block: 0
     strength: 0
     madness: 2
   - damage: 0
-    block: 15
+    block: 10
     strength: 2
     madness: 0
   - damage: 0
-    block: 10
-    strength: 4
+    block: 5
+    strength: 1
     madness: 0
   moveText:
-  - 12\U00002694
+  - 10\U00002694
   - 8\U00002694
-  - 5\U00002694
+  - 5\U00002694 1\U0001FA9E
   - 1\U00002694 2\U0001FA9E
-  - 15\U0001F6E1 2\U0001F4AA
-  - 10\U0001F6E1 4\U0001F4AA
+  - 10\U0001F6E1 2\U0001F4AA
+  - 5\U0001F6E1 1\U0001F4AA
   attackCount: 2
   goldReward: 60
   nextSceneName: ShopScene
