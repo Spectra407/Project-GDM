@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class EnemyTurnState : ITurnState
 {
@@ -45,6 +46,7 @@ public class EnemyTurnState : ITurnState
         {
             Debug.Log("Game Over: You died.");
             // Move to a GameOverState LATERRRR
+            SceneManager.LoadScene("FirstFightCardSoldierScene");
         }
         else
         {
