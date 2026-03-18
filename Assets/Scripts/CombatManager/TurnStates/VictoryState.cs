@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class VictoryState : ITurnState
 {
     private CombatManager _cm;
-    private int _picksRemaining = 1;
+    private int _picksRemaining = 2;
     private bool _canSelect = false;
 
     public VictoryState(CombatManager cm)
@@ -18,7 +18,7 @@ public class VictoryState : ITurnState
     public void Enter()
     {
         Debug.Log("Victory! Choose your rewards.");
-        _picksRemaining = 1;
+        _picksRemaining = 2;
         _cm.StartCoroutine(OfferRewards());
     }
 
