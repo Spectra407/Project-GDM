@@ -3931,7 +3931,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -4902,16 +4902,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d5631645c98bde4099de0f87176bb39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DiceManager
-  diceFaces:
-  - {fileID: -4704025289165538939, guid: 3a4182da04fa6c2498eaff83914e30ba, type: 3}
-  - {fileID: 1641456826788812390, guid: 776b5b4e9a16cd24bb1ea8af7c6b1729, type: 3}
-  - {fileID: -1255714986838219857, guid: f7389ca0f43cb6f4590f01d41ea280bb, type: 3}
-  - {fileID: 6767262102504179516, guid: e845e2656b746054d9f4097c15ee8765, type: 3}
-  - {fileID: -2862781669987082462, guid: 7a5df6d388685f0479fdfcdc82efdab0, type: 3}
-  - {fileID: -125480189991623609, guid: 5f3cf3fbae9e98f409ba109b4524db29, type: 3}
-  uiImage: {fileID: 6947070989975273767}
-  shuffleDuration: 1
-  shuffleSpeed: 0.05
+  diceSize: 6
 --- !u!1 &1106409409
 GameObject:
   m_ObjectHideFlags: 0
