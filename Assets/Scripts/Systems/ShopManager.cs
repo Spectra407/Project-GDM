@@ -6,11 +6,20 @@ using Systems;
 
 public class ShopManager : MonoBehaviour
 {
+    [Header("Healing")]
+    [SerializeField] private int healCost = 25;
+    [SerializeField] private int healAmount = 20;
+    
+    [Header("Card stuff")]
     [SerializeField] private List<ShopCardSlot> cardSlots; // Card slots in UI, 8 for now?
-    [SerializeField] private int minPrice = 20;
-    [SerializeField] private int maxPrice = 40;
+    [SerializeField] private int minPrice = 25;
+    [SerializeField] private int maxPrice = 45;
     [SerializeField] private string nextSceneName; // scene to load after the shop
     [SerializeField] public AliceData alice;
+    
+    [Header("Music")]
+    public AudioClip backgroundMusic;   // Current battle's soundtrack
+    public float loopStartTime; // At what second does the track loop
 
     private bool canInteract = false;
 
@@ -32,6 +41,8 @@ public class ShopManager : MonoBehaviour
                 cardSlots[i].gameObject.SetActive(false);
             }
         }
+        
+        AudioManager.instance.PlayFightMusic(backgroundMusic, loopStartTime);
     }
 
     
@@ -49,6 +60,27 @@ public class ShopManager : MonoBehaviour
         {
             Debug.Log("Not enough gold!");
             // SHAME THE PLAYER FOR BEING POOR :)
+        }
+    }
+    
+    public void TryBuyHeal()
+    {
+        if (!canInteract) return;
+    
+        if (alice.currentHealth >= alice.maxHealth)
+        {
+            Debug.Log("Already at full health!");
+            return;
+        }
+    
+        if (alice.SpendGold(healCost))
+        {
+            alice.currentHealth = Mathf.Min(alice.currentHealth + healAmount, alice.maxHealth);
+            Debug.Log($"Healed for {healAmount} HP. Current health: {alice.currentHealth}");
+        }
+        else
+        {
+            Debug.Log("Not enough gold!");
         }
     }
 

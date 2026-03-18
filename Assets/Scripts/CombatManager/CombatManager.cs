@@ -25,6 +25,10 @@ public class CombatManager : MonoBehaviour
     public int enemyStrength;
     // This will be used to save the Enemy choice in EnemyChooseActionState and call them later in EnemyTurnState
     public List<EnemyMove> enemyChosenMoves = new List<EnemyMove>();
+    
+    [Header("Music")]
+    public AudioClip battleMusic;   // Current battle's soundtrack
+    public float loopStartTime; // At what second does the track loop
 
     [Header("State Tracking")]
     public ITurnState currentState; 
@@ -56,6 +60,12 @@ public class CombatManager : MonoBehaviour
 
     void Start()
     {
+        if (TutorialManager.Instance != null)
+        {
+            alice.currentHealth = alice.maxHealth;   // Reset her hp to full in the first fight scene!
+            alice.gold = 0;
+        }
+        
         // Initialize Alice's health from her ScriptableObject
         currentHealth = alice.currentHealth;
         madness = alice.startingMadness;
@@ -67,11 +77,25 @@ public class CombatManager : MonoBehaviour
         
         // Set up the deck for this fight using this scene's enemy
         DeckManager.Instance.SetupDecks(CardDB.Instance.cards, new List<int>(enemy.bombCardIDs));
-
-        // Start the game loop
-        MoveToNewState("EnemyChooseActionState");
-        // This will have to start at EnemyChooseAction instead, which then MoveToNewState("ChoosingAction");
+        
+        // Check if tutorial should show
+        if (TutorialManager.Instance != null)
+        {
+            TutorialManager.Instance.ShowTutorial(BeginCombat);
+        }
+        else
+        {
+            // Start the game loop
+            BeginCombat();
+        }
     }
+    
+    private void BeginCombat()
+    {
+        AudioManager.instance.PlayFightMusic(battleMusic, loopStartTime);
+        MoveToNewState("EnemyChooseActionState");
+    }
+
 
     void Update()
     {

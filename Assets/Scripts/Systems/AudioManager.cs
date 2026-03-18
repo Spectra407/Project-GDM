@@ -11,9 +11,6 @@ public class AudioManager : MonoBehaviour
     [Header("Audio Sources")]
     public AudioSource effects;
     public AudioSource bgm;
-
-    [Header("Background Music")]
-    public AudioClip fightMusic;
     
     [Header("Sound Effects")]
     public AudioClip hover;
@@ -69,10 +66,31 @@ public class AudioManager : MonoBehaviour
         CardViewHoverSystem.Instance.OnCardHover.AddListener(PlayHoverCard);
     }
     
-    public void PlayFightMusic()
+    public void PlayFightMusic(AudioClip clip, float loopStartTime = 0f)
     {
-        PlaySound(fightMusic);
+        if (clip == null) return;
+        bgm.clip = clip;
+        bgm.loop = false;   // Handle looping manually bc some tracks are weirder
+        bgm.Play();
+        
+        StartCoroutine(LoopTrack(loopStartTime));
     }
+    
+    private IEnumerator LoopTrack(float loopStartTime)
+    {
+        // Wait for the track to finish its intro (or full length if loopStartTime is 0)
+        yield return new WaitForSeconds(bgm.clip.length - loopStartTime > 0 
+            ? bgm.clip.length 
+            : bgm.clip.length);
+    
+        while (true)
+        {
+            bgm.time = loopStartTime;
+            bgm.Play();
+            yield return new WaitForSeconds(bgm.clip.length - loopStartTime);
+        }
+    }
+    
     public void PlayHover()
     {
         PlaySound(hover);
