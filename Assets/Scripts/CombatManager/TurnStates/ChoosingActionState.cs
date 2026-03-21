@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 public class ChoosingActionState : ITurnState
 {
     private CombatManager _cm;
+    private bool _canDraw = true;
+    private const float DrawCooldown = 0.8f;
 
     public ChoosingActionState(CombatManager cm)
     {
@@ -12,8 +14,11 @@ public class ChoosingActionState : ITurnState
 
     public void Enter()
     {
+        _canDraw = true;
         Debug.Log("Alice's Turn: Choose to Hit or Stand.");
         // TURN ON UI buttons to hit or stand.
+        CombatButton.SetDrawInteractable(true);
+        CombatButton.SetStandInteractable(true);
     }
 
     public void HandleInput(string inputID)
@@ -25,6 +30,11 @@ public class ChoosingActionState : ITurnState
 
     private void PerformHit()
     {
+        if (!_canDraw) return;
+        _canDraw = false;
+        CombatButton.SetDrawInteractable(false);
+        
+        
         _cm.pendingDraws += 1;
         DrawEffect.DrawNext(_cm);   
         // Reusing DrawEffect.cs to simulate a Draw 1, ported over old system here into DrawEffect.cs
@@ -32,6 +42,9 @@ public class ChoosingActionState : ITurnState
 
     private void PerformStand()
     {
+        CombatButton.SetStandInteractable(false);
+        CombatButton.SetDrawInteractable(false);
+        
         // End turn and calculate damage
         _cm.MoveToNewState("EvaluatingCards");
     }
@@ -47,5 +60,7 @@ public class ChoosingActionState : ITurnState
     public void Exit()
     {
         // TURN OFF UI Buttons to prevent clicks when you're not choosing an action
+        CombatButton.SetDrawInteractable(false);
+        CombatButton.SetStandInteractable(false);
     }
 }
