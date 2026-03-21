@@ -58,10 +58,12 @@ public class HandView : Singleton<HandView>
 
             if (card == cardView)
             {
+                card.isAnimating = true;
                 card.transform.DOMove(targetPos, 0.5f).SetEase(Ease.OutBack).OnComplete(() =>
                 {
                     card.homePos = targetPos;
                     card.homeRot = targetRot;
+                    card.isAnimating = false;
                 });
                 card.transform.DORotateQuaternion(targetRot, 0.5f).SetEase(Ease.OutBack);
             }
