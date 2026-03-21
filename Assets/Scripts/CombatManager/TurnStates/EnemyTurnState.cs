@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
@@ -29,6 +30,26 @@ public class EnemyTurnState : ITurnState
         // ENEMY RESETS BLOCK
         _cm.enemyDefense = 0;
         
+        // POISON TICK: deals damage ignoring block, then decays
+        if (_cm.poison > 0)
+        {
+            AudioManager.instance.PlayPoisonDamage();
+            
+            _cm.enemyCurrentHealth -= _cm.poison;
+            _cm.enemyCurrentHealth = Mathf.Max(0, _cm.enemyCurrentHealth);
+            Debug.Log($"Poison ticked for {_cm.poison}. Enemy health: {_cm.enemyCurrentHealth}");
+            _cm.poison = (int)Math.Floor(_cm.poison / 2.0); // Decay poison
+            Debug.Log($"Poison decayed to {_cm.poison}");
+
+            // Check if poison killed the enemy before they attack
+            if (_cm.enemyCurrentHealth <= 0)
+            {
+                Debug.Log("Enemy defeated by poison!");
+                yield return new WaitForSeconds(1.0f);
+                _cm.MoveToNewState("Victory");
+                yield break;
+            }
+        }
         
         // ENEMY ATTACKS
         foreach (EnemyMove move in _cm.enemyChosenMoves)
