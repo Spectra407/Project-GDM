@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -177,6 +178,37 @@ public class CardView : MonoBehaviour
         imageSR.sprite = null;
         
         
+    }
+    
+    public IEnumerator ShakeAndHighlight(bool isBomb = false)
+    {
+        isAnimating = true;
+
+        Color highlightColor = isBomb ? new Color(1f, 0.3f, 0.3f) : new Color(1f, 0.95f, 0.7f);
+
+        // Enlarge
+        transform.DOKill();
+        transform.DOScale(originalScale * 1.35f, 0.12f).SetEase(Ease.OutBack);
+
+        // Tint all sprite renderers
+        SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
+        foreach (var sr in renderers)
+            sr.DOColor(highlightColor, 0.1f);
+
+        yield return new WaitForSeconds(0.12f);
+
+        // Shake
+        transform.DOShakePosition(0.4f, new Vector3(0.12f, 0.06f, 0), 18, 90, false, true);
+        yield return new WaitForSeconds(0.45f);
+
+        // Return to normal
+        transform.DOScale(originalScale, 0.15f).SetEase(Ease.OutBack);
+        foreach (var sr in renderers)
+            sr.DOColor(Color.white, 0.15f);
+
+        yield return new WaitForSeconds(0.15f);
+
+        isAnimating = false;
     }
     
     

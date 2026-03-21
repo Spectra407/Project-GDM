@@ -4,8 +4,8 @@ using UnityEngine;
 //eg: x2 damage
 public class MultiplierEffect : SpecialEffect
 {
-    private int multiplier;
-    CardData.CardType cardtype;
+    internal int multiplier;
+    internal CardData.CardType cardtype;
     [RuntimeInitializeOnLoadMethod]
     static void Register()
     {

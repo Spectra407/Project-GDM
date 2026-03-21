@@ -15,40 +15,28 @@ public class EvaluatingCardsState : ITurnState
     {
         _cm.pendingDraws = 0;      
         _cm.isDrawing = false;
-        // Evaluate damage and defense of cards in hand
-        _cm.StartCoroutine(DelayedEvaluationSequence());
-
-        // Clear the hand and move to the next turn
-        _cm.StartCoroutine(FinishEvaluationSequence());
+        _cm.StartCoroutine(EvaluationSequence());
     }
 
-    private IEnumerator DelayedEvaluationSequence()
+    private IEnumerator EvaluationSequence()
     {
-        // Delay so that all cards are destroyed correctly (ex: during Shatter) before evaluating damage
-        yield return new WaitForSeconds(2.0f);
-        
+        // Short delay before resolution starts
+        yield return new WaitForSeconds(0.5f);
+    
         Debug.Log("Calculating total damage...");
-
-        _cm.sem.ResolveOnStand();
-        
-    }
-
-    private IEnumerator FinishEvaluationSequence()
-    {
-        // Give the player a moment to see the final cards
-        // Be careful of reducing this time too much because DOTween won't have the time to animate the cards before you destroy the cards!
-        yield return new WaitForSeconds(2.0f);
-
-        // Recycle cards back to the deck and clear visuals
-        _cm.Hand.ClearHand(); 
-        
-        // Reset Madness for the next turn
+    
+        // Wait for the full card-by-card animation to complete
+        yield return _cm.StartCoroutine(_cm.sem.ResolveOnStandAnimated());
+    
+        // Only runs after every card has animated and resolved
+        yield return new WaitForSeconds(0.5f);
+    
+        _cm.Hand.ClearHand();
         _cm.madness = 0;
 
-        // Check if the enemy is dead or move to Enemy Turn
         if (_cm.enemyCurrentHealth <= 0)
         {
-            Debug.Log("Victory!"); // Victory logic would go here
+            Debug.Log("Victory!");
             _cm.MoveToNewState("Victory");
         }
         else
