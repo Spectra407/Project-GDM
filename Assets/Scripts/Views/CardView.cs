@@ -48,6 +48,24 @@ public class CardView : MonoBehaviour
     
     void Update()
     {
+        // Keep collider anchored to homePos regardless of visual movement
+        // Skip for shop cards (they don't have homePos logic) and animating cards
+        if (!isShopCard && !isAnimating && homePos != Vector3.zero)
+        {
+            BoxCollider col = GetComponent<BoxCollider>();
+            if (col != null)
+            {
+                Vector3 offset = homePos - transform.position;
+                col.center = offset;
+            }
+        }
+        else if (isShopCard)
+        {
+            // Reset collider center for shop cards so hover works normally
+            BoxCollider col = GetComponent<BoxCollider>();
+            if (col != null) col.center = Vector3.zero;
+        }
+        
         // Only animate passively if it's in the hand and NOT being hovered
         if (isHovered || isShopCard || isPeek || isAnimating) return;
         
