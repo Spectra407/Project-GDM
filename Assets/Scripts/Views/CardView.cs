@@ -7,8 +7,11 @@ using UnityEngine.Rendering;
 
 public class CardView : MonoBehaviour
 {
+    private static CardView _currentlyHovered;
+    
     // boolean used to manipulate peeking cards
     public bool isPeek = false;
+    
     
     [Header("Card UI References")]
     [SerializeField] private TMP_Text description;
@@ -127,6 +130,12 @@ public class CardView : MonoBehaviour
         }
         
         if (isPeek || HandView.Instance.isShattering || isHovered) return;
+        // Force exit any previously hovered card that didn't get its OnMouseExit
+        if (_currentlyHovered != null && _currentlyHovered != this)
+            _currentlyHovered.ForceExit();
+
+        _currentlyHovered = this;
+        
         isHovered = true;
 
         transform.DOKill();
@@ -152,13 +161,21 @@ public class CardView : MonoBehaviour
 
         if (isPeek || !isHovered) return;
 
-        // Only un-hover if the mouse has moved away from the home position, avoids janky up and down
-        Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(
-            new Vector3(Input.mousePosition.x, Input.mousePosition.y, 
-                Camera.main.WorldToScreenPoint(homePos).z));
+        if (_currentlyHovered == this)
+            _currentlyHovered = null;
 
-        if (Vector2.Distance(mouseWorld, homePos) < 1.2f) return;
+        ExitHover();
+    }
+    
+    public void ForceExit()
+    {
+        if (!isHovered) return;
+        isHovered = false;
+        ExitHover();
+    }
 
+    private void ExitHover()
+    {
         isHovered = false;
         transform.DOKill();
         transform.DOMove(homePos, 0.15f);

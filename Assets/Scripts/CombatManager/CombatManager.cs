@@ -64,6 +64,7 @@ public class CombatManager : MonoBehaviour
         {
             alice.currentHealth = alice.maxHealth;   // Reset her hp to full in the first fight scene!
             alice.gold = 0;
+            
         }
         
         // Initialize Alice's health from her ScriptableObject

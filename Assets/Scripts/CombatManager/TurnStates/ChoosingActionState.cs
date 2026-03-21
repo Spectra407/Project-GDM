@@ -32,6 +32,7 @@ public class ChoosingActionState : ITurnState
     {
         if (!_canDraw) return;
         _canDraw = false;
+        CombatButton.SetStandInteractable(false);
         CombatButton.SetDrawInteractable(false);
         
         
@@ -52,7 +53,6 @@ public class ChoosingActionState : ITurnState
     public void Update()
     {
         // Keyboard shortcuts for testing
-        // REPLACE WITH BUTTONS LATER ON
         if (Keyboard.current.spaceKey.wasPressedThisFrame) PerformHit();
         if (Keyboard.current.oKey.wasPressedThisFrame) PerformStand();
     }
