@@ -5,8 +5,8 @@ using Systems;
 //eg: 2 damage per card in hand
 public class PerEffect : SpecialEffect
 {
-    private int percard_multiplier;
-    CardData.CardType cardtype;
+    internal int percard_multiplier;
+    internal CardData.CardType cardtype;
     [RuntimeInitializeOnLoadMethod]
     static void Register()
     {

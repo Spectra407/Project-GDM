@@ -5,7 +5,7 @@ using Systems;
 //eg: no more defense for rest of the turn
 public class DisableEffect : SpecialEffect
 {
-    private CardData.CardType cardType;
+    internal CardData.CardType cardType;
     [RuntimeInitializeOnLoadMethod]
     static void Register()
     {
