@@ -95,23 +95,30 @@ namespace Systems
                         cm.strength += data.strength;
                         cm.strength = Mathf.Max(0, cm.strength);
                         if (cm.strength > 0) AudioManager.instance.PlayGainStrength();
+                        PortraitAnimator.Instance.PlayAliceAttack();
+                        
                     }
                     if (data.defense != 0)
                     {
                         cm.tempDefense += data.defense;
                         cm.tempDefense = Mathf.Max(0, cm.tempDefense);
                         if (cm.tempDefense > 0) AudioManager.instance.PlayGainShield();
+                        PortraitAnimator.Instance.PlayAliceAttack();
+                        
                     }
                     if (data.poison != 0)
                     {
                         cm.poison += data.poison;
                         cm.poison = Mathf.Max(0, cm.poison);
+                        PortraitAnimator.Instance.PlayAliceAttack();
+                        PortraitAnimator.Instance.PlayEnemyHit();
                     }
                     if (data.damage != 0)
                     {
                         int cardDamage = cm.dem.DisStats[CardData.CardType.Damage] * data.damage;
                         if (cardDamage > 0)
                             ApplyDamage(cardDamage + cm.strength);
+                        
                     }
                 }
                 else
@@ -122,11 +129,17 @@ namespace Systems
                     {
                         cm.enemyStrength += data.strength;
                         Debug.Log($"Bomb gave enemy {data.strength} strength!");
+                        
+                        AudioManager.instance.PlayGainStrength();
+                        PortraitAnimator.Instance.PlayEnemyHit();
                     }
                     if (data.defense != 0)
                     {
                         cm.tempDefense += data.defense;
                         cm.tempDefense = Mathf.Max(0, cm.tempDefense);
+                        
+                        AudioManager.instance.PlayGainShield();
+                        PortraitAnimator.Instance.PlayEnemyHit();
                     }
                 }
 
@@ -165,11 +178,15 @@ namespace Systems
                         cm.tempDefense += data.defense;
                         cm.tempDefense = Mathf.Max(0, cm.tempDefense);
                         if (cm.tempDefense > 0) AudioManager.instance.PlayGainShield();
+                        PortraitAnimator.Instance.PlayAliceAttack();
+                        
                     }
                     if (data.poison != 0)
                     {
                         cm.poison += data.poison;
                         cm.poison = Mathf.Max(0, cm.poison);
+                        PortraitAnimator.Instance.PlayAliceAttack();
+                        PortraitAnimator.Instance.PlayEnemyHit();
                     }
 
                     // Apply special effect
@@ -185,11 +202,17 @@ namespace Systems
                     {
                         cm.enemyStrength += data.strength;
                         Debug.Log($"Bomb gave enemy {data.strength} strength!");
+                        
+                        AudioManager.instance.PlayGainStrength();
+                        PortraitAnimator.Instance.PlayEnemyHit();
                     }
                     if (data.defense != 0)
                     {
                         cm.tempDefense += data.defense;
                         cm.tempDefense = Mathf.Max(0, cm.tempDefense);
+                        
+                        AudioManager.instance.PlayGainShield();
+                        PortraitAnimator.Instance.PlayEnemyHit();
                     }
 
                     ApplySpecialToSim(data, cards, cards.IndexOf(cardView),
@@ -204,9 +227,6 @@ namespace Systems
             }
 
             yield return new WaitForSeconds(0.4f);
-
-            PortraitAnimator.Instance.PlayAliceAttack();
-            PortraitAnimator.Instance.PlayEnemyHit();
             
             cm.dem.ResetForStand();
         }
@@ -249,12 +269,17 @@ namespace Systems
                     int perTotal = perMult * cm.dem.DisStats[cardtype] * handCount;
 
                     if (cardtype == CardData.CardType.Damage && perTotal > 0)
+                    {
                         ApplyDamage(perTotal + cm.strength);
+                    }
+                        
                     else if (cardtype == CardData.CardType.Defense && perTotal > 0)
                     {
                         cm.tempDefense += perTotal;
                         cm.tempDefense = Mathf.Max(0, cm.tempDefense);
                         if (cm.tempDefense > 0) AudioManager.instance.PlayGainShield();
+                        PortraitAnimator.Instance.PlayAliceAttack();
+                        
                     }
                     else if (cardtype == CardData.CardType.Poison)
                     {
@@ -266,6 +291,8 @@ namespace Systems
                         cm.strength += perTotal;
                         cm.strength = Mathf.Max(0, cm.strength);
                         if (cm.strength > 0) AudioManager.instance.PlayGainStrength();
+                        PortraitAnimator.Instance.PlayAliceAttack();
+                        
                     }
 
                     if (cm.dem.DisStats[CardData.CardType.Damage] > 0 &&
@@ -335,6 +362,9 @@ namespace Systems
             }
             cm.enemyCurrentHealth = Mathf.Max(0, cm.enemyCurrentHealth);
             Debug.Log("Enemy health: " + cm.enemyCurrentHealth);
+            
+            PortraitAnimator.Instance.PlayAliceAttack();
+            PortraitAnimator.Instance.PlayEnemyHit();
         }
         
 
