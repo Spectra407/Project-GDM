@@ -45,7 +45,7 @@ public class CombatAnimator : MonoBehaviour
         GameObject ghost = sourceCard.CreateGhost();
         ghost.transform.localScale = Vector3.one * 0.02f;
 
-        float duration = 0.35f;
+        float duration = 0.15f;
         ghost.transform.DOMove(targetWorldPos, duration).SetEase(Ease.InQuad);
 
         foreach (var sr in ghost.GetComponentsInChildren<SpriteRenderer>())

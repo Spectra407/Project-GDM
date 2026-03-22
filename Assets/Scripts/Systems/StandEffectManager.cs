@@ -108,6 +108,7 @@ namespace Systems
                     {
                         cm.poison += data.poison;
                         cm.poison = Mathf.Max(0, cm.poison);
+                        AudioManager.instance.PlayPoisonDamage();
                         CombatAnimator.Instance.PlayPoisonEffect(cardView, cm.poison);
                     }
                     if (data.damage != 0)
@@ -178,6 +179,7 @@ namespace Systems
                     {
                         cm.poison += data.poison;
                         cm.poison = Mathf.Max(0, cm.poison);
+                        AudioManager.instance.PlayPoisonDamage();
                         CombatAnimator.Instance.PlayPoisonEffect(cardView, cm.poison);
                     }
 
@@ -274,6 +276,7 @@ namespace Systems
                     {
                         cm.poison += perTotal;
                         cm.poison = Mathf.Max(0, cm.poison);
+                        AudioManager.instance.PlayPoisonDamage();
                         CombatAnimator.Instance.PlayPoisonEffect(sourceCard, cm.poison);
                     }
                     else if (cardtype == CardData.CardType.Strength)
@@ -352,6 +355,7 @@ namespace Systems
                 cm.OnTakeDamage.Invoke();
             }
             cm.enemyCurrentHealth = Mathf.Max(0, cm.enemyCurrentHealth);
+            EnemyHealthBar.Instance.AnimateToCurrentHealth();
 
             // Fire projectile toward enemy portrait world position
             if (sourceCard != null)

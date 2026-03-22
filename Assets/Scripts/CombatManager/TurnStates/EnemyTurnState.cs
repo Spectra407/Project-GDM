@@ -36,6 +36,7 @@ public class EnemyTurnState : ITurnState
             
             _cm.enemyCurrentHealth -= _cm.poison;
             _cm.enemyCurrentHealth = Mathf.Max(0, _cm.enemyCurrentHealth);
+            EnemyHealthBar.Instance.AnimateToCurrentHealth();
             Debug.Log($"Poison ticked for {_cm.poison}. Enemy health: {_cm.enemyCurrentHealth}");
             _cm.poison = (int)Math.Floor(_cm.poison / 2.0);
             Debug.Log($"Poison decayed to {_cm.poison}");
@@ -82,6 +83,7 @@ public class EnemyTurnState : ITurnState
             CombatAnimator.Instance.PlayEnemyDamageEffect();
             yield return new WaitForSeconds(0.35f); // wait for projectile to arrive
             AliceTakeDamage(move.damage + _cm.enemyStrength);
+            AliceHealthBar.Instance.AnimateToCurrentHealth();
             Debug.Log($"Alice Health: {_cm.currentHealth}");
             yield return new WaitForSeconds(0.4f);
         }
