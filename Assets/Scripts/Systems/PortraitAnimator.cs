@@ -6,8 +6,10 @@ public class PortraitAnimator : MonoBehaviour
 {
     public static PortraitAnimator Instance;
 
-    [SerializeField] private RectTransform alicePortrait;
-    [SerializeField] private RectTransform enemyPortrait;
+    [SerializeField] public RectTransform alicePortrait;
+    [SerializeField] public RectTransform enemyPortrait;
+    [SerializeField] private Image aliceImage;
+    [SerializeField] private Image enemyImage;
 
     private Vector2 _aliceOrigin;
     private Vector2 _enemyOrigin;
@@ -34,7 +36,7 @@ public class PortraitAnimator : MonoBehaviour
             .OnComplete(() =>
                 enemyPortrait.DOAnchorPos(_enemyOrigin, 0.25f).SetEase(Ease.InQuad));
     }
-    
+
     public void PlayAliceHit()
     {
         alicePortrait.DOShakeAnchorPos(0.3f, strength: 15f, vibrato: 20);
@@ -43,5 +45,19 @@ public class PortraitAnimator : MonoBehaviour
     public void PlayEnemyHit()
     {
         enemyPortrait.DOShakeAnchorPos(0.3f, strength: 15f, vibrato: 20);
+    }
+
+    public void FlashPortrait(bool isAlice, Color flashColor)
+    {
+        Image img = isAlice ? aliceImage : enemyImage;
+        RectTransform rect = isAlice ? alicePortrait : enemyPortrait;
+
+        img.DOKill();
+        img.DOColor(flashColor, 0.1f).OnComplete(() =>
+            img.DOColor(Color.white, 0.35f));
+
+        // Small bounce
+        rect.DOKill();
+        rect.DOPunchAnchorPos(new Vector2(0, 15f), 0.3f, 6, 0.5f);
     }
 }

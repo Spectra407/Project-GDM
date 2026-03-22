@@ -76,7 +76,7 @@ namespace Systems
                 // Apply modifier effect to both sim and real state
                 ApplySpecialToSim(data, cards, cards.IndexOf(cardView),
                     simPending, simMult, simDis, simPer, simEqual, ref simAttackNum);
-                ApplySpecialToReal(data);
+                ApplySpecialToReal(data, cardView);
 
                 // Apply base stats to sim and real game state
                 if (!isBomb)
@@ -95,30 +95,26 @@ namespace Systems
                         cm.strength += data.strength;
                         cm.strength = Mathf.Max(0, cm.strength);
                         if (cm.strength > 0) AudioManager.instance.PlayGainStrength();
-                        PortraitAnimator.Instance.PlayAliceAttack();
-                        
+                        CombatAnimator.Instance.PlayStrengthEffect(cardView, cm.strength);
                     }
                     if (data.defense != 0)
                     {
                         cm.tempDefense += data.defense;
                         cm.tempDefense = Mathf.Max(0, cm.tempDefense);
                         if (cm.tempDefense > 0) AudioManager.instance.PlayGainShield();
-                        PortraitAnimator.Instance.PlayAliceAttack();
-                        
+                        CombatAnimator.Instance.PlayDefenseEffect(cardView, cm.tempDefense);
                     }
                     if (data.poison != 0)
                     {
                         cm.poison += data.poison;
                         cm.poison = Mathf.Max(0, cm.poison);
-                        PortraitAnimator.Instance.PlayAliceAttack();
-                        PortraitAnimator.Instance.PlayEnemyHit();
+                        CombatAnimator.Instance.PlayPoisonEffect(cardView, cm.poison);
                     }
                     if (data.damage != 0)
                     {
                         int cardDamage = cm.dem.DisStats[CardData.CardType.Damage] * data.damage;
                         if (cardDamage > 0)
-                            ApplyDamage(cardDamage + cm.strength);
-                        
+                            ApplyDamage(cardDamage + cm.strength, cardView); // pass cardView here
                     }
                 }
                 else
@@ -129,17 +125,15 @@ namespace Systems
                     {
                         cm.enemyStrength += data.strength;
                         Debug.Log($"Bomb gave enemy {data.strength} strength!");
-                        
                         AudioManager.instance.PlayGainStrength();
-                        PortraitAnimator.Instance.PlayEnemyHit();
+                        CombatAnimator.Instance.PlayEnemyStrengthEffect(cm.enemyStrength);
                     }
                     if (data.defense != 0)
                     {
                         cm.tempDefense += data.defense;
                         cm.tempDefense = Mathf.Max(0, cm.tempDefense);
-                        
                         AudioManager.instance.PlayGainShield();
-                        PortraitAnimator.Instance.PlayEnemyHit();
+                        CombatAnimator.Instance.PlayDefenseEffect(cardView, cm.tempDefense);
                     }
                 }
 
@@ -172,27 +166,25 @@ namespace Systems
                     // Apply base stats to real game state
                     int cardDamage = cm.dem.DisStats[CardData.CardType.Damage] * data.damage;
                     if (cardDamage > 0)
-                        ApplyDamage(cardDamage + cm.strength);
+                        ApplyDamage(cardDamage + cm.strength, cardView); // pass cardView here
                     if (data.defense != 0)
                     {
                         cm.tempDefense += data.defense;
                         cm.tempDefense = Mathf.Max(0, cm.tempDefense);
                         if (cm.tempDefense > 0) AudioManager.instance.PlayGainShield();
-                        PortraitAnimator.Instance.PlayAliceAttack();
-                        
+                        CombatAnimator.Instance.PlayDefenseEffect(cardView, cm.tempDefense);
                     }
                     if (data.poison != 0)
                     {
                         cm.poison += data.poison;
                         cm.poison = Mathf.Max(0, cm.poison);
-                        PortraitAnimator.Instance.PlayAliceAttack();
-                        PortraitAnimator.Instance.PlayEnemyHit();
+                        CombatAnimator.Instance.PlayPoisonEffect(cardView, cm.poison);
                     }
 
                     // Apply special effect
                     ApplySpecialToSim(data, cards, cards.IndexOf(cardView),
                         simPending, simMult, simDis, simPer, simEqual, ref simAttackNum);
-                    ApplySpecialToReal(data); 
+                    ApplySpecialToReal(data, cardView);
                 }
                 else
                 {
@@ -202,22 +194,20 @@ namespace Systems
                     {
                         cm.enemyStrength += data.strength;
                         Debug.Log($"Bomb gave enemy {data.strength} strength!");
-                        
                         AudioManager.instance.PlayGainStrength();
-                        PortraitAnimator.Instance.PlayEnemyHit();
+                        CombatAnimator.Instance.PlayEnemyStrengthEffect(cm.enemyStrength);
                     }
                     if (data.defense != 0)
                     {
                         cm.tempDefense += data.defense;
                         cm.tempDefense = Mathf.Max(0, cm.tempDefense);
-                        
                         AudioManager.instance.PlayGainShield();
-                        PortraitAnimator.Instance.PlayEnemyHit();
+                        CombatAnimator.Instance.PlayDefenseEffect(cardView, cm.tempDefense);
                     }
 
                     ApplySpecialToSim(data, cards, cards.IndexOf(cardView),
                         simPending, simMult, simDis, simPer, simEqual, ref simAttackNum);
-                    ApplySpecialToReal(data);
+                    ApplySpecialToReal(data, cardView);
                 }
 
                 simAttackBonus = simAttackNum * (cm.strength + simPending[CardData.CardType.Strength]);
@@ -232,7 +222,7 @@ namespace Systems
         }
 
         // Applies modifier effects to real game state (MultStats, DisStats, PerStats etc.)
-        private void ApplySpecialToReal(CardData data)
+        private void ApplySpecialToReal(CardData data, CardView sourceCard = null)
         {
             if (data.effect == null) return;
 
@@ -268,31 +258,30 @@ namespace Systems
                     int handCount = cm.Hand.handCardViews.Count;
                     int perTotal = perMult * cm.dem.DisStats[cardtype] * handCount;
 
+                    // PerEffect
                     if (cardtype == CardData.CardType.Damage && perTotal > 0)
                     {
-                        ApplyDamage(perTotal + cm.strength);
+                        ApplyDamage(perTotal + cm.strength, sourceCard);
                     }
-                        
                     else if (cardtype == CardData.CardType.Defense && perTotal > 0)
                     {
                         cm.tempDefense += perTotal;
                         cm.tempDefense = Mathf.Max(0, cm.tempDefense);
                         if (cm.tempDefense > 0) AudioManager.instance.PlayGainShield();
-                        PortraitAnimator.Instance.PlayAliceAttack();
-                        
+                        CombatAnimator.Instance.PlayDefenseEffect(sourceCard, cm.tempDefense);
                     }
                     else if (cardtype == CardData.CardType.Poison)
                     {
                         cm.poison += perTotal;
                         cm.poison = Mathf.Max(0, cm.poison);
+                        CombatAnimator.Instance.PlayPoisonEffect(sourceCard, cm.poison);
                     }
                     else if (cardtype == CardData.CardType.Strength)
                     {
                         cm.strength += perTotal;
                         cm.strength = Mathf.Max(0, cm.strength);
                         if (cm.strength > 0) AudioManager.instance.PlayGainStrength();
-                        PortraitAnimator.Instance.PlayAliceAttack();
-                        
+                        CombatAnimator.Instance.PlayStrengthEffect(sourceCard, cm.strength);
                     }
 
                     if (cm.dem.DisStats[CardData.CardType.Damage] > 0 &&
@@ -334,18 +323,20 @@ namespace Systems
                     else if (t2 == CardData.CardType.Poison)
                         equalBonus = Mathf.Max(0, cm.poison);
 
+                    // EqualEffect
                     if (t1 == CardData.CardType.Damage && equalBonus > 0)
-                        ApplyDamage(equalBonus + cm.strength);
+                        ApplyDamage(equalBonus + cm.strength, sourceCard);
                     else if (t1 == CardData.CardType.Defense && equalBonus > 0)
                     {
                         cm.tempDefense += equalBonus;
                         AudioManager.instance.PlayGainShield();
+                        CombatAnimator.Instance.PlayDefenseEffect(sourceCard, cm.tempDefense);
                     }
                 }
             }
         }
 
-        private void ApplyDamage(int damage)
+        private void ApplyDamage(int damage, CardView sourceCard = null)
         {
             if (damage <= 0) return;
             if (cm.enemyDefense >= damage)
@@ -361,10 +352,20 @@ namespace Systems
                 cm.OnTakeDamage.Invoke();
             }
             cm.enemyCurrentHealth = Mathf.Max(0, cm.enemyCurrentHealth);
+
+            // Fire projectile toward enemy portrait world position
+            if (sourceCard != null)
+            {
+                Vector3 enemyWorldPos = GetPortraitWorldPos(false);
+                CombatAnimator.Instance.PlayDamageEffect(sourceCard, enemyWorldPos, cm.enemyCurrentHealth);
+            }
+
             Debug.Log("Enemy health: " + cm.enemyCurrentHealth);
-            
-            PortraitAnimator.Instance.PlayAliceAttack();
-            PortraitAnimator.Instance.PlayEnemyHit();
+        }
+
+        private Vector3 GetPortraitWorldPos(bool isAlice)
+        {
+            return isAlice ? new Vector3(-792f, 400f, 0f) : new Vector3(770f, 400f, 0f);
         }
         
 
