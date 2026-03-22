@@ -8036,6 +8036,7 @@ MonoBehaviour:
   gainShield: {fileID: 8300000, guid: 994a11cc823f4664cab6c70fca591a17, type: 3}
   gainStrength: {fileID: 8300000, guid: 80a147053dc111842aac562208bf0683, type: 3}
   poisonDamage: {fileID: 8300000, guid: e3b316265a3bf544d96ab2d66a88150e, type: 3}
+  buySFX: {fileID: 8300000, guid: 8d687b5d1dbbf8c40b8cd05ea87354db, type: 3}
   masterVolume: 1
   bgmVolume: 1
   fxVolume: 1

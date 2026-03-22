@@ -92,7 +92,9 @@ namespace Systems
                     // Real
                     if (data.strength != 0)
                     {
-                        cm.strength += data.strength;
+                        // Apply MultStats to this card's own strength if it has a multiplier effect
+                        int mult = cm.dem.MultStats[CardData.CardType.Strength];
+                        cm.strength += data.strength * mult;
                         cm.strength = Mathf.Max(0, cm.strength);
                         if (cm.strength > 0) AudioManager.instance.PlayGainStrength();
                         CombatAnimator.Instance.PlayStrengthEffect(cardView, cm.strength);
@@ -114,8 +116,9 @@ namespace Systems
                     if (data.damage != 0)
                     {
                         int cardDamage = cm.dem.DisStats[CardData.CardType.Damage] * data.damage;
+                        int mult = cm.dem.MultStats[CardData.CardType.Damage];
                         if (cardDamage > 0)
-                            ApplyDamage(cardDamage + cm.strength, cardView); // pass cardView here
+                            ApplyDamage((cardDamage * mult) + cm.strength, cardView);
                     }
                 }
                 else

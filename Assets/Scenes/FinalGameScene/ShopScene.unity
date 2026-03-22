@@ -4202,7 +4202,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '25 gold: 20 HP'
+  m_text: '15 gold: 20 HP'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dd598573018a28a4c98f152129270561, type: 2}
   m_sharedMaterial: {fileID: 6160705163554132388, guid: dd598573018a28a4c98f152129270561, type: 2}
@@ -5772,7 +5772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c50a8becc834715ba74eba3d4b6fed1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopManager
-  healCost: 25
+  healCost: 15
   healAmount: 20
   cardSlots:
   - {fileID: 1072833796}
@@ -5784,8 +5784,8 @@ MonoBehaviour:
   - {fileID: 1694597182}
   - {fileID: 1290783804}
   minPrice: 20
-  maxPrice: 40
-  nextSceneName: ThirdFightCheshireCatScene
+  maxPrice: 35
+  nextSceneName: ThirdFight
   alice: {fileID: 11400000, guid: 23c5c0773c39e3e479d7e9e73959816d, type: 2}
   backgroundMusic: {fileID: 8300000, guid: dd6041c566c8bc24dab3458504e5e115, type: 3}
   loopStartTime: 0
@@ -6120,6 +6120,7 @@ MonoBehaviour:
   gainShield: {fileID: 0}
   gainStrength: {fileID: 0}
   poisonDamage: {fileID: 0}
+  buySFX: {fileID: 0}
   masterVolume: 1
   bgmVolume: 1
   fxVolume: 1

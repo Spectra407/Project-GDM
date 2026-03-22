@@ -203,11 +203,15 @@ public class CardView : MonoBehaviour
 
         Color highlightColor = isBomb ? new Color(1f, 0.3f, 0.3f) : new Color(1f, 0.95f, 0.7f);
 
+        // Bring to foreground
+        SortingGroup sg = GetComponent<SortingGroup>();
+        int originalOrder = sg != null ? sg.sortingOrder : 0;
+        if (sg != null) sg.sortingOrder = 200;
+
         // Enlarge
         transform.DOKill();
         transform.DOScale(originalScale * 1.35f, 0.12f).SetEase(Ease.OutBack);
 
-        // Tint all sprite renderers
         SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
         foreach (var sr in renderers)
             sr.DOColor(highlightColor, 0.1f);
@@ -224,6 +228,9 @@ public class CardView : MonoBehaviour
             sr.DOColor(Color.white, 0.15f);
 
         yield return new WaitForSeconds(0.15f);
+
+        // Restore original sorting order
+        if (sg != null) sg.sortingOrder = originalOrder;
 
         isAnimating = false;
     }

@@ -6303,6 +6303,9 @@ MonoBehaviour:
   shieldColor: {r: 0.3, g: 0.6, b: 1, a: 1}
   strengthColor: {r: 1, g: 0.7, b: 0.1, a: 1}
   poisonColor: {r: 0.3, g: 0.9, b: 0.3, a: 1}
+  aliceWorldPos: {x: -8, y: 5, z: 0}
+  enemyWorldPos: {x: 8, y: 5, z: 0}
+  projectileSprite: {fileID: 21300000, guid: 082c1d8825dd6f94eb5c93e273087162, type: 3}
 --- !u!1 &1673037853
 GameObject:
   m_ObjectHideFlags: 0
@@ -7189,6 +7192,7 @@ MonoBehaviour:
   gainShield: {fileID: 8300000, guid: 994a11cc823f4664cab6c70fca591a17, type: 3}
   gainStrength: {fileID: 8300000, guid: 80a147053dc111842aac562208bf0683, type: 3}
   poisonDamage: {fileID: 8300000, guid: e3b316265a3bf544d96ab2d66a88150e, type: 3}
+  buySFX: {fileID: 8300000, guid: 8d687b5d1dbbf8c40b8cd05ea87354db, type: 3}
   masterVolume: 1
   bgmVolume: 1
   fxVolume: 1
@@ -7497,7 +7501,7 @@ MonoBehaviour:
   enemyDefense: 0
   enemyStrength: 0
   enemyChosenMoves: []
-  battleMusic: {fileID: 8300000, guid: e8da92f1fbbf578488c2c0858b4ca251, type: 3}
+  battleMusic: {fileID: 8300000, guid: fa136a148deae4b0b96bd96022ba7fcf, type: 3}
   loopStartTime: 0
   isDrawing: 0
   pendingDraws: 0
