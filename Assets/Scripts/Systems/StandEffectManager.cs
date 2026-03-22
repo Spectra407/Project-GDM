@@ -340,6 +340,59 @@ namespace Systems
                     }
                 }
             }
+            else if (data.effect is CopyEffect)
+            {
+                // Find the cardView for this data in the hand to get its index
+                var allCards = cm.Hand.handCardViews;
+                int cardIndex = allCards.FindIndex(cv => cv?.data?.InstanceID == data.InstanceID);
+                if (cardIndex <= 0) return;
+
+                CardData prev = null;
+                for (int i = cardIndex - 1; i >= 0; i--)
+                {
+                    CardData candidate = allCards[i]?.data;
+                    if (candidate == null) continue;
+                    if (cm.jackpot) candidate = candidate.getJackpot();
+                    if (candidate.effect is CopyEffect) continue;
+                    if (candidate.cardType.Contains(CardData.CardType.Bomb)) return;
+                    prev = candidate;
+                    break;
+                }
+
+                if (prev == null) return;
+
+                // Apply the copied card's special effect to real state
+                ApplySpecialToReal(prev, sourceCard);
+
+                // Apply the copied card's base stats to real state
+                if (prev.damage != 0)
+                {
+                    int cardDamage = cm.dem.DisStats[CardData.CardType.Damage] * prev.damage;
+                    if (cardDamage > 0)
+                        ApplyDamage(cardDamage + cm.strength, sourceCard);
+                }
+                if (prev.defense != 0)
+                {
+                    cm.tempDefense += prev.defense;
+                    cm.tempDefense = Mathf.Max(0, cm.tempDefense);
+                    if (cm.tempDefense > 0) AudioManager.instance.PlayGainShield();
+                    CombatAnimator.Instance.PlayDefenseEffect(sourceCard, cm.tempDefense);
+                }
+                if (prev.strength != 0)
+                {
+                    cm.strength += prev.strength;
+                    cm.strength = Mathf.Max(0, cm.strength);
+                    if (cm.strength > 0) AudioManager.instance.PlayGainStrength();
+                    CombatAnimator.Instance.PlayStrengthEffect(sourceCard, cm.strength);
+                }
+                if (prev.poison != 0)
+                {
+                    cm.poison += prev.poison;
+                    cm.poison = Mathf.Max(0, cm.poison);
+                    AudioManager.instance.PlayPoisonDamage();
+                    CombatAnimator.Instance.PlayPoisonEffect(sourceCard, cm.poison);
+                }
+            }
         }
 
         private void ApplyDamage(int damage, CardView sourceCard = null)
