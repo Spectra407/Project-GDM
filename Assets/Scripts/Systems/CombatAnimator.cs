@@ -32,39 +32,15 @@ public class CombatAnimator : MonoBehaviour
 
     private IEnumerator FireProjectileCoroutine(CardView sourceCard, Vector3 targetWorldPos, System.Action onArrival)
     {
-        SpriteRenderer[] sourceRenderers = sourceCard.GetComponentsInChildren<SpriteRenderer>();
-        if (sourceRenderers.Length == 0) yield break;
-
-        // Lock target to same Z as the card so it doesn't zoom toward camera
         targetWorldPos.z = sourceCard.transform.position.z;
 
-        // Create ghost FIRST before the foreach
-        GameObject ghost = new GameObject("CardProjectile");
-        ghost.transform.position = sourceCard.transform.position;
-        ghost.transform.rotation = sourceCard.transform.rotation;
+        GameObject ghost = sourceCard.CreateGhost();
         ghost.transform.localScale = Vector3.one * 0.02f;
 
-        // Single foreach with ghostly tint
-        foreach (SpriteRenderer sr in sourceRenderers)
-        {
-            GameObject childGhost = new GameObject(sr.gameObject.name);
-            childGhost.transform.SetParent(ghost.transform, false);
-            childGhost.transform.localPosition = sr.transform.localPosition;
-            childGhost.transform.localRotation = sr.transform.localRotation;
-            childGhost.transform.localScale = sr.transform.localScale;
-
-            SpriteRenderer ghostSR = childGhost.AddComponent<SpriteRenderer>();
-            ghostSR.sprite = sr.sprite;
-            ghostSR.color = new Color(1f, 1f, 1f, 0.4f);
-            ghostSR.sortingLayerName = sr.sortingLayerName;
-            ghostSR.sortingOrder = sr.sortingOrder + 50;
-        }
-
-        float duration = 1.8f;
+        float duration = 2f;
         ghost.transform.DOMove(targetWorldPos, duration).SetEase(Ease.InQuad);
 
-        SpriteRenderer[] ghostRenderers = ghost.GetComponentsInChildren<SpriteRenderer>();
-        foreach (SpriteRenderer sr in ghostRenderers)
+        foreach (var sr in ghost.GetComponentsInChildren<SpriteRenderer>())
             sr.DOFade(0f, duration).SetEase(Ease.InQuad);
 
         yield return new WaitForSeconds(duration);
