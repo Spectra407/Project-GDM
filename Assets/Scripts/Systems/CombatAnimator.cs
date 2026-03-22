@@ -18,6 +18,14 @@ public class CombatAnimator : MonoBehaviour
     public Color shieldColor = new Color(0.3f, 0.6f, 1f);
     public Color strengthColor = new Color(1f, 0.7f, 0.1f);
     public Color poisonColor = new Color(0.3f, 0.9f, 0.3f);
+    
+    [Header("World Positions")]
+    public Vector3 aliceWorldPos = new Vector3(-20f, 5f, 0f);
+    public Vector3 enemyWorldPos = new Vector3(4f, 5f, 0f);
+    
+    [SerializeField] private Sprite projectileSprite;
+
+    
 
     void Awake()
     {
@@ -37,7 +45,7 @@ public class CombatAnimator : MonoBehaviour
         GameObject ghost = sourceCard.CreateGhost();
         ghost.transform.localScale = Vector3.one * 0.02f;
 
-        float duration = 2f;
+        float duration = 0.35f;
         ghost.transform.DOMove(targetWorldPos, duration).SetEase(Ease.InQuad);
 
         foreach (var sr in ghost.GetComponentsInChildren<SpriteRenderer>())
@@ -91,5 +99,56 @@ public class CombatAnimator : MonoBehaviour
     {
         strengthEnemyWidget.Pulse(newEnemyStrength, strengthColor);
         PortraitAnimator.Instance.FlashPortrait(false, strengthColor);
+    }
+    
+    // Enemy damage — red ghost flies from enemy toward Alice
+    public void PlayEnemyDamageEffect()
+    {
+        StartCoroutine(FireEnemyProjectileCoroutine());
+    }
+
+    private IEnumerator FireEnemyProjectileCoroutine()
+    {
+        GameObject ghost = new GameObject("EnemyProjectile");
+        ghost.transform.position = enemyWorldPos;
+
+        // Simple red quad as the projectile
+        SpriteRenderer sr = ghost.AddComponent<SpriteRenderer>();
+        sr.sprite = projectileSprite; // assign a simple circle/slash sprite in inspector
+        sr.color = new Color(0.9f, 0.1f, 0.1f, 0.7f);
+        sr.sortingLayerName = "Cards";
+        sr.sortingOrder = 100;
+        ghost.transform.localScale = Vector3.one * 0.3f;
+
+        Vector3 target = aliceWorldPos;
+        target.z = ghost.transform.position.z;
+
+        float duration = 0.3f;
+        ghost.transform.DOMove(target, duration).SetEase(Ease.InQuad);
+        sr.DOFade(0f, duration).SetEase(Ease.InQuad);
+
+        yield return new WaitForSeconds(duration);
+        Destroy(ghost);
+    }
+
+    // Enemy strength — flash enemy portrait orange, pulse enemy strength widget
+    public void PlayEnemyGainStrength(int newStrength)
+    {
+        PortraitAnimator.Instance.FlashPortrait(false, strengthColor);
+        strengthEnemyWidget.Pulse(newStrength, strengthColor);
+    }
+
+    // Enemy block — flash enemy portrait blue, pulse enemy block widget
+    public void PlayEnemyGainBlock(int newBlock)
+    {
+        PortraitAnimator.Instance.FlashPortrait(false, shieldColor);
+        blockEnemyWidget.Pulse(newBlock, shieldColor);
+    }
+
+    // Madness — shake mirror, flash red
+    public void PlayMadnessEffect()
+    {
+        MadnessDisplay.Instance.PulseMadness();
+        PortraitAnimator.Instance.FlashPortrait(true, new Color(1f, 0.15f, 0.15f));
     }
 }

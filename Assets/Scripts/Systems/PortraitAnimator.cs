@@ -60,4 +60,10 @@ public class PortraitAnimator : MonoBehaviour
         rect.DOKill();
         rect.DOPunchAnchorPos(new Vector2(0, 15f), 0.3f, 6, 0.5f);
     }
+    
+    public void PlayAliceHitFromEnemy()
+    {
+        PlayAliceHit();
+        FlashPortrait(true, new Color(1f, 0.2f, 0.2f));
+    }
 }

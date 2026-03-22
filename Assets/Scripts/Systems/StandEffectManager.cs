@@ -365,7 +365,7 @@ namespace Systems
 
         private Vector3 GetPortraitWorldPos(bool isAlice)
         {
-            return isAlice ? new Vector3(-792f, 400f, 0f) : new Vector3(770f, 400f, 0f);
+            return isAlice ? new Vector3(-20f, 5f, 0f) : new Vector3(4f, 5f, 0f);
         }
         
 
