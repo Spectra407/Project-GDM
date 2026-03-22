@@ -228,6 +228,42 @@ public class CardView : MonoBehaviour
         isAnimating = false;
     }
     
-    
+    public GameObject CreateGhost()
+    {
+        GameObject ghost = new GameObject("CardGhost");
+        ghost.transform.position = transform.position;
+        ghost.transform.rotation = transform.rotation;
+        ghost.transform.localScale = transform.localScale;
+
+        // Copy card background
+        if (cardBackgroundSR != null)
+        {
+            GameObject bgGhost = new GameObject("Background");
+            bgGhost.transform.SetParent(ghost.transform, false);
+            bgGhost.transform.localPosition = cardBackgroundSR.transform.localPosition;
+            bgGhost.transform.localScale = cardBackgroundSR.transform.localScale;
+            SpriteRenderer bgSR = bgGhost.AddComponent<SpriteRenderer>();
+            bgSR.sprite = cardBackgroundSR.sprite;
+            bgSR.color = new Color(1f, 1f, 1f, 0.4f);
+            bgSR.sortingLayerName = cardBackgroundSR.sortingLayerName;
+            bgSR.sortingOrder = cardBackgroundSR.sortingOrder + 50;
+        }
+
+        // Copy card art
+        if (imageSR != null && imageSR.sprite != null)
+        {
+            GameObject artGhost = new GameObject("Art");
+            artGhost.transform.SetParent(ghost.transform, false);
+            artGhost.transform.localPosition = imageSR.transform.localPosition;
+            artGhost.transform.localScale = imageSR.transform.localScale;
+            SpriteRenderer artSR = artGhost.AddComponent<SpriteRenderer>();
+            artSR.sprite = imageSR.sprite;
+            artSR.color = new Color(1f, 1f, 1f, 0.4f);
+            artSR.sortingLayerName = imageSR.sortingLayerName;
+            artSR.sortingOrder = imageSR.sortingOrder + 50;
+        }
+
+        return ghost;
+    }
     
 }

@@ -2341,7 +2341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c3e36b84984c0d49932c68239a7aa39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  enemy: {fileID: 11400000, guid: 750be8a9aa589fd4ba5789079be98a58, type: 2}
+  enemy: {fileID: 11400000, guid: f0c84c091867c0048b0a825cfc0f033e, type: 2}
   combatManager: {fileID: 1892167546}
   text: {fileID: 83488795}
   bar: {fileID: 765503098}
@@ -4932,7 +4932,7 @@ RectTransform:
   m_GameObject: {fileID: 1106409409}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -0.85208404, y: 0.85208404, z: 0.85208404}
+  m_LocalScale: {x: 0.852084, y: 0.85208404, z: 0.85208404}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 832657389027266791}
@@ -4962,7 +4962,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3540eb48464653341a8375363644d0b2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e1dac77eb4383dc4c87e96f9dfc03c44, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6885,9 +6885,6 @@ MonoBehaviour:
   shieldColor: {r: 0.3, g: 0.6, b: 1, a: 1}
   strengthColor: {r: 1, g: 0.7, b: 0.1, a: 1}
   poisonColor: {r: 0.3, g: 0.9, b: 0.3, a: 1}
-  aliceWorldPos: {x: -8, y: 5, z: 0}
-  enemyWorldPos: {x: 8, y: 5, z: 0}
-  projectileSprite: {fileID: 21300000, guid: 082c1d8825dd6f94eb5c93e273087162, type: 3}
 --- !u!1 &1673037853
 GameObject:
   m_ObjectHideFlags: 0
@@ -8339,12 +8336,12 @@ MonoBehaviour:
   poison: 0
   dem: {fileID: 1122482831}
   sem: {fileID: 710607509}
-  enemy: {fileID: 11400000, guid: 750be8a9aa589fd4ba5789079be98a58, type: 2}
+  enemy: {fileID: 11400000, guid: f0c84c091867c0048b0a825cfc0f033e, type: 2}
   enemyCurrentHealth: 0
   enemyDefense: 0
   enemyStrength: 0
   enemyChosenMoves: []
-  battleMusic: {fileID: 8300000, guid: fa136a148deae4b0b96bd96022ba7fcf, type: 3}
+  battleMusic: {fileID: 8300000, guid: e8da92f1fbbf578488c2c0858b4ca251, type: 3}
   loopStartTime: 0
   isDrawing: 0
   pendingDraws: 0
