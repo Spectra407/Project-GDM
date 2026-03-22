@@ -49,5 +49,5 @@ MonoBehaviour:
   - 2\U0001F4AA 5\U0001F6E1
   attackCount: 1
   goldReward: 40
-  nextSceneName: SecondFightJellyfishScene
+  nextSceneName: SecondFight
   bombCardIDs: 030000000300000003000000040000000400000005000000

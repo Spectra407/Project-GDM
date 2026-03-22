@@ -9,14 +9,14 @@ EditorBuildSettings:
     path: Assets/Scenes/FinalGameScene/FirstFightCardSoldierScene.unity
     guid: 4ca18e35a710d1b4fae1c3a6445b1137
   - enabled: 1
-    path: Assets/Scenes/FinalGameScene/SecondFightJellyfishScene.unity
-    guid: 06ee76825deb4064a97bdbc1a279f49a
+    path: Assets/Scenes/FinalGameScene/SecondFight.unity
+    guid: 78c0f9d2f84f8be44b348c23c87ed65c
   - enabled: 1
     path: Assets/Scenes/FinalGameScene/ShopScene.unity
     guid: 46f72f2e855e83541bab64c51f0d1160
   - enabled: 1
-    path: Assets/Scenes/FinalGameScene/ThirdFightCheshireCatScene.unity
-    guid: 027d27f67753fa340aa16ba00c918395
+    path: Assets/Scenes/FinalGameScene/ThirdFight.unity
+    guid: 544ecc514c0fd884fab4f3505f7eb354
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: f8c34e6be43241144a5ff952c1c9011d, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

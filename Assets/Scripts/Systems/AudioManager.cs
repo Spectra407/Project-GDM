@@ -24,6 +24,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip gainShield;
     public AudioClip gainStrength;
     public AudioClip poisonDamage;
+    public AudioClip buySFX;
     
     [Header("Volume Settings")]
     public float masterVolume = 1f;
@@ -89,6 +90,11 @@ public class AudioManager : MonoBehaviour
             bgm.Play();
             yield return new WaitForSeconds(bgm.clip.length - loopStartTime);
         }
+    }
+
+    public void PlayBuyCard()
+    {
+        PlaySound(buySFX, 2f);
     }
     
     public void PlayHover()
