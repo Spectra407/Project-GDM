@@ -17,6 +17,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FinalGameScene/ThirdFightCheshireCatScene.unity
     guid: 027d27f67753fa340aa16ba00c918395
+  - enabled: 1
+    path: Assets/Scenes/OriTestScene/FirstFightCardSoldierScene2.unity
+    guid: d3ed40eb44958e046a1e6643dc17231d
+  - enabled: 1
+    path: Assets/Scenes/OriTestScene/SecondFightJellyfishScene2.unity
+    guid: ee0d7770a47d4b64e8266ed93206f60c
+  - enabled: 1
+    path: Assets/Scenes/OriTestScene/ShopScene2.unity
+    guid: d1299fb5a4332e249a50cec552b6a422
+  - enabled: 1
+    path: Assets/Scenes/OriTestScene/ThirdFightCheshireCatScene2.unity
+    guid: 517a705c77057614eb0af320d5c9049e
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: f8c34e6be43241144a5ff952c1c9011d, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

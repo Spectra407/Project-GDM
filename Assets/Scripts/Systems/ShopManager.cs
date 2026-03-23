@@ -23,6 +23,8 @@ public class ShopManager : MonoBehaviour
 
     private bool canInteract = false;
 
+    public FadeScript fade;
+
     private void Start()
     {
         canInteract = true;
@@ -41,7 +43,7 @@ public class ShopManager : MonoBehaviour
                 cardSlots[i].gameObject.SetActive(false);
             }
         }
-        
+        fade.FadeIn();
         AudioManager.instance.PlayFightMusic(backgroundMusic, loopStartTime);
     }
 
@@ -86,6 +88,13 @@ public class ShopManager : MonoBehaviour
 
     public void LeaveShop()
     {
+        fade.FadeOut();
+        Invoke("DelayedLeaveShop",3.0f);
+    }
+
+    void DelayedLeaveShop()
+    {
         UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
     }
+
 }

@@ -58,6 +58,8 @@ public class CombatManager : MonoBehaviour
     public UnityEvent OnTakeDamage;
     public UnityEvent OnMirrorCrack;
 
+    public FadeScript fadeScript;
+
     void Start()
     {
         if (TutorialManager.Instance != null)
@@ -93,6 +95,8 @@ public class CombatManager : MonoBehaviour
     private void BeginCombat()
     {
         AudioManager.instance.PlayFightMusic(battleMusic, loopStartTime);
+        fadeScript.FadeIn();
+        Debug.Log("Combat Fade In");
         MoveToNewState("EnemyChooseActionState");
     }
 
@@ -197,4 +201,8 @@ public class CombatManager : MonoBehaviour
         }
     }
     
+    // void Fade()
+    // {
+    //     fadeScript.FadeIn();
+    // }
 }
