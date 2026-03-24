@@ -19,7 +19,7 @@ public class ShopManager : MonoBehaviour
     
     [Header("Music")]
     public AudioClip backgroundMusic;   // Current battle's soundtrack
-    public float loopStartTime; // At what second does the track loop
+    public AudioClip loopMusic; // At what second does the track loop
 
     private bool canInteract = false;
 
@@ -43,8 +43,10 @@ public class ShopManager : MonoBehaviour
                 cardSlots[i].gameObject.SetActive(false);
             }
         }
+        
+        AudioManager.instance.PlayFightMusic(backgroundMusic, loopMusic);
         fade.FadeIn();
-        AudioManager.instance.PlayFightMusic(backgroundMusic, loopStartTime);
+        
     }
 
     

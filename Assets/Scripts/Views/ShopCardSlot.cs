@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
+using System.Collections;
+using DG.Tweening;
 
 public class ShopCardSlot : MonoBehaviour
 {
@@ -32,5 +34,28 @@ public class ShopCardSlot : MonoBehaviour
     {
         if (_shop == null) return;
         priceText.text = "SOLD OUT";
+
+        // Hide hover overlay in case this card was being hovered when bought
+        CardViewHoverSystem.Instance.Hide();
+        // Re-enable wrapper in case it was hidden by hover
+        cardView.GetComponent<CardView>()?.gameObject.SetActive(true);
+
+        AudioManager.instance.PlayBuyCard();
+
+        BoxCollider col = cardView.GetComponent<BoxCollider>();
+        if (col != null) col.enabled = false;
+
+        StartCoroutine(SoldSequence());
+    }
+    
+    private IEnumerator SoldSequence()
+    {
+        yield return StartCoroutine(cardView.ShakeAndHighlight(false));
+
+        foreach (var sr in cardView.GetComponentsInChildren<SpriteRenderer>())
+            sr.DOColor(new Color(0.3f, 0.3f, 0.3f, 1f), 0.3f);
+
+        foreach (var tmp in cardView.GetComponentsInChildren<TMPro.TMP_Text>())
+            tmp.DOColor(new Color(0.3f, 0.3f, 0.3f, 1f), 0.3f);
     }
 }

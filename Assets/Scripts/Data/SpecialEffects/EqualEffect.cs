@@ -6,8 +6,8 @@ namespace Data.SpecialEffects
 {
     public class EqualEffect : SpecialEffect
     {
-        CardData.CardType type1;
-        CardData.CardType type2;
+        internal CardData.CardType type1;
+        internal CardData.CardType type2;
 
         [RuntimeInitializeOnLoadMethod]
         static void Register()

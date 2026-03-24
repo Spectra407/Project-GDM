@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,8 +7,11 @@ using UnityEngine.Rendering;
 
 public class CardView : MonoBehaviour
 {
+    private static CardView _currentlyHovered;
+    
     // boolean used to manipulate peeking cards
     public bool isPeek = false;
+    
     
     [Header("Card UI References")]
     [SerializeField] private TMP_Text description;
@@ -48,6 +52,24 @@ public class CardView : MonoBehaviour
     
     void Update()
     {
+        // Keep collider anchored to homePos regardless of visual movement
+        // Skip for shop cards (they don't have homePos logic) and animating cards
+        if (!isShopCard && !isAnimating && homePos != Vector3.zero)
+        {
+            BoxCollider col = GetComponent<BoxCollider>();
+            if (col != null)
+            {
+                Vector3 offset = homePos - transform.position;
+                col.center = offset;
+            }
+        }
+        else if (isShopCard)
+        {
+            // Reset collider center for shop cards so hover works normally
+            BoxCollider col = GetComponent<BoxCollider>();
+            if (col != null) col.center = Vector3.zero;
+        }
+        
         // Only animate passively if it's in the hand and NOT being hovered
         if (isHovered || isShopCard || isPeek || isAnimating) return;
         
@@ -108,6 +130,12 @@ public class CardView : MonoBehaviour
         }
         
         if (isPeek || HandView.Instance.isShattering || isHovered) return;
+        // Force exit any previously hovered card that didn't get its OnMouseExit
+        if (_currentlyHovered != null && _currentlyHovered != this)
+            _currentlyHovered.ForceExit();
+
+        _currentlyHovered = this;
+        
         isHovered = true;
 
         transform.DOKill();
@@ -133,13 +161,21 @@ public class CardView : MonoBehaviour
 
         if (isPeek || !isHovered) return;
 
-        // Only un-hover if the mouse has moved away from the home position, avoids janky up and down
-        Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(
-            new Vector3(Input.mousePosition.x, Input.mousePosition.y, 
-                Camera.main.WorldToScreenPoint(homePos).z));
+        if (_currentlyHovered == this)
+            _currentlyHovered = null;
 
-        if (Vector2.Distance(mouseWorld, homePos) < 1.2f) return;
+        ExitHover();
+    }
+    
+    public void ForceExit()
+    {
+        if (!isHovered) return;
+        isHovered = false;
+        ExitHover();
+    }
 
+    private void ExitHover()
+    {
         isHovered = false;
         transform.DOKill();
         transform.DOMove(homePos, 0.15f);
@@ -161,6 +197,79 @@ public class CardView : MonoBehaviour
         
     }
     
+    public IEnumerator ShakeAndHighlight(bool isBomb = false, System.Action onStart = null)
+    {
+        isAnimating = true;
+        
+        // Fire the sound callback immediately when the card pops
+        onStart?.Invoke();
+
+        Color highlightColor = isBomb ? new Color(1f, 0.3f, 0.3f) : new Color(1f, 0.95f, 0.7f);
+
+        SortingGroup sg = GetComponent<SortingGroup>();
+        int originalOrder = sg != null ? sg.sortingOrder : 0;
+        if (sg != null) sg.sortingOrder = 200;
+
+        transform.DOKill();
+        transform.DOScale(originalScale * 1.35f, 0.12f).SetEase(Ease.OutBack);
+
+        
+
+        SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
+        foreach (var sr in renderers)
+            sr.DOColor(highlightColor, 0.1f);
+
+        yield return new WaitForSeconds(0.12f);
+
+        transform.DOShakePosition(0.4f, new Vector3(0.12f, 0.06f, 0), 18, 90, false, true);
+        yield return new WaitForSeconds(0.45f);
+
+        transform.DOScale(originalScale, 0.15f).SetEase(Ease.OutBack);
+        foreach (var sr in renderers)
+            sr.DOColor(Color.white, 0.15f);
+
+        yield return new WaitForSeconds(0.15f);
+
+        if (sg != null) sg.sortingOrder = originalOrder;
+        isAnimating = false;
+    }
     
+    public GameObject CreateGhost()
+    {
+        GameObject ghost = new GameObject("CardGhost");
+        ghost.transform.position = transform.position;
+        ghost.transform.rotation = transform.rotation;
+        ghost.transform.localScale = transform.localScale;
+
+        // Copy card background
+        if (cardBackgroundSR != null)
+        {
+            GameObject bgGhost = new GameObject("Background");
+            bgGhost.transform.SetParent(ghost.transform, false);
+            bgGhost.transform.localPosition = cardBackgroundSR.transform.localPosition;
+            bgGhost.transform.localScale = cardBackgroundSR.transform.localScale;
+            SpriteRenderer bgSR = bgGhost.AddComponent<SpriteRenderer>();
+            bgSR.sprite = cardBackgroundSR.sprite;
+            bgSR.color = new Color(1f, 1f, 1f, 0.4f);
+            bgSR.sortingLayerName = cardBackgroundSR.sortingLayerName;
+            bgSR.sortingOrder = cardBackgroundSR.sortingOrder + 50;
+        }
+
+        // Copy card art
+        if (imageSR != null && imageSR.sprite != null)
+        {
+            GameObject artGhost = new GameObject("Art");
+            artGhost.transform.SetParent(ghost.transform, false);
+            artGhost.transform.localPosition = imageSR.transform.localPosition;
+            artGhost.transform.localScale = imageSR.transform.localScale;
+            SpriteRenderer artSR = artGhost.AddComponent<SpriteRenderer>();
+            artSR.sprite = imageSR.sprite;
+            artSR.color = new Color(1f, 1f, 1f, 0.4f);
+            artSR.sortingLayerName = imageSR.sortingLayerName;
+            artSR.sortingOrder = imageSR.sortingOrder + 50;
+        }
+
+        return ghost;
+    }
     
 }

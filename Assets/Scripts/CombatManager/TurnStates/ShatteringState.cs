@@ -28,7 +28,7 @@ public class ShatteringState : ITurnState
         _hasSelected = false;
         
         // TURN ON UI FOR SHATTER EFFECTS HERE
-        BannerManager.Instance.ShowBanner("SHATTERED: Choose 1 card to keep");
+        BannerManager.Instance.ShowBannerPersistent("SHATTERED: Choose 1 card to keep");
         
         _cm.StartCoroutine(EnableSelectionDelay());
     }
@@ -60,6 +60,8 @@ public class ShatteringState : ITurnState
                 _hasSelected = true;
                 _cm.lastDrawnCard = null; // Clear last drawn card so it doesn't retrigger again in the next state.
                 Debug.Log($"Survivor chosen: {clickedCard.data.cardName}");
+
+                BannerManager.Instance.HideBanner();
                 
                 // Byebye other cards
                 _cm.Hand.StartCoroutine(_cm.Hand.ShatterSequence(clickedCard));

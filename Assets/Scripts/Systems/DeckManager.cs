@@ -42,7 +42,7 @@ namespace Systems
 
             
             // Initialize starter deck only on first fight
-            if (!_isInitialized)
+            if (!_isInitialized || TutorialManager.Instance != null)
             {
                 // Reward deck setup
                 foreach (CardData card in allCards)

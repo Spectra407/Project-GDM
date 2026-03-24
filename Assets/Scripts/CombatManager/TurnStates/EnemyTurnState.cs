@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
@@ -23,67 +24,95 @@ public class EnemyTurnState : ITurnState
     
     private IEnumerator ExecuteEnemyMove()
     {
-        // Wait a moment for animations or whatever
         yield return new WaitForSeconds(1.5f);
         
         // ENEMY RESETS BLOCK
         _cm.enemyDefense = 0;
         
-        
-        // ENEMY ATTACKS
-        foreach (EnemyMove move in _cm.enemyChosenMoves)
+        // POISON TICK first, then pause before attack
+        if (_cm.poison > 0)
         {
-            ExecuteMoveEffects(move);
-            PortraitAnimator.Instance.PlayEnemyAttack();
-            yield return new WaitForSeconds(0.5f);
+            AudioManager.instance.PlayPoisonDamage();
+            
+            _cm.enemyCurrentHealth -= _cm.poison;
+            _cm.enemyCurrentHealth = Mathf.Max(0, _cm.enemyCurrentHealth);
+            EnemyHealthBar.Instance.AnimateToCurrentHealth();
+            Debug.Log($"Poison ticked for {_cm.poison}. Enemy health: {_cm.enemyCurrentHealth}");
+            _cm.poison = (int)Math.Floor(_cm.poison / 2.0);
+            Debug.Log($"Poison decayed to {_cm.poison}");
+
+            // Wait for poison animation to finish before enemy attacks
+            yield return new WaitForSeconds(1.0f);
+
+            if (_cm.enemyCurrentHealth <= 0)
+            {
+                Debug.Log("Enemy defeated by poison!");
+                yield return new WaitForSeconds(1.0f);
+                _cm.MoveToNewState("Victory");
+                yield break;
+            }
         }
         
-        // Wait another moment so the player sees the result
+        // ENEMY ATTACKS: each move plays sequentially
+        foreach (EnemyMove move in _cm.enemyChosenMoves)
+        {
+            PortraitAnimator.Instance.PlayEnemyAttack();
+            yield return _cm.StartCoroutine(ExecuteMoveEffects(move));
+            yield return new WaitForSeconds(0.8f);
+        }
+        
         yield return new WaitForSeconds(1.0f);
 
-        // Check if Alice is defeated or move back to her turn
         if (_cm.currentHealth <= 0)
         {
             Debug.Log("Game Over: You died.");
-            // Move to a GameOverState LATERRRR
             SceneManager.LoadScene("FirstFightCardSoldierScene");
         }
         else
         {
-            // Reset the turn back to Alice
             _cm.tempDefense = 0;
-            _cm.MoveToNewState("EnemyChooseActionState"); 
+            _cm.MoveToNewState("EnemyChooseActionState");
         }
     }
-    
-    private void ExecuteMoveEffects (EnemyMove move)
+
+    private IEnumerator ExecuteMoveEffects(EnemyMove move)
     {
         if (move.damage != 0)
         {
-            Debug.Log($"The Card Soldier stabs Alice for {move.damage} + {_cm.enemyStrength} - {_cm.tempDefense} damage!");
+            Debug.Log($"The Card Soldier stabs Alice for {move.damage} + {_cm.enemyStrength} damage!");
+            CombatAnimator.Instance.PlayEnemyDamageEffect();
+            yield return new WaitForSeconds(0.35f); // wait for projectile to arrive
             AliceTakeDamage(move.damage + _cm.enemyStrength);
+            AliceHealthBar.Instance.AnimateToCurrentHealth();
             Debug.Log($"Alice Health: {_cm.currentHealth}");
+            yield return new WaitForSeconds(0.4f);
         }
-        
+
         if (move.block != 0)
         {
             Debug.Log($"The Card Soldier gains {move.block} block!");
             _cm.enemyDefense += move.block;
             AudioManager.instance.PlayGainShield();
+            CombatAnimator.Instance.PlayEnemyGainBlock(_cm.enemyDefense);
+            yield return new WaitForSeconds(0.5f);
         }
-        
+
         if (move.strength != 0)
         {
             Debug.Log($"The Card Soldier gains {move.strength} strength!");
             _cm.enemyStrength += move.strength;
             AudioManager.instance.PlayGainStrength();
+            CombatAnimator.Instance.PlayEnemyGainStrength(_cm.enemyStrength);
+            yield return new WaitForSeconds(0.5f);
         }
-        
+
         if (move.madness != 0)
         {
-            Debug.Log($"The Card Soldier inflicts {move.madness} madness upon you!");
+            Debug.Log($"The Card Soldier inflicts {move.madness} madness!");
             _cm.madness += move.madness;
-            _cm.OnMirrorCrack.Invoke();     // Invoke mirror crack sfx
+            _cm.OnMirrorCrack.Invoke();
+            CombatAnimator.Instance.PlayMadnessEffect();
+            yield return new WaitForSeconds(0.7f);
         }
     }
 
@@ -117,6 +146,8 @@ public class EnemyTurnState : ITurnState
             PortraitAnimator.Instance.PlayAliceHit();
         }
     }
+    
+    
 
     public void HandleInput(string input) { } 
     public void Update() { }

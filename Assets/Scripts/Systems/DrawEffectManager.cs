@@ -302,6 +302,38 @@ namespace Systems
                     // Example: -4 defense, Deal damage equal to your defense would do -4 damage otherwise
             return bonus;
         }
+        
+        public void HideAllUI()
+        {
+            damageText.gameObject.SetActive(false);
+            blockText.gameObject.SetActive(false);
+            poisonText.gameObject.SetActive(false);
+            strengthText.gameObject.SetActive(false);
+        }
+
+        public void UpdateDamageUI(int value)
+        {
+            damageText.gameObject.SetActive(value != 0);
+            damageText.text = value + "\\U00002694";
+        }
+
+        public void UpdateDefenseUI(int value)
+        {
+            blockText.gameObject.SetActive(value != 0);
+            blockText.text = value + "\\U0001F6E1";
+        }
+
+        public void UpdateStrengthUI(int value)
+        {
+            strengthText.gameObject.SetActive(value != 0);
+            strengthText.text = value + "\\U0001F4AA";
+        }
+
+        public void UpdatePoisonUI(int value)
+        {
+            poisonText.gameObject.SetActive(value != 0);
+            poisonText.text = value + "\\U0001F9EA";
+        }
 
 
     }
