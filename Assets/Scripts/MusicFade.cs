@@ -4,29 +4,37 @@ using UnityEngine;
 
 public class MusicFade : MonoBehaviour
 {
-    private AudioSource source;
 
-    private void Start()
+    public IEnumerator MusicFading(bool fadeIn, AudioSource[] sources, float duration, float targetVolume)
     {
-        source = GetComponent<AudioSource>();
-        source.volume = 0f;
-    }
+        float time = 0f;
+        
+        // Store the starting volumes of all sources involved
+        float[] startVolumes = new float[sources.Length];
+        for (int i = 0; i < sources.Length; i++)
+        {
+            if (sources[i] != null) startVolumes[i] = sources[i].volume;
+        }
 
-    public IEnumerator MusicFading(bool fadeIn, AudioSource source, float duration, float targetVolume)
-    {
-        // if (!fadeIn)
-        // {
-        //     double lengthofSource = (double)source.clip.samples / source.clip.frequency;
-        //     yield return new WaitForSecondsRealtime((float)(lengthofSource - duration));
-        // }
-
-        float time =0f;
-        float startVol = source.volume;
         while (time < duration)
         {
             time += Time.deltaTime;
-            source.volume = Mathf.Lerp(startVol, targetVolume, time / duration);
+            float progress = time / duration;
+
+            for (int i = 0; i < sources.Length; i++)
+            {
+                if (sources[i] != null)
+                {
+                    sources[i].volume = Mathf.Lerp(startVolumes[i], targetVolume, progress);
+                }
+            }
             yield return null;
+        }
+
+        // Ensure they hit the exact target volume at the end
+        foreach (var s in sources)
+        {
+            if (s != null) s.volume = targetVolume;
         }
     }
 }

@@ -61,9 +61,13 @@ public class CombatManager : MonoBehaviour
     public UnityEvent OnMirrorCrack;
 
     public FadeScript fadeScript;
-
+	void Awake()
+	{
+    	if (fadeScript == null) fadeScript = FindAnyObjectByType<FadeScript>();
+	}
     void Start()
     {
+		AudioManager.instance.SetFadeMultiplier(0f);
         if (TutorialManager.Instance != null)
         {
             alice.currentHealth = alice.maxHealth;   // Reset her hp to full in the first fight scene!

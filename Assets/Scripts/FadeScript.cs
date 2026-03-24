@@ -4,48 +4,64 @@ using UnityEngine;
 public class FadeScript : MonoBehaviour
 {
     [SerializeField] private CanvasGroup canvasGroup;
-
     [SerializeField] private float fadeDuration = 5.0f;
-
-    [SerializeField] private bool fadeIn = false;
-
-    [SerializeField] private AudioSource source;
-    [SerializeField] private MusicFade fading;
+    
+    [Header("Settings")]
+    [SerializeField] private bool fadeInOnStart = true;
 
     private void Start()
     {
-        if (fadeIn)
+        // Setup initial state based on toggle
+        if (fadeInOnStart)
         {
+            canvasGroup.alpha = 1f;
+            AudioManager.instance.SetFadeMultiplier(0f);
             FadeIn();
-        }
-        else
-        {
-            FadeOut();
         }
     }
 
-
     public void FadeIn()
     {
-        StartCoroutine(FadeCanvasGroup(canvasGroup, canvasGroup.alpha, 0, fadeDuration));
-        StartCoroutine(fading.MusicFading(true, source, fadeDuration, 0.5f));
+        StopAllCoroutines();
+        // Fade UI from 1 to 0 
+        StartCoroutine(FadeCanvasGroup(0f, fadeDuration));
+        // Fade Music from 0 to 1
+        StartCoroutine(MusicSystemFade(0f, 1f));
     }
 
     public void FadeOut()
     {
-        StartCoroutine(FadeCanvasGroup(canvasGroup, canvasGroup.alpha, 1, fadeDuration));
-        StartCoroutine(fading.MusicFading(false, source, fadeDuration, 0f));
+        StopAllCoroutines();
+        // Fade UI from 0 to 1
+        StartCoroutine(FadeCanvasGroup(1f, fadeDuration));
+        // Fade Music from 1 to 0
+        StartCoroutine(MusicSystemFade(1f, 0f));
     }
 
-    private IEnumerator FadeCanvasGroup(CanvasGroup cg, float start, float end, float duration)
+    private IEnumerator MusicSystemFade(float start, float end)
     {
         float elapsedTime = 0.0f;
         while (elapsedTime < fadeDuration)
         {
             elapsedTime += Time.deltaTime;
-            cg.alpha = Mathf.Lerp(start, end, elapsedTime / duration);
+            float currentMultiplier = Mathf.Lerp(start, end, elapsedTime / fadeDuration);
+            
+            AudioManager.instance.SetFadeMultiplier(currentMultiplier);
             yield return null;
         }
-        cg.alpha = end;
+        AudioManager.instance.SetFadeMultiplier(end);
+    }
+
+    private IEnumerator FadeCanvasGroup(float targetAlpha, float duration)
+    {
+        float startAlpha = canvasGroup.alpha;
+        float elapsedTime = 0.0f;
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime / duration);
+            yield return null;
+        }
+        canvasGroup.alpha = targetAlpha;
     }
 }

@@ -34,10 +34,12 @@ public class AudioManager : MonoBehaviour
     public float bgmVolume = 1f;
     public float fxVolume = 1f;
 
+    // Allows the FadeScript to fade the entire BGM system
+    private float _fadeMultiplier = 1f; 
+
     void Awake()
     {
         transform.SetParent(null);
-
         if (instance == null)
         {
             instance = this;
@@ -49,11 +51,18 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    
+    // Call this from FadeScript to fade music in/out globally
+    public void SetFadeMultiplier(float value)
+    {
+        _fadeMultiplier = value;
+        if (bgmA.isPlaying) bgmA.volume = bgmVolume * _fadeMultiplier;
+        if (bgmB.isPlaying) bgmB.volume = bgmVolume * _fadeMultiplier;
+    }
 
     public void SubscribeToScene()
     {
         CombatManager cm = FindAnyObjectByType<CombatManager>();
+        if (cm == null) return;
 
         cm.OnTakeDamage.RemoveListener(PlayTakeDamage);
         cm.OnMirrorCrack.RemoveListener(PlayMirrorCracks);
@@ -80,21 +89,20 @@ public class AudioManager : MonoBehaviour
         _current = bgmA;
         _next = bgmB;
 
-        _current.volume = bgmVolume;
+        // Apply the fade multiplier to the starting volume
+        _current.volume = bgmVolume * _fadeMultiplier;
         _next.volume = 0f;
 
         double dspStartTime = AudioSettings.dspTime + 0.1;
 
-        
         // Play intro
         _current.clip = intro;
         _current.loop = false;
         _current.PlayScheduled(dspStartTime);
 
         // Start loop slightly BEFORE intro ends
-        double overlap = 0.02; // 20 ms, 10ms has a crackle :(
-
-        double loopStartTime = dspStartTime + intro.length - overlap;
+        double overlap = 0.02; 
+        double loopStartTime = dspStartTime + (double)intro.length - overlap;
 
         // Schedule loop
         _next.clip = loop;
@@ -102,28 +110,16 @@ public class AudioManager : MonoBehaviour
         _next.volume = 0f;
         _next.PlayScheduled(loopStartTime);
 
-        // Fade IN loop immediately (it starts at loopStartTime anyway)
-        StartCoroutine(FadeInAtDSPTime(
-            _next,
-            (float)overlap,
-            loopStartTime
-        ));
+        // Fade IN loop
+        StartCoroutine(FadeInAtDSPTime(_next, (float)overlap, loopStartTime));
 
-        // Fade OUT intro at the correct DSP time
-        StartCoroutine(FadeOutAtDSPTime(
-            _current,
-            (float)overlap,
-            loopStartTime
-        ));
+        // Fade OUT intro
+        StartCoroutine(FadeOutAtDSPTime(_current, (float)overlap, loopStartTime));
     }
     
     IEnumerator FadeInAtDSPTime(AudioSource source, float duration, double dspStartTime)
     {
-        // Wait until the audio actually starts
-        while (AudioSettings.dspTime < dspStartTime)
-        {
-            yield return null;
-        }
+        while (AudioSettings.dspTime < dspStartTime) yield return null;
 
         float t = 0f;
         source.volume = 0f;
@@ -131,20 +127,16 @@ public class AudioManager : MonoBehaviour
         while (t < duration)
         {
             t += Time.unscaledDeltaTime;
-            source.volume = Mathf.Clamp01(t / duration) * bgmVolume;
+            source.volume = (Mathf.Clamp01(t / duration) * bgmVolume) * _fadeMultiplier;
             yield return null;
         }
 
-        source.volume = bgmVolume;
+        source.volume = bgmVolume * _fadeMultiplier;
     }
 
     IEnumerator FadeOutAtDSPTime(AudioSource source, float duration, double dspFadeStartTime)
     {
-        // Wait until DSP time reaches fade start
-        while (AudioSettings.dspTime < dspFadeStartTime)
-        {
-            yield return null;
-        }
+        while (AudioSettings.dspTime < dspFadeStartTime) yield return null;
 
         float startVol = source.volume;
         float t = 0f;
@@ -160,81 +152,33 @@ public class AudioManager : MonoBehaviour
         source.Stop();
     }
 
-    public void PlayBuyCard()
-    {
-        PlaySound(buySFX, 2f);
-    }
-
-    public void PlayHover()
-    {
-        PlaySound(hover);
-    }
-
-    public void PlayClick()
-    {
-        PlaySound(click);
-    }
-
-    public void PlayShuffle()
-    {
-        PlaySound(shuffle);
-    }
-
-    public void PlayCardPlayed()
-    {
-        PlaySound(cardPlayed);
-    }
-
-    public void PlayHoverCard()
-    {
-        PlaySound(hoverCard, 0.4f);
-    }
-
-    public void PlayTakeDamage()
-    {
-        PlaySound(takeDamage, 2f);
-    }
-
-    public void PlayBluntDamage()
-    {
-        PlaySound(bluntTakeDamage);
-    }
+    
+    public void PlayBuyCard() => PlaySound(buySFX, 2f);
+    public void PlayHover() => PlaySound(hover);
+    public void PlayClick() => PlaySound(click);
+    public void PlayShuffle() => PlaySound(shuffle);
+    public void PlayCardPlayed() => PlaySound(cardPlayed);
+    public void PlayHoverCard() => PlaySound(hoverCard, 0.4f);
+    public void PlayTakeDamage() => PlaySound(takeDamage, 2f);
+    public void PlayBluntDamage() => PlaySound(bluntTakeDamage);
 
     public void PlayMirrorCracks()
     {
-        CombatManager cm = (CombatManager)FindAnyObjectByType(typeof(CombatManager));
+        CombatManager cm = FindAnyObjectByType<CombatManager>();
+        if (cm == null) return;
 
-        if (cm.madness <= cm.alice.maxMadness)
-        {
-            Debug.Log("Playing mirror crack sound number " + (cm.madness - 1));
-            PlaySound(mirrorCracks[cm.madness - 1]);
-        }
-        else
-        {
-            PlaySound(mirrorCracks[cm.alice.maxMadness]);
-        }
+        int index = Mathf.Clamp(cm.madness - 1, 0, mirrorCracks.Count - 1);
+        PlaySound(mirrorCracks[index]);
     }
 
-    public void PlayGainShield()
-    {
-        PlaySound(gainShield, 0.8f);
-    }
-
-    public void PlayGainStrength()
-    {
-        PlaySound(gainStrength, 0.8f);
-    }
-
-    public void PlayPoisonDamage()
-    {
-        PlaySound(poisonDamage, 1.8f);
-    }
+    public void PlayGainShield() => PlaySound(gainShield, 0.8f);
+    public void PlayGainStrength() => PlaySound(gainStrength, 0.8f);
+    public void PlayPoisonDamage() => PlaySound(poisonDamage, 1.8f);
 
     private void PlaySound(AudioClip sound, float volumeMultiplier = 1f)
     {
         if (sound == null) return;
-        float finalVolume = fxVolume * volumeMultiplier;
         effects.pitch = Random.Range(0.95f, 1.05f);
-        effects.PlayOneShot(sound, finalVolume);
+        effects.PlayOneShot(sound, fxVolume * volumeMultiplier * masterVolume);
     }
 }

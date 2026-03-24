@@ -15,7 +15,14 @@ public class TutorialManager : MonoBehaviour
     private int _currentSlide = 0;
     private Action _onComplete;
 
-    private void Awake() => Instance = this;
+    private void Awake()
+    {
+        Instance = this;
+        if (fade == null)
+        {
+            fade = FindAnyObjectByType<FadeScript>();
+        }
+    }
 
     public FadeScript fade;
 
