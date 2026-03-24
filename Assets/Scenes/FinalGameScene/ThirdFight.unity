@@ -3943,8 +3943,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   effects: {fileID: 364586113}
-  bgm: {fileID: 368522750}
-  bgmLoop: {fileID: 2078987576}
+  bgmA: {fileID: 368522750}
+  bgmB: {fileID: 2078987576}
   hover: {fileID: 8300000, guid: 3f0138a0fa88a99ef9b34569fe2c3cd9, type: 3}
   click: {fileID: 8300000, guid: 3f0138a0fa88a99ef9b34569fe2c3cd9, type: 3}
   shuffle: {fileID: 8300000, guid: d0eb5decfefd14f8296ac4efe0a39ef4, type: 3}
@@ -7632,8 +7632,8 @@ MonoBehaviour:
   enemyDefense: 0
   enemyStrength: 0
   enemyChosenMoves: []
-  battleMusic: {fileID: 8300000, guid: e8da92f1fbbf578488c2c0858b4ca251, type: 3}
-  loopAtHalfway: 1
+  battleMusic: {fileID: 8300000, guid: 89731ad3c0cf6c1449d293ed815d1a8a, type: 3}
+  loopMusic: {fileID: 8300000, guid: 272ec36e4f164f848bf4553b161bd97b, type: 3}
   isDrawing: 0
   pendingDraws: 0
   lastDrawnCard: {fileID: 0}

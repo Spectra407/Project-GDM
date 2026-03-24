@@ -28,7 +28,7 @@ public class CombatManager : MonoBehaviour
     
     [Header("Music")]
     public AudioClip battleMusic;   // Current battle's soundtrack
-    public bool loopAtHalfway; // At what second does the track loop
+    public AudioClip loopMusic; // At what second does the track loop
 
     [Header("State Tracking")]
     public ITurnState currentState; 
@@ -95,7 +95,7 @@ public class CombatManager : MonoBehaviour
     
     private void BeginCombat()
     {
-        AudioManager.instance.PlayFightMusic(battleMusic, loopAtHalfway);
+        AudioManager.instance.PlayFightMusic(battleMusic, loopMusic);
         MoveToNewState("EnemyChooseActionState");
     }
 

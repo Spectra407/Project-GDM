@@ -5,14 +5,16 @@ using Systems;
 
 public class AudioManager : MonoBehaviour
 {
-    
     public static AudioManager instance;
 
     [Header("Audio Sources")]
     public AudioSource effects;
-    public AudioSource bgm;
-    public AudioSource bgmLoop;
-    
+    public AudioSource bgmA;
+    public AudioSource bgmB;
+
+    private AudioSource _current;
+    private AudioSource _next;
+
     [Header("Sound Effects")]
     public AudioClip hover;
     public AudioClip click;
@@ -26,17 +28,16 @@ public class AudioManager : MonoBehaviour
     public AudioClip gainStrength;
     public AudioClip poisonDamage;
     public AudioClip buySFX;
-    
+
     [Header("Volume Settings")]
     public float masterVolume = 1f;
     public float bgmVolume = 1f;
     public float fxVolume = 1f;
-   
 
     void Awake()
     {
-        transform.SetParent(null);  // Detach from the parent so that DontDestroyOnLoad can work even when we put it under a parent for cleanliness.
-        
+        transform.SetParent(null);
+
         if (instance == null)
         {
             instance = this;
@@ -47,126 +48,164 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     
-    // Call this from CombatManager.Start() instead of using Start()
+
     public void SubscribeToScene()
     {
         CombatManager cm = FindAnyObjectByType<CombatManager>();
-    
-        // Clear old sound first to avoid double conflicts
+
         cm.OnTakeDamage.RemoveListener(PlayTakeDamage);
         cm.OnMirrorCrack.RemoveListener(PlayMirrorCracks);
         DeckManager.Instance.OnShuffle.RemoveListener(PlayShuffle);
         DeckManager.Instance.OnDraw.RemoveListener(PlayCardPlayed);
         CardViewHoverSystem.Instance.OnCardHover.RemoveListener(PlayHoverCard);
 
-        // Find and attach sound with new scene's objects
         cm.OnTakeDamage.AddListener(PlayTakeDamage);
         cm.OnMirrorCrack.AddListener(PlayMirrorCracks);
         DeckManager.Instance.OnShuffle.AddListener(PlayShuffle);
         DeckManager.Instance.OnDraw.AddListener(PlayCardPlayed);
         CardViewHoverSystem.Instance.OnCardHover.AddListener(PlayHoverCard);
     }
-    
-    public void PlayFightMusic(AudioClip clip, bool loopAtHalfway = false)
+
+    public void PlayFightMusic(AudioClip intro, AudioClip loop)
     {
-        if (clip == null) return;
+        if (intro == null || loop == null) return;
 
         StopAllCoroutines();
-        bgm.Stop();
-        bgmLoop.Stop();
 
-        bgm.clip = clip;
-        bgmLoop.clip = clip;
-        bgm.loop = false;
-        bgmLoop.loop = false;
+        bgmA.Stop();
+        bgmB.Stop();
 
-        if (loopAtHalfway)
+        _current = bgmA;
+        _next = bgmB;
+
+        _current.volume = bgmVolume;
+        _next.volume = 0f;
+
+        double dspStartTime = AudioSettings.dspTime + 0.1;
+
+        
+        // Play intro
+        _current.clip = intro;
+        _current.loop = false;
+        _current.PlayScheduled(dspStartTime);
+
+        // Start loop slightly BEFORE intro ends
+        double overlap = 0.02; // 20 ms, 10ms has a crackle :(
+
+        double loopStartTime = dspStartTime + intro.length - overlap;
+
+        // Schedule loop
+        _next.clip = loop;
+        _next.loop = true;
+        _next.volume = 0f;
+        _next.PlayScheduled(loopStartTime);
+
+        // Fade IN loop immediately (it starts at loopStartTime anyway)
+        StartCoroutine(FadeInAtDSPTime(
+            _next,
+            (float)overlap,
+            loopStartTime
+        ));
+
+        // Fade OUT intro at the correct DSP time
+        StartCoroutine(FadeOutAtDSPTime(
+            _current,
+            (float)overlap,
+            loopStartTime
+        ));
+    }
+    
+    IEnumerator FadeInAtDSPTime(AudioSource source, float duration, double dspStartTime)
+    {
+        // Wait until the audio actually starts
+        while (AudioSettings.dspTime < dspStartTime)
         {
-            float loopStartTime = clip.length / 2f;
-            float loopDuration = clip.length - loopStartTime;
-            int loopStartSamples = Mathf.RoundToInt(loopStartTime * clip.frequency);
-
-            double startDSP = AudioSettings.dspTime + 0.1;
-            bgm.timeSamples = 0;
-            bgm.PlayScheduled(startDSP);
-
-            double firstLoopDSP = startDSP + clip.length;
-            bgmLoop.timeSamples = loopStartSamples;
-            bgmLoop.PlayScheduled(firstLoopDSP);
-
-            StartCoroutine(KeepLooping(clip, loopStartSamples, loopDuration, firstLoopDSP));
+            yield return null;
         }
-        else
+
+        float t = 0f;
+        source.volume = 0f;
+
+        while (t < duration)
         {
-            bgm.loop = true;
-            bgm.Play();
+            t += Time.unscaledDeltaTime;
+            source.volume = Mathf.Clamp01(t / duration) * bgmVolume;
+            yield return null;
         }
+
+        source.volume = bgmVolume;
     }
 
-    private IEnumerator KeepLooping(AudioClip clip, int loopStartSamples, float loopDuration, double currentLoopDSP)
+    IEnumerator FadeOutAtDSPTime(AudioSource source, float duration, double dspFadeStartTime)
     {
-        while (true)
+        // Wait until DSP time reaches fade start
+        while (AudioSettings.dspTime < dspFadeStartTime)
         {
-            // Wait until halfway through the current loop to schedule the next one
-            float waitTime = (float)(currentLoopDSP - AudioSettings.dspTime) + (loopDuration / 2f);
-            yield return new WaitForSeconds(waitTime);
-
-            // Schedule next loop on bgm (alternating sources)
-            double nextLoopDSP = currentLoopDSP + loopDuration;
-            bgm.timeSamples = loopStartSamples;
-            bgm.PlayScheduled(nextLoopDSP);
-
-            // Wait until halfway through again then schedule on bgmLoop
-            yield return new WaitForSeconds(loopDuration / 2f);
-
-            double afterNextLoopDSP = nextLoopDSP + loopDuration;
-            bgmLoop.timeSamples = loopStartSamples;
-            bgmLoop.PlayScheduled(afterNextLoopDSP);
-
-            currentLoopDSP = nextLoopDSP;
+            yield return null;
         }
+
+        float startVol = source.volume;
+        float t = 0f;
+
+        while (t < duration)
+        {
+            t += Time.unscaledDeltaTime;
+            source.volume = Mathf.Lerp(startVol, 0f, t / duration);
+            yield return null;
+        }
+
+        source.volume = 0f;
+        source.Stop();
     }
 
     public void PlayBuyCard()
     {
         PlaySound(buySFX, 2f);
     }
-    
+
     public void PlayHover()
     {
         PlaySound(hover);
     }
+
     public void PlayClick()
     {
         PlaySound(click);
     }
+
     public void PlayShuffle()
     {
         PlaySound(shuffle);
     }
+
     public void PlayCardPlayed()
     {
         PlaySound(cardPlayed);
     }
+
     public void PlayHoverCard()
     {
         PlaySound(hoverCard, 0.4f);
     }
+
     public void PlayTakeDamage()
     {
         PlaySound(takeDamage, 2f);
     }
+
     public void PlayBluntDamage()
     {
         PlaySound(bluntTakeDamage);
     }
+
     public void PlayMirrorCracks()
     {
-        //ASSUMED MADNESS OF 7
-        CombatManager cm = (CombatManager) FindAnyObjectByType(typeof(CombatManager));
+        CombatManager cm = (CombatManager)FindAnyObjectByType(typeof(CombatManager));
 
-        if (cm.madness <= cm.alice.maxMadness) {
+        if (cm.madness <= cm.alice.maxMadness)
+        {
             Debug.Log("Playing mirror crack sound number " + (cm.madness - 1));
             PlaySound(mirrorCracks[cm.madness - 1]);
         }
@@ -175,28 +214,27 @@ public class AudioManager : MonoBehaviour
             PlaySound(mirrorCracks[cm.alice.maxMadness]);
         }
     }
+
     public void PlayGainShield()
     {
-        PlaySound(gainShield, 0.3f);
+        PlaySound(gainShield, 0.8f);
     }
+
     public void PlayGainStrength()
     {
-        PlaySound(gainStrength, 0.6f);
+        PlaySound(gainStrength, 0.8f);
     }
+
     public void PlayPoisonDamage()
     {
-        PlaySound(poisonDamage, 1.5f);
+        PlaySound(poisonDamage, 1.8f);
     }
-    
-    
+
     private void PlaySound(AudioClip sound, float volumeMultiplier = 1f)
     {
         if (sound == null) return;
         float finalVolume = fxVolume * volumeMultiplier;
-        
-        // Add a tiny bit of pitch variance so every sound feels unique
         effects.pitch = Random.Range(0.95f, 1.05f);
         effects.PlayOneShot(sound, finalVolume);
     }
 }
-
