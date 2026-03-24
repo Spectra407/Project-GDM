@@ -6,7 +6,7 @@ namespace Systems
 {
     public class DeckManager : PersistentSingleton<DeckManager>
     {
-        private bool _isInitialized = false;    // Turns to true during the first enemy encounter. First time setup of the starter deck.
+        public bool _isInitialized = false;    // Turns to true during the first enemy encounter. First time setup of the starter deck.
         [SerializeField] public List<CardData> rewardDeck;   // Deck of possible reward cards
         [SerializeField] public List<CardData> currentDeck;  // Current player deck, start with the Starter Deck
 
@@ -42,7 +42,7 @@ namespace Systems
 
             
             // Initialize starter deck only on first fight
-            if (!_isInitialized || TutorialManager.Instance != null)
+            if (!_isInitialized)
             {
                 // Reward deck setup
                 foreach (CardData card in allCards)

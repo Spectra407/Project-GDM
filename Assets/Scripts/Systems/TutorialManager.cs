@@ -11,7 +11,11 @@ public class TutorialManager : MonoBehaviour
     public GameObject tutorialPanel;
     public Image slideImage;
     public Sprite[] slides; // Assign your all slide sprites
-
+    
+    [Header("Scene Transition")]
+    [SerializeField] private string nextSceneName = "FirstFightCardSoldierScene";
+    public FadeScript fade;
+    
     private int _currentSlide = 0;
     private Action _onComplete;
 
@@ -24,7 +28,15 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    public FadeScript fade;
+    private void Start()
+    {
+        // Fading in
+        if(fade != null) fade.FadeIn();
+        
+        _currentSlide = 0;
+        tutorialPanel.SetActive(true);
+        ShowSlide(_currentSlide);
+    }
 
     public void ShowTutorial(Action onComplete)
     {
@@ -40,13 +52,13 @@ public class TutorialManager : MonoBehaviour
         slideImage.sprite = slides[index];
     }
 
-    public void NextSlide() // Triggered by the Next button
+    public void NextSlide() 
     {
         _currentSlide++;
         if (_currentSlide >= slides.Length)
         {
-            fade.FadeOut();
-            Invoke("DelayedExitTutorial",3.0f); // Signal combat to begin
+            if(fade != null) fade.FadeOut();
+            StartCoroutine(LoadNextScene());
         }
         else
         {
@@ -60,9 +72,10 @@ public class TutorialManager : MonoBehaviour
         ShowSlide(_currentSlide);
     }
 
-    void DelayedExitTutorial()
+    private IEnumerator LoadNextScene()
     {
-        _onComplete?.Invoke();
-        tutorialPanel.SetActive(false);
+        // Wait for the FadeOut duration
+        yield return new WaitForSeconds(3.0f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
     }
 }

@@ -31,11 +31,13 @@ public class AudioManager : MonoBehaviour
 
     [Header("Volume Settings")]
     public float masterVolume = 1f;
-    public float bgmVolume = 1f;
+    public float bgmVolume = 0.65f;
     public float fxVolume = 1f;
 
     // Allows the FadeScript to fade the entire BGM system
     private float _fadeMultiplier = 1f; 
+	private float lastCardSoundTime = 0f;
+	private float cardSoundDelay = 0.15f;
 
     void Awake()
     {
@@ -156,8 +158,19 @@ public class AudioManager : MonoBehaviour
     public void PlayBuyCard() => PlaySound(buySFX, 2f);
     public void PlayHover() => PlaySound(hover);
     public void PlayClick() => PlaySound(click);
-    public void PlayShuffle() => PlaySound(shuffle);
-    public void PlayCardPlayed() => PlaySound(cardPlayed);
+    public void PlayShuffle()
+	{
+    	if (Time.time - lastCardSoundTime < cardSoundDelay) return;
+    	lastCardSoundTime = Time.time;
+    	PlaySound(shuffle);
+	}
+
+	public void PlayCardPlayed() 
+	{
+    	if (Time.time - lastCardSoundTime < cardSoundDelay) return;
+    	lastCardSoundTime = Time.time;
+    	PlaySound(cardPlayed);
+	}
     public void PlayHoverCard() => PlaySound(hoverCard, 0.4f);
     public void PlayTakeDamage() => PlaySound(takeDamage, 2f);
     public void PlayBluntDamage() => PlaySound(bluntTakeDamage);
