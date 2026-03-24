@@ -28,12 +28,14 @@ public class CombatManager : MonoBehaviour
     
     [Header("Music")]
     public AudioClip battleMusic;   // Current battle's soundtrack
-    public float loopStartTime; // At what second does the track loop
+    public AudioClip loopMusic; // At what second does the track loop
 
     [Header("State Tracking")]
     public ITurnState currentState; 
     private Stack<ITurnState> states = new Stack<ITurnState>();
     public string CurrentStateName { get; private set; }
+    
+    [Header("Draw Tracking")]
     public bool isDrawing = false;
     public int pendingDraws = 0;
 
@@ -93,7 +95,7 @@ public class CombatManager : MonoBehaviour
     
     private void BeginCombat()
     {
-        AudioManager.instance.PlayFightMusic(battleMusic, loopStartTime);
+        AudioManager.instance.PlayFightMusic(battleMusic, loopMusic);
         MoveToNewState("EnemyChooseActionState");
     }
 
