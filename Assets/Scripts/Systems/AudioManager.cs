@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     [Header("Audio Sources")]
     public AudioSource effects;
     public AudioSource bgm;
+    public AudioSource bgmLoop;
     
     [Header("Sound Effects")]
     public AudioClip hover;
@@ -67,28 +68,63 @@ public class AudioManager : MonoBehaviour
         CardViewHoverSystem.Instance.OnCardHover.AddListener(PlayHoverCard);
     }
     
-    public void PlayFightMusic(AudioClip clip, float loopStartTime = 0f)
+    public void PlayFightMusic(AudioClip clip, bool loopAtHalfway = false)
     {
         if (clip == null) return;
+
+        StopAllCoroutines();
+        bgm.Stop();
+        bgmLoop.Stop();
+
         bgm.clip = clip;
-        bgm.loop = false;   // Handle looping manually bc some tracks are weirder
-        bgm.Play();
-        
-        StartCoroutine(LoopTrack(loopStartTime));
+        bgmLoop.clip = clip;
+        bgm.loop = false;
+        bgmLoop.loop = false;
+
+        if (loopAtHalfway)
+        {
+            float loopStartTime = clip.length / 2f;
+            float loopDuration = clip.length - loopStartTime;
+            int loopStartSamples = Mathf.RoundToInt(loopStartTime * clip.frequency);
+
+            double startDSP = AudioSettings.dspTime + 0.1;
+            bgm.timeSamples = 0;
+            bgm.PlayScheduled(startDSP);
+
+            double firstLoopDSP = startDSP + clip.length;
+            bgmLoop.timeSamples = loopStartSamples;
+            bgmLoop.PlayScheduled(firstLoopDSP);
+
+            StartCoroutine(KeepLooping(clip, loopStartSamples, loopDuration, firstLoopDSP));
+        }
+        else
+        {
+            bgm.loop = true;
+            bgm.Play();
+        }
     }
-    
-    private IEnumerator LoopTrack(float loopStartTime)
+
+    private IEnumerator KeepLooping(AudioClip clip, int loopStartSamples, float loopDuration, double currentLoopDSP)
     {
-        // Wait for the track to finish its intro (or full length if loopStartTime is 0)
-        yield return new WaitForSeconds(bgm.clip.length - loopStartTime > 0 
-            ? bgm.clip.length 
-            : bgm.clip.length);
-    
         while (true)
         {
-            bgm.time = loopStartTime;
-            bgm.Play();
-            yield return new WaitForSeconds(bgm.clip.length - loopStartTime);
+            // Wait until halfway through the current loop to schedule the next one
+            float waitTime = (float)(currentLoopDSP - AudioSettings.dspTime) + (loopDuration / 2f);
+            yield return new WaitForSeconds(waitTime);
+
+            // Schedule next loop on bgm (alternating sources)
+            double nextLoopDSP = currentLoopDSP + loopDuration;
+            bgm.timeSamples = loopStartSamples;
+            bgm.PlayScheduled(nextLoopDSP);
+
+            // Wait until halfway through again then schedule on bgmLoop
+            yield return new WaitForSeconds(loopDuration / 2f);
+
+            double afterNextLoopDSP = nextLoopDSP + loopDuration;
+            bgmLoop.timeSamples = loopStartSamples;
+            bgmLoop.PlayScheduled(afterNextLoopDSP);
+
+            currentLoopDSP = nextLoopDSP;
         }
     }
 
