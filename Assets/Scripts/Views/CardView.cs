@@ -23,7 +23,7 @@ public class CardView : MonoBehaviour
     [SerializeField] private SpriteRenderer cardBackgroundSR;
     [SerializeField] private Sprite defaultCardSprite;
     [SerializeField] private Sprite bombCardSprite;
-    [SerializeField] private Color defaultTextColor = new Color(0.541f, 0f, 0f, 1f);
+    [SerializeField] private Color defaultTextColor = Color.black;
     [SerializeField] private Color bombTextColor = Color.white;
     
     [Header("Card Hover stuff")]
@@ -92,9 +92,27 @@ public class CardView : MonoBehaviour
        
         float s = CardViewCreator.Instance.scale;
         originalScale = new Vector3(s, s, s);
+		
+    	// Get the raw text from the data
+    	string rawText = data.description;
+
+    	// Clean up Excel's double-quote
+    	string cleanText = rawText.Replace("\"\"", "\"");
+
+    	// Get rid of extra quotes Excel adds to the whole cell
+    	if (cleanText.StartsWith("\"") && cleanText.EndsWith("\""))
+    	{
+        	cleanText = cleanText.Substring(1, cleanText.Length - 2);
+    	}
+
+    	// \n actually creates a new line
+    	cleanText = cleanText.Replace("\\n", "\n");
+
+    	// Apply the cleaned text
+    	description.text = cleanText;
+    	
         
         // Update the visuals according to the newCardData
-        description.text = data.description;
         madness.text = data.madness.ToString();
         imageSR.sprite = data.art;
         

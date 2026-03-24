@@ -41,12 +41,12 @@ MonoBehaviour:
     strength: 2
     madness: 0
   moveText:
-  - 5\U00002694
-  - 8\U00002694
-  - 10\U00002694
-  - 2\U00002694 10\U0001F6E1
-  - 2\U0001FA9E 1\U0001F4AA
-  - 2\U0001F4AA 5\U0001F6E1
+  - 5<sprite name="sword">
+  - 8<sprite name="sword">
+  - 10<sprite name="shield">
+  - 2<sprite name="sword"> 10<sprite name="shield">
+  - 1<sprite name="strength"> 2<sprite name="mad">
+  - 5<sprite name="shield"> 2<sprite name="strength">
   attackCount: 1
   goldReward: 40
   nextSceneName: SecondFight

@@ -117,12 +117,14 @@ namespace Systems
                         CombatAnimator.Instance.PlayStrengthEffect(cardView, cm.strength);
                     }
                     if (data.defense != 0)
-                    {
-                        cm.tempDefense += data.defense;
-                        cm.tempDefense = Mathf.Max(0, cm.tempDefense);
-                        
-                        CombatAnimator.Instance.PlayDefenseEffect(cardView, cm.tempDefense);
-                    }
+					{
+    					// Multiply by DisStats to respect the Disable effect
+    					int defenseToGain = cm.dem.DisStats[CardData.CardType.Defense] * data.defense;
+    					cm.tempDefense += defenseToGain;
+    					cm.tempDefense = Mathf.Max(0, cm.tempDefense);
+    
+    					CombatAnimator.Instance.PlayDefenseEffect(cardView, cm.tempDefense);
+					}
                     if (data.poison != 0)
                     {
                         cm.poison += data.poison;
@@ -204,12 +206,14 @@ namespace Systems
                     if (cardDamage > 0)
                         ApplyDamage(cardDamage + cm.strength, cardView); // pass cardView here
                     if (data.defense != 0)
-                    {
-                        cm.tempDefense += data.defense;
-                        cm.tempDefense = Mathf.Max(0, cm.tempDefense);
-                        
-                        CombatAnimator.Instance.PlayDefenseEffect(cardView, cm.tempDefense);
-                    }
+					{
+    					// Multiply by DisStats here
+    					int defenseToGain = cm.dem.DisStats[CardData.CardType.Defense] * data.defense;
+    					cm.tempDefense += defenseToGain;
+    					cm.tempDefense = Mathf.Max(0, cm.tempDefense);
+    
+    					CombatAnimator.Instance.PlayDefenseEffect(cardView, cm.tempDefense);
+					}
                     if (data.poison != 0)
                     {
                         cm.poison += data.poison;
