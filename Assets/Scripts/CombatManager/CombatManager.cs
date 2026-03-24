@@ -68,7 +68,7 @@ public class CombatManager : MonoBehaviour
     void Start()
     {
 		AudioManager.instance.SetFadeMultiplier(0f);
-        if (TutorialManager.Instance != null)
+        if (!Deck._isInitialized)
         {
             alice.currentHealth = alice.maxHealth;   // Reset her hp to full in the first fight scene!
             alice.gold = 0;
@@ -87,16 +87,9 @@ public class CombatManager : MonoBehaviour
         // Set up the deck for this fight using this scene's enemy
         DeckManager.Instance.SetupDecks(CardDB.Instance.cards, new List<int>(enemy.bombCardIDs));
         
-        // Check if tutorial should show
-        if (TutorialManager.Instance != null)
-        {
-            TutorialManager.Instance.ShowTutorial(BeginCombat);
-        }
-        else
-        {
-            // Start the game loop
-            BeginCombat();
-        }
+        // Start the game loop
+        BeginCombat();
+        
     }
     
     private void BeginCombat()

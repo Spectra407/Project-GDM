@@ -31,7 +31,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("Volume Settings")]
     public float masterVolume = 1f;
-    public float bgmVolume = 1f;
+    public float bgmVolume = 0.65f;
     public float fxVolume = 1f;
 
     // Allows the FadeScript to fade the entire BGM system
