@@ -197,20 +197,23 @@ public class CardView : MonoBehaviour
         
     }
     
-    public IEnumerator ShakeAndHighlight(bool isBomb = false)
+    public IEnumerator ShakeAndHighlight(bool isBomb = false, System.Action onStart = null)
     {
         isAnimating = true;
+        
+        // Fire the sound callback immediately when the card pops
+        onStart?.Invoke();
 
         Color highlightColor = isBomb ? new Color(1f, 0.3f, 0.3f) : new Color(1f, 0.95f, 0.7f);
 
-        // Bring to foreground
         SortingGroup sg = GetComponent<SortingGroup>();
         int originalOrder = sg != null ? sg.sortingOrder : 0;
         if (sg != null) sg.sortingOrder = 200;
 
-        // Enlarge
         transform.DOKill();
         transform.DOScale(originalScale * 1.35f, 0.12f).SetEase(Ease.OutBack);
+
+        
 
         SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
         foreach (var sr in renderers)
@@ -218,20 +221,16 @@ public class CardView : MonoBehaviour
 
         yield return new WaitForSeconds(0.12f);
 
-        // Shake
         transform.DOShakePosition(0.4f, new Vector3(0.12f, 0.06f, 0), 18, 90, false, true);
         yield return new WaitForSeconds(0.45f);
 
-        // Return to normal
         transform.DOScale(originalScale, 0.15f).SetEase(Ease.OutBack);
         foreach (var sr in renderers)
             sr.DOColor(Color.white, 0.15f);
 
         yield return new WaitForSeconds(0.15f);
 
-        // Restore original sorting order
         if (sg != null) sg.sortingOrder = originalOrder;
-
         isAnimating = false;
     }
     
