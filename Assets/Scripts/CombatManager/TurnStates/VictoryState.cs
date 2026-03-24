@@ -10,6 +10,8 @@ public class VictoryState : ITurnState
     private int _picksRemaining = 2;
     private bool _canSelect = false;
 
+    private FadeScript fade;
+
     public VictoryState(CombatManager cm)
     {
         _cm = cm;
@@ -20,6 +22,8 @@ public class VictoryState : ITurnState
         Debug.Log("Victory! Choose your rewards.");
         _picksRemaining = 2;
         _cm.StartCoroutine(OfferRewards());
+
+        fade = Object.FindFirstObjectByType<FadeScript>();
     }
 
     private IEnumerator OfferRewards()
@@ -86,6 +90,7 @@ public class VictoryState : ITurnState
             Debug.Log($"Earned {_cm.enemy.goldReward} gold.");
             Debug.Log("Rewards selected. Proceeding...");
             // MOVE TO NEXT SCENE HERE
+            fade.FadeOut();
             _cm.StartCoroutine(DelayedSceneLoad(_cm.enemy.nextSceneName)); // Either next fight or "ShopScene"
             // Maybe use SceneManager.LoadScene(_cm.enemy.nextSceneName); so we can put into the enemydata what the next scene is
         }
@@ -93,7 +98,7 @@ public class VictoryState : ITurnState
 
     private IEnumerator DelayedSceneLoad(string sceneName)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         SceneManager.LoadScene(sceneName);
     }
 

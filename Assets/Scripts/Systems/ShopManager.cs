@@ -19,10 +19,20 @@ public class ShopManager : MonoBehaviour
     
     [Header("Music")]
     public AudioClip backgroundMusic;   // Current battle's soundtrack
-    public AudioClip loopMusic; // At what second does the track loop
+    public AudioClip loopMusic; // Loop part of the track
 
     private bool canInteract = false;
 
+    public FadeScript fade;
+    
+    private void Awake()
+    {
+        if (fade == null)
+        {
+            fade = FindAnyObjectByType<FadeScript>();
+        }
+    }
+    
     private void Start()
     {
         canInteract = true;
@@ -43,6 +53,8 @@ public class ShopManager : MonoBehaviour
         }
         
         AudioManager.instance.PlayFightMusic(backgroundMusic, loopMusic);
+        fade.FadeIn();
+        
     }
 
     
@@ -86,6 +98,13 @@ public class ShopManager : MonoBehaviour
 
     public void LeaveShop()
     {
+        fade.FadeOut();
+        Invoke("DelayedLeaveShop",3.0f);
+    }
+
+    void DelayedLeaveShop()
+    {
         UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
     }
+
 }
