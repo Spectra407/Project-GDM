@@ -71,7 +71,24 @@ namespace Systems
                 CardData data = cm.jackpot ? cardView.data.getJackpot() : cardView.data;
                 bool isBomb = data.cardType.Contains(CardData.CardType.Bomb);
 
-                yield return cm.StartCoroutine(cardView.ShakeAndHighlight(isBomb));
+                yield return cm.StartCoroutine(cardView.ShakeAndHighlight(isBomb, () =>
+                {
+                    if (isBomb)
+                    {
+                        if (data.strength > 0) AudioManager.instance.PlayGainStrength();
+                        else if (data.defense != 0) AudioManager.instance.PlayGainShield();
+                    }
+                    else
+                    {
+                        if (data.damage != 0) AudioManager.instance.PlayTakeDamage();
+                        else if (data.defense != 0) AudioManager.instance.PlayGainShield();
+                        else if (data.strength != 0) AudioManager.instance.PlayGainStrength();
+                        else if (data.poison != 0) AudioManager.instance.PlayPoisonDamage();
+                        else if (data.effect is MultiplierEffect) AudioManager.instance.PlayGainStrength();
+                        else if (data.effect is PerEffect) AudioManager.instance.PlayBluntDamage();
+                        else if (data.effect is DisableEffect) AudioManager.instance.PlayGainShield();
+                    }
+                }));
                 
                 // Apply modifier effect to both sim and real state
                 ApplySpecialToSim(data, cards, cards.IndexOf(cardView),
@@ -96,21 +113,21 @@ namespace Systems
                         int mult = cm.dem.MultStats[CardData.CardType.Strength];
                         cm.strength += data.strength * mult;
                         cm.strength = Mathf.Max(0, cm.strength);
-                        if (cm.strength > 0) AudioManager.instance.PlayGainStrength();
+                        
                         CombatAnimator.Instance.PlayStrengthEffect(cardView, cm.strength);
                     }
                     if (data.defense != 0)
                     {
                         cm.tempDefense += data.defense;
                         cm.tempDefense = Mathf.Max(0, cm.tempDefense);
-                        if (cm.tempDefense > 0) AudioManager.instance.PlayGainShield();
+                        
                         CombatAnimator.Instance.PlayDefenseEffect(cardView, cm.tempDefense);
                     }
                     if (data.poison != 0)
                     {
                         cm.poison += data.poison;
                         cm.poison = Mathf.Max(0, cm.poison);
-                        AudioManager.instance.PlayPoisonDamage();
+                        
                         CombatAnimator.Instance.PlayPoisonEffect(cardView, cm.poison);
                     }
                     if (data.damage != 0)
@@ -129,14 +146,14 @@ namespace Systems
                     {
                         cm.enemyStrength += data.strength;
                         Debug.Log($"Bomb gave enemy {data.strength} strength!");
-                        AudioManager.instance.PlayGainStrength();
+                        
                         CombatAnimator.Instance.PlayEnemyStrengthEffect(cm.enemyStrength);
                     }
                     if (data.defense != 0)
                     {
                         cm.tempDefense += data.defense;
                         cm.tempDefense = Mathf.Max(0, cm.tempDefense);
-                        AudioManager.instance.PlayGainShield();
+                        
                         CombatAnimator.Instance.PlayDefenseEffect(cardView, cm.tempDefense);
                     }
                 }
@@ -156,7 +173,22 @@ namespace Systems
                 CardData data = cm.jackpot ? cardView.data.getJackpot() : cardView.data;
                 bool isBomb = data.cardType.Contains(CardData.CardType.Bomb);
 
-                yield return cm.StartCoroutine(cardView.ShakeAndHighlight(isBomb));
+                yield return cm.StartCoroutine(cardView.ShakeAndHighlight(isBomb, () =>
+                {
+                    if (isBomb)
+                    {
+                        if (data.strength > 0) AudioManager.instance.PlayGainStrength();
+                        else if (data.defense != 0) AudioManager.instance.PlayGainShield();
+                    }
+                    else
+                    {
+                        if (data.damage != 0) AudioManager.instance.PlayTakeDamage();
+                        else if (data.defense != 0) AudioManager.instance.PlayGainShield();
+                        else if (data.poison != 0) AudioManager.instance.PlayPoisonDamage();
+                        else if (data.effect is EqualEffect) AudioManager.instance.PlayBluntDamage();
+                        else if (data.effect is CopyEffect) AudioManager.instance.PlayBluntDamage();
+                    }
+                }));
 
                 if (!isBomb)
                 {
@@ -175,14 +207,14 @@ namespace Systems
                     {
                         cm.tempDefense += data.defense;
                         cm.tempDefense = Mathf.Max(0, cm.tempDefense);
-                        if (cm.tempDefense > 0) AudioManager.instance.PlayGainShield();
+                        
                         CombatAnimator.Instance.PlayDefenseEffect(cardView, cm.tempDefense);
                     }
                     if (data.poison != 0)
                     {
                         cm.poison += data.poison;
                         cm.poison = Mathf.Max(0, cm.poison);
-                        AudioManager.instance.PlayPoisonDamage();
+                        
                         CombatAnimator.Instance.PlayPoisonEffect(cardView, cm.poison);
                     }
 
@@ -199,14 +231,14 @@ namespace Systems
                     {
                         cm.enemyStrength += data.strength;
                         Debug.Log($"Bomb gave enemy {data.strength} strength!");
-                        AudioManager.instance.PlayGainStrength();
+                        
                         CombatAnimator.Instance.PlayEnemyStrengthEffect(cm.enemyStrength);
                     }
                     if (data.defense != 0)
                     {
                         cm.tempDefense += data.defense;
                         cm.tempDefense = Mathf.Max(0, cm.tempDefense);
-                        AudioManager.instance.PlayGainShield();
+                        
                         CombatAnimator.Instance.PlayDefenseEffect(cardView, cm.tempDefense);
                     }
 
@@ -272,21 +304,21 @@ namespace Systems
                     {
                         cm.tempDefense += perTotal;
                         cm.tempDefense = Mathf.Max(0, cm.tempDefense);
-                        if (cm.tempDefense > 0) AudioManager.instance.PlayGainShield();
+                        
                         CombatAnimator.Instance.PlayDefenseEffect(sourceCard, cm.tempDefense);
                     }
                     else if (cardtype == CardData.CardType.Poison)
                     {
                         cm.poison += perTotal;
                         cm.poison = Mathf.Max(0, cm.poison);
-                        AudioManager.instance.PlayPoisonDamage();
+                        
                         CombatAnimator.Instance.PlayPoisonEffect(sourceCard, cm.poison);
                     }
                     else if (cardtype == CardData.CardType.Strength)
                     {
                         cm.strength += perTotal;
                         cm.strength = Mathf.Max(0, cm.strength);
-                        if (cm.strength > 0) AudioManager.instance.PlayGainStrength();
+                        
                         CombatAnimator.Instance.PlayStrengthEffect(sourceCard, cm.strength);
                     }
 
@@ -335,7 +367,7 @@ namespace Systems
                     else if (t1 == CardData.CardType.Defense && equalBonus > 0)
                     {
                         cm.tempDefense += equalBonus;
-                        AudioManager.instance.PlayGainShield();
+                        
                         CombatAnimator.Instance.PlayDefenseEffect(sourceCard, cm.tempDefense);
                     }
                 }
@@ -375,21 +407,21 @@ namespace Systems
                 {
                     cm.tempDefense += prev.defense;
                     cm.tempDefense = Mathf.Max(0, cm.tempDefense);
-                    if (cm.tempDefense > 0) AudioManager.instance.PlayGainShield();
+                    
                     CombatAnimator.Instance.PlayDefenseEffect(sourceCard, cm.tempDefense);
                 }
                 if (prev.strength != 0)
                 {
                     cm.strength += prev.strength;
                     cm.strength = Mathf.Max(0, cm.strength);
-                    if (cm.strength > 0) AudioManager.instance.PlayGainStrength();
+                    
                     CombatAnimator.Instance.PlayStrengthEffect(sourceCard, cm.strength);
                 }
                 if (prev.poison != 0)
                 {
                     cm.poison += prev.poison;
                     cm.poison = Mathf.Max(0, cm.poison);
-                    AudioManager.instance.PlayPoisonDamage();
+                    
                     CombatAnimator.Instance.PlayPoisonEffect(sourceCard, cm.poison);
                 }
             }
@@ -401,14 +433,14 @@ namespace Systems
             if (cm.enemyDefense >= damage)
             {
                 cm.enemyDefense -= damage;
-                AudioManager.instance.PlayBluntDamage();
+                
             }
             else
             {
                 damage -= cm.enemyDefense;
                 cm.enemyDefense = 0;
                 cm.enemyCurrentHealth -= damage;
-                cm.OnTakeDamage.Invoke();
+                
             }
             cm.enemyCurrentHealth = Mathf.Max(0, cm.enemyCurrentHealth);
             EnemyHealthBar.Instance.AnimateToCurrentHealth();
