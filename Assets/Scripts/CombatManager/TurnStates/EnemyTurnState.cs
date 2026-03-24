@@ -66,7 +66,8 @@ public class EnemyTurnState : ITurnState
         if (_cm.currentHealth <= 0)
         {
             Debug.Log("Game Over: You died.");
-            SceneManager.LoadScene("FirstFightCardSoldierScene");
+			_cm.fadeScript.FadeOut();
+            _cm.StartCoroutine(DelayedGameOverLoad("FirstFightCardSoldierScene"));
         }
         else
         {
@@ -146,6 +147,12 @@ public class EnemyTurnState : ITurnState
             PortraitAnimator.Instance.PlayAliceHit();
         }
     }
+
+	private IEnumerator DelayedGameOverLoad(string sceneName)
+	{
+    	yield return new WaitForSeconds(3f); 
+    	SceneManager.LoadScene(sceneName);
+	}
     
     
 
