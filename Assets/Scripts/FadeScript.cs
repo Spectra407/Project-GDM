@@ -22,6 +22,7 @@ public class FadeScript : MonoBehaviour
 
     public void FadeIn()
     {
+        Debug.Log("Fading In");
         StopAllCoroutines();
         // Fade UI from 1 to 0 
         StartCoroutine(FadeCanvasGroup(0f, fadeDuration));
@@ -31,6 +32,7 @@ public class FadeScript : MonoBehaviour
 
     public void FadeOut()
     {
+        Debug.Log("Fading Out");
         StopAllCoroutines();
         // Fade UI from 0 to 1
         StartCoroutine(FadeCanvasGroup(1f, fadeDuration));
