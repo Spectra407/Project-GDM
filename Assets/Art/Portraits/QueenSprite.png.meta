@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 10324ebec0528b244af801f121af97f6
+guid: 8e005c1b9b5931b47bbbe0223d79786a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4036904145683439626
-    second: Madness3 (1)_0
+      213: 6811274004650258189
+    second: QueenSprite_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Madness3 (1)_0
+      name: QueenSprite_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 179
-        width: 1200
-        height: 1407
+        x: 63
+        y: 0
+        width: 1107
+        height: 1241
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6ff9c3461190af7c0800000000000000
-      internalID: -4036904145683439626
+      spriteID: d0fe70b9e91868e50800000000000000
+      internalID: 6811274004650258189
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Madness3 (1)_0: -4036904145683439626
+      QueenSprite_0: 6811274004650258189
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

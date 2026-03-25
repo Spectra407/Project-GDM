@@ -68,7 +68,9 @@ public class ShatteringState : ITurnState
                 _cm.dem.ResetForStand();    // Reset all pending. We will "redo" the resolve on draw for the survivor inside ShatteringState. 
                 
                 // Move to EvaluatingCards
+                _cm.dem.isRecalculating = true;
                 _cm.dem.ResolveOnDraw(clickedCard.data);
+                _cm.dem.isRecalculating = false;
                 _cm.MoveToNewState("EvaluatingCards");
             }
         }

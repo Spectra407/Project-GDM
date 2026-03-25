@@ -97,10 +97,12 @@ public class HandlingCardState : ITurnState
     public void Update() { }      
     public void Exit() 
     {
-        // If we are moving back to ChoosingAction, ensure the card data is wiped
         if (_currentPhase == Phase.Done)
         {
             _cm.lastDrawnCard = null; 
+        
+            // Clear just in case the attention card wasn't cleared by a sub-state
+            HandView.Instance.ClearAttentionCard();
         }
     }
 }

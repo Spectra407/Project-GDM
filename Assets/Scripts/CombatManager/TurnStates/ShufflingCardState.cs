@@ -56,6 +56,10 @@ public class ShufflingCardState : ITurnState
     private IEnumerator ShuffleCardAnimated(CardView cardView)
     {
         yield return HandView.Instance.AnimateCardToDeck(cardView);
+
+        // STOP PULLING ATTENTION
+        HandView.Instance.ClearAttentionCard();
+
         RecalculateHand();
         _cm.MoveToNewState("ChoosingAction");
     }
@@ -64,7 +68,7 @@ public class ShufflingCardState : ITurnState
     {
         // Reset all pending stats and madness
         _cm.dem.ResetForJackpot();
-        _cm.madness = _cm.alice.startingMadness;
+        _cm.madness = _cm.turnBaseMadness;
         _cm.jackpot = false;
 
         _cm.dem.isreshuffling = true;
@@ -89,5 +93,9 @@ public class ShufflingCardState : ITurnState
     }
 
     public void HandleInput(string inputID) { }
-    public void Exit() { }
+
+    public void Exit()
+    {
+        HandView.Instance.ClearAttentionCard();
+    }
 }
