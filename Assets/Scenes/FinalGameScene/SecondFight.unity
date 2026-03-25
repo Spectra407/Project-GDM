@@ -5263,6 +5263,7 @@ MonoBehaviour:
   splineContainer: {fileID: 1612124923}
   drawDeckTransformPosition: {fileID: 1930545996}
   isShattering: 0
+  currentAttentionCard: {fileID: 0}
 --- !u!4 &1222198704
 Transform:
   m_ObjectHideFlags: 0
@@ -8367,6 +8368,7 @@ MonoBehaviour:
   currentHealth: 0
   tempDefense: 0
   madness: 0
+  turnBaseMadness: 0
   jackpot: 0
   strength: 0
   poison: 0
@@ -10269,8 +10271,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e12bd2c5cf3cdae46b2da0606ca520a9, type: 2}
-  m_sharedMaterial: {fileID: 6160705163554132388, guid: e12bd2c5cf3cdae46b2da0606ca520a9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3cc04dd2511901c429ffa795a56ae101, type: 2}
+  m_sharedMaterial: {fileID: 2309381521497986098, guid: 3cc04dd2511901c429ffa795a56ae101, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
