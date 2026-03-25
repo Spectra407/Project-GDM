@@ -2283,7 +2283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c3e36b84984c0d49932c68239a7aa39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  enemy: {fileID: 11400000, guid: 6055bbb743b76f64c8938f047479a519, type: 2}
+  enemy: {fileID: 11400000, guid: f0c84c091867c0048b0a825cfc0f033e, type: 2}
   combatManager: {fileID: 1892167546}
   text: {fileID: 83488795}
   bar: {fileID: 765503098}
@@ -8374,7 +8374,7 @@ MonoBehaviour:
   poison: 0
   dem: {fileID: 1122482831}
   sem: {fileID: 710607509}
-  enemy: {fileID: 11400000, guid: 6055bbb743b76f64c8938f047479a519, type: 2}
+  enemy: {fileID: 11400000, guid: f0c84c091867c0048b0a825cfc0f033e, type: 2}
   enemyCurrentHealth: 0
   enemyDefense: 0
   enemyStrength: 0
