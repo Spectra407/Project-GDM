@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 10324ebec0528b244af801f121af97f6
+guid: a12ccc37527b3ae49afeb13bc67868fc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4036904145683439626
-    second: Madness3 (1)_0
+      213: 2160946167482080428
+    second: Misc_0
+  - first:
+      213: 4925447068233826214
+    second: Misc_1
+  - first:
+      213: 5107282872573515666
+    second: Misc_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +106,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Madness3 (1)_0
+      name: Misc_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 179
-        width: 1200
-        height: 1407
+        x: 168
+        y: 402
+        width: 867
+        height: 1075
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +121,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6ff9c3461190af7c0800000000000000
-      internalID: -4036904145683439626
+      spriteID: cacd28317193dfd10800000000000000
+      internalID: 2160946167482080428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Misc_1
+      rect:
+        serializedVersion: 2
+        x: 450
+        y: 110
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6aff01e2304ba5440800000000000000
+      internalID: 4925447068233826214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Misc_2
+      rect:
+        serializedVersion: 2
+        x: 743
+        y: 110
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2975e2b86b6b0e640800000000000000
+      internalID: 5107282872573515666
       vertices: []
       indices: 
       edges: []
@@ -135,7 +185,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Madness3 (1)_0: -4036904145683439626
+      Misc_0: 2160946167482080428
+      Misc_1: 4925447068233826214
+      Misc_2: 5107282872573515666
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

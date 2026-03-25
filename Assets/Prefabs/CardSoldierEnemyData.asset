@@ -43,7 +43,7 @@ MonoBehaviour:
   moveText:
   - 5<sprite name="sword">
   - 8<sprite name="sword">
-  - 10<sprite name="shield">
+  - 10<sprite name="sword">
   - 2<sprite name="sword"> 10<sprite name="shield">
   - 1<sprite name="strength"> 2<sprite name="mad">
   - 5<sprite name="shield"> 2<sprite name="strength">

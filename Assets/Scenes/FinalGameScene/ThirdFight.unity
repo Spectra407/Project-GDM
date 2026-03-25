@@ -4806,7 +4806,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 770, y: 374}
+  m_AnchoredPosition: {x: 775.2, y: 370}
   m_SizeDelta: {x: 420.67, y: 420.67}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1106409411
@@ -4829,7 +4829,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e1dac77eb4383dc4c87e96f9dfc03c44, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8e005c1b9b5931b47bbbe0223d79786a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5263,6 +5263,7 @@ MonoBehaviour:
   splineContainer: {fileID: 1612124923}
   drawDeckTransformPosition: {fileID: 1930545996}
   isShattering: 0
+  currentAttentionCard: {fileID: 0}
 --- !u!4 &1222198704
 Transform:
   m_ObjectHideFlags: 0
@@ -8367,6 +8368,7 @@ MonoBehaviour:
   currentHealth: 0
   tempDefense: 0
   madness: 0
+  turnBaseMadness: 0
   jackpot: 0
   strength: 0
   poison: 0
