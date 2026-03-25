@@ -39,9 +39,7 @@ public class ShufflingHandState : ITurnState
         // STOP ATTENTION SHIT
         HandView.Instance.ClearAttentionCard();
 
-        _cm.dem.ResetForJackpot();
-        _cm.madness = _cm.alice.startingMadness;
-        _cm.jackpot = false;
+        _cm.dem.ResetForStand();
 
         float totalDuration = 0.4f + (HandView.Instance.handCardViews.Count * 0.05f);
         HandView.Instance.ClearHand();

@@ -146,7 +146,7 @@ namespace Systems
             AttackNum = 0;
 
               
-            cm.madness = 0;
+            cm.madness = cm.turnBaseMadness;
             cm.jackpot = false;
             
 

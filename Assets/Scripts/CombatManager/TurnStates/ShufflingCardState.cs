@@ -68,7 +68,7 @@ public class ShufflingCardState : ITurnState
     {
         // Reset all pending stats and madness
         _cm.dem.ResetForJackpot();
-        _cm.madness = _cm.alice.startingMadness;
+        _cm.madness = _cm.turnBaseMadness;
         _cm.jackpot = false;
 
         _cm.dem.isreshuffling = true;

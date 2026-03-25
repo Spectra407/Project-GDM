@@ -10,6 +10,7 @@ public class CombatManager : MonoBehaviour
     public int currentHealth;
     public int tempDefense;
     public int madness;
+	public int turnBaseMadness =0;	// persistent madness of external effects like the enemy attacks
     public bool jackpot;
     //maybe move these into alice later
     public int strength;
