@@ -126,12 +126,13 @@ namespace Systems
     					CombatAnimator.Instance.PlayDefenseEffect(cardView, cm.tempDefense);
 					}
                     if (data.poison != 0)
-                    {
-                        cm.poison += data.poison;
-                        cm.poison = Mathf.Max(0, cm.poison);
-                        
-                        CombatAnimator.Instance.PlayPoisonEffect(cardView, cm.poison);
-                    }
+					{
+    					int poisonToAdd = data.poison * cm.dem.MultStats[CardData.CardType.Poison]; 
+    					cm.poison += poisonToAdd;
+    					cm.poison = Mathf.Max(0, cm.poison);
+
+    					CombatAnimator.Instance.PlayPoisonEffect(cardView, cm.poison);
+					}
                     if (data.damage != 0)
                     {
                         int cardDamage = cm.dem.DisStats[CardData.CardType.Damage] * data.damage;
@@ -215,12 +216,13 @@ namespace Systems
     					CombatAnimator.Instance.PlayDefenseEffect(cardView, cm.tempDefense);
 					}
                     if (data.poison != 0)
-                    {
-                        cm.poison += data.poison;
-                        cm.poison = Mathf.Max(0, cm.poison);
-                        
-                        CombatAnimator.Instance.PlayPoisonEffect(cardView, cm.poison);
-                    }
+					{
+    					int poisonToAdd = data.poison * cm.dem.MultStats[CardData.CardType.Poison]; 
+    					cm.poison += poisonToAdd;
+    					cm.poison = Mathf.Max(0, cm.poison);
+
+    					CombatAnimator.Instance.PlayPoisonEffect(cardView, cm.poison);
+					}
 
                     // Apply special effect
                     ApplySpecialToSim(data, cards, cards.IndexOf(cardView),
