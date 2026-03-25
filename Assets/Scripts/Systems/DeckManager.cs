@@ -51,7 +51,7 @@ namespace Systems
                         rewardDeck.Add(card);
                 ShuffleAll(rewardDeck);
                 
-                int[] starterIDs = {0, 1, 2, 23, 26};   // Player starter deck without bombs
+                int[] starterIDs = {0, 1, 2};   // Player starter deck without bombs
                 currentDeck = new List<CardData>();
                 foreach (int id in starterIDs)
                     currentDeck.Add(allCards[id]);
