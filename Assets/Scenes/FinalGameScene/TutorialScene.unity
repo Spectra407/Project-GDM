@@ -437,6 +437,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: ca31ea0386fa3284ea228cdadff443be, type: 3}
   nextSceneName: TitleScreenScene
   fade: {fileID: 0}
+  backgroundMusic: {fileID: 8300000, guid: 6a7746ab575f4fa48890684324765263, type: 3}
+  loopMusic: {fileID: 8300000, guid: 6a7746ab575f4fa48890684324765263, type: 3}
 --- !u!1 &401632401
 GameObject:
   m_ObjectHideFlags: 0

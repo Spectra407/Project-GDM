@@ -8379,8 +8379,8 @@ MonoBehaviour:
   enemyDefense: 0
   enemyStrength: 0
   enemyChosenMoves: []
-  battleMusic: {fileID: 8300000, guid: 89731ad3c0cf6c1449d293ed815d1a8a, type: 3}
-  loopMusic: {fileID: 8300000, guid: 272ec36e4f164f848bf4553b161bd97b, type: 3}
+  battleMusic: {fileID: 8300000, guid: 30c1c2cf8f3650a4bb660b17142eb5a6, type: 3}
+  loopMusic: {fileID: 8300000, guid: b1056583ea2b2f54880d67e373ca9706, type: 3}
   isDrawing: 0
   pendingDraws: 0
   lastDrawnCard: {fileID: 0}

@@ -16,6 +16,10 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private string nextSceneName = "TitleScreenScene";
     public FadeScript fade;
     
+    [Header("Music")]
+    public AudioClip backgroundMusic;   // Intro part of soundtrack
+    public AudioClip loopMusic; // Loop part of the track
+    
     private int _currentSlide = 0;
     private Action _onComplete;
 
@@ -30,8 +34,8 @@ public class TutorialManager : MonoBehaviour
 
     private void Start()
     {
-        // Fading in
-        if(fade != null) fade.FadeIn();
+        AudioManager.instance.PlayFightMusic(backgroundMusic, loopMusic);
+        fade.FadeIn();
         
         _currentSlide = 0;
         tutorialPanel.SetActive(true);
@@ -74,6 +78,7 @@ public class TutorialManager : MonoBehaviour
 
     private IEnumerator LoadNextScene()
     {
+        fade.FadeOut();
         // Wait for the FadeOut duration
         yield return new WaitForSeconds(3.0f);
         UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);

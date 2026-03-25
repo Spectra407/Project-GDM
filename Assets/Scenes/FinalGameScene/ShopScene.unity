@@ -5605,6 +5605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 913c44a757c7df845959cef6bc60155c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Systems.DeckManagerKenny
+  _isInitialized: 0
   rewardDeck: []
   currentDeck: []
   cardDB: {fileID: 1240691}
@@ -5936,8 +5937,8 @@ MonoBehaviour:
   maxPrice: 35
   nextSceneName: ThirdFight
   alice: {fileID: 11400000, guid: 23c5c0773c39e3e479d7e9e73959816d, type: 2}
-  backgroundMusic: {fileID: 8300000, guid: dd6041c566c8bc24dab3458504e5e115, type: 3}
-  loopMusic: {fileID: 8300000, guid: dd6041c566c8bc24dab3458504e5e115, type: 3}
+  backgroundMusic: {fileID: 8300000, guid: 5a4e51baf7e78aa4fb604412f8ad3b2a, type: 3}
+  loopMusic: {fileID: 8300000, guid: 46838741c441ede49a166382157b9cf7, type: 3}
   fade: {fileID: 0}
 --- !u!4 &1698192992
 Transform:
