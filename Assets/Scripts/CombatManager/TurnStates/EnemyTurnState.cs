@@ -68,7 +68,8 @@ public class EnemyTurnState : ITurnState
             Debug.Log("Game Over: You died.");
 			_cm.Deck._isInitialized = false;
 			_cm.fadeScript.FadeOut();
-            _cm.StartCoroutine(DelayedGameOverLoad("FirstFightCardSoldierScene"));
+            // _cm.StartCoroutine(DelayedGameOverLoad("FirstFightCardSoldierScene"));
+            _cm.StartCoroutine(DelayedGameOverLoad("GameOver"));
         }
         else
         {
