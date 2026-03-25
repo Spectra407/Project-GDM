@@ -167,6 +167,7 @@ namespace Systems
                 UpdateDisplayFromSim(simPending, simMult, simDis, simPer, simEqual, simAttackBonus, handCount);
 
                 yield return new WaitForSeconds(0.15f);
+				if (cm.enemyCurrentHealth <= 0) yield break;
             }
 
             // PASS 2: Stat cards, apply real effects individually
@@ -257,6 +258,7 @@ namespace Systems
                 UpdateDisplayFromSim(simPending, simMult, simDis, simPer, simEqual, simAttackBonus, handCount);
 
                 yield return new WaitForSeconds(0.1f);
+				if (cm.enemyCurrentHealth <= 0) yield break;
             }
 
             yield return new WaitForSeconds(0.4f);
