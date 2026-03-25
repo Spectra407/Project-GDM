@@ -13,7 +13,7 @@ public class TutorialManager : MonoBehaviour
     public Sprite[] slides; // Assign your all slide sprites
     
     [Header("Scene Transition")]
-    [SerializeField] private string nextSceneName = "FirstFightCardSoldierScene";
+    [SerializeField] private string nextSceneName = "TitleScreenScene";
     public FadeScript fade;
     
     private int _currentSlide = 0;
