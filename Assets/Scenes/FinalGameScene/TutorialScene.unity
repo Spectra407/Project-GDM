@@ -432,9 +432,10 @@ MonoBehaviour:
   tutorialPanel: {fileID: 1436814024}
   slideImage: {fileID: 1728083426}
   slides:
-  - {fileID: 21300000, guid: 3037ea0f0fbe0ec43ab86bd4853c1523, type: 3}
-  - {fileID: 21300000, guid: 743339545bafa374ebb3f40cad146c3f, type: 3}
-  - {fileID: 21300000, guid: ca31ea0386fa3284ea228cdadff443be, type: 3}
+  - {fileID: -855298285791758126, guid: 846a3b7be71e1f748be3e38986e809df, type: 3}
+  - {fileID: 6937817954938267909, guid: 296b60540968cea4f8c3156047ee4f5e, type: 3}
+  - {fileID: -6470460504253458178, guid: 9fe4da56384149d4b87c3740871be380, type: 3}
+  - {fileID: -4178046375966092550, guid: 323f855d3edbe5c46a7b1b0c8680f3d8, type: 3}
   nextSceneName: TitleScreenScene
   fade: {fileID: 0}
   backgroundMusic: {fileID: 8300000, guid: 6a7746ab575f4fa48890684324765263, type: 3}
@@ -1808,7 +1809,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   canvasGroup: {fileID: 1749142859}
-  fadeDuration: 3
+  fadeDuration: 1.5
   fadeInOnStart: 0
 --- !u!225 &1749142859
 CanvasGroup:
@@ -1883,7 +1884,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!1 &1863191701
 GameObject:
