@@ -383,6 +383,7 @@ MonoBehaviour:
   tiltSpeed: 1.5
   tiltAmount: 2
   isAnimating: 0
+  visualRoot: {fileID: 5306110798404186072}
   data: {fileID: 0}
 --- !u!210 &7756474005744303863
 SortingGroup:

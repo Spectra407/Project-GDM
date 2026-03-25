@@ -14,6 +14,9 @@ public class HandView : Singleton<HandView>
     
     public readonly List<CardView> handCardViews = new();
     public bool isShattering = false;
+    
+    // Track the current card pulling the player's focus
+    public CardView currentAttentionCard;
 
     public IEnumerator AnimateCardToHand(CardView cardView)
     {
@@ -55,7 +58,7 @@ public class HandView : Singleton<HandView>
             Quaternion targetRot = Quaternion.Euler(0, 0, baseTilt);
 
             if (!card.gameObject.activeInHierarchy) continue;
-
+            
             if (card == cardView)
             {
                 card.isAnimating = true;
@@ -69,14 +72,18 @@ public class HandView : Singleton<HandView>
             }
             else
             {
-                card.isAnimating = true;
+                card.homePos = targetPos;
                 card.homeRot = targetRot;
-                card.transform.DOMove(targetPos, 0.6f).SetEase(Ease.OutCubic).OnComplete(() =>
+
+                if (card != currentAttentionCard)
                 {
-                    card.homePos = targetPos;
-                    card.isAnimating = false;
-                });
-                card.transform.DORotateQuaternion(card.homeRot, 0.6f).SetEase(Ease.OutCubic);
+                    card.isAnimating = true;
+                    card.transform.DOMove(targetPos, 0.6f).SetEase(Ease.OutCubic).OnComplete(() =>
+                    {
+                        card.isAnimating = false;
+                    });
+                    card.transform.DORotateQuaternion(card.homeRot, 0.6f).SetEase(Ease.OutCubic);
+                }
             }
         }
 
@@ -108,7 +115,7 @@ public class HandView : Singleton<HandView>
             float normalizedIndex = (count > 1) ? (i - (count - 1) / 2f) : 0f;
             float baseTilt = -normalizedIndex * 3f;
             
-            if (card.TryGetComponent<SortingGroup>(out var sg))
+            if (card.TryGetComponent<SortingGroup>(out var sg) && card != currentAttentionCard)
             {
                 sg.sortingOrder = i;
             }
@@ -116,7 +123,7 @@ public class HandView : Singleton<HandView>
             card.homePos = transform.position + new Vector3(xPos, 0, -0.01f * i);
             card.homeRot = Quaternion.Euler(0, 0, baseTilt); 
 
-            if (card.gameObject.activeInHierarchy)
+            if (card.gameObject.activeInHierarchy && card != currentAttentionCard)
             {
                 card.transform.DOMove(card.homePos, duration).SetEase(Ease.OutBack);
                 card.transform.DORotateQuaternion(card.homeRot, duration).SetEase(Ease.OutBack);
@@ -125,6 +132,37 @@ public class HandView : Singleton<HandView>
         yield return new WaitForSeconds(duration);
     }
     
+    public void SetAttentionCard(CardView card)
+    {
+        if (currentAttentionCard != null && currentAttentionCard != card)
+            currentAttentionCard.StopDemandingAttention();
+
+        currentAttentionCard = card;
+
+        if (currentAttentionCard != null)
+        {
+            currentAttentionCard.StartDemandingAttention();
+        }
+    }
+
+    public void ClearAttentionCard()
+    {
+        if (currentAttentionCard != null)
+        {
+            currentAttentionCard.StopDemandingAttention();
+            currentAttentionCard = null;
+            // Refresh positions to make sure everything settles back perfectly
+            RefreshHandPositions(0.25f);
+        }
+    }
+
+    // Helper to find specific cards in hand
+    public CardView GetFirstShuffleCard()
+    {
+        return handCardViews.FirstOrDefault(c => 
+            c.data.effect is ShuffleCardEffect || c.data.effect is ShuffleHandEffect);
+    }
+
     public List<CardData> GetHandData()
     {
         return handCardViews.Select(cardView => cardView.data).ToList();
@@ -136,7 +174,6 @@ public class HandView : Singleton<HandView>
         
         handCardViews.Clear();
         handCardViews.Add(survivor);
-        Debug.Log("Finished shatter preload: Hand count is now " + handCardViews.Count);
 
         foreach (var card in cardsToBurn)
         {
@@ -147,11 +184,8 @@ public class HandView : Singleton<HandView>
         }
         
         StartCoroutine(UpdateCardPositions(1.5f));
-        
         yield return new WaitForSeconds(2.1f);
 
-        Debug.Log("Finished burn animation");
-        
         foreach (var card in cardsToBurn)
         {
             if (card == null) continue;
@@ -182,8 +216,6 @@ public class HandView : Singleton<HandView>
             if (card == null) continue;
 
             card.isAnimating = true;
-
-            // Stagger each card slightly so they don't all leave at once
             float delay = i * 0.05f;
 
             card.transform.DOMove(deckPos, 0.4f).SetEase(Ease.InBack).SetDelay(delay);
@@ -199,14 +231,11 @@ public class HandView : Singleton<HandView>
             });
         }
 
-        // Wait for the last card to finish
         float totalDuration = 0.4f + (cardsToClear.Count * 0.05f);
         yield return new WaitForSeconds(totalDuration);
 
         DeckManager.Instance.ShuffleAll(DeckManager.Instance.drawPile);
         DeckManager.Instance.OnShuffle.Invoke();
-
-        Debug.Log("Hand cleared and data recycled to deck.");
     }
     
     public IEnumerator AnimateCardToDeck(CardView cardView)
@@ -229,8 +258,6 @@ public class HandView : Singleton<HandView>
         });
 
         yield return new WaitForSeconds(0.4f);
-
-        // Reposition remaining cards to close the gap
         yield return UpdateCardPositions(0.3f);
     }
     
@@ -252,5 +279,10 @@ public class HandView : Singleton<HandView>
     public void RefreshHandPositions(float duration = 0.15f)
     {
         StartCoroutine(UpdateCardPositions(duration));
+    }
+    
+    public CardView GetCardView(CardData data)
+    {
+        return handCardViews.FirstOrDefault(c => c != null && c.data == data);
     }
 }
