@@ -117,19 +117,22 @@ namespace Systems
                         CombatAnimator.Instance.PlayStrengthEffect(cardView, cm.strength);
                     }
                     if (data.defense != 0)
-                    {
-                        cm.tempDefense += data.defense;
-                        cm.tempDefense = Mathf.Max(0, cm.tempDefense);
-                        
-                        CombatAnimator.Instance.PlayDefenseEffect(cardView, cm.tempDefense);
-                    }
+					{
+    					// Multiply by DisStats to respect the Disable effect
+    					int defenseToGain = cm.dem.DisStats[CardData.CardType.Defense] * data.defense;
+    					cm.tempDefense += defenseToGain;
+    					cm.tempDefense = Mathf.Max(0, cm.tempDefense);
+    
+    					CombatAnimator.Instance.PlayDefenseEffect(cardView, cm.tempDefense);
+					}
                     if (data.poison != 0)
-                    {
-                        cm.poison += data.poison;
-                        cm.poison = Mathf.Max(0, cm.poison);
-                        
-                        CombatAnimator.Instance.PlayPoisonEffect(cardView, cm.poison);
-                    }
+					{
+    					int poisonToAdd = data.poison * cm.dem.MultStats[CardData.CardType.Poison]; 
+    					cm.poison += poisonToAdd;
+    					cm.poison = Mathf.Max(0, cm.poison);
+
+    					CombatAnimator.Instance.PlayPoisonEffect(cardView, cm.poison);
+					}
                     if (data.damage != 0)
                     {
                         int cardDamage = cm.dem.DisStats[CardData.CardType.Damage] * data.damage;
@@ -164,6 +167,7 @@ namespace Systems
                 UpdateDisplayFromSim(simPending, simMult, simDis, simPer, simEqual, simAttackBonus, handCount);
 
                 yield return new WaitForSeconds(0.15f);
+				if (cm.enemyCurrentHealth <= 0) yield break;
             }
 
             // PASS 2: Stat cards, apply real effects individually
@@ -204,19 +208,22 @@ namespace Systems
                     if (cardDamage > 0)
                         ApplyDamage(cardDamage + cm.strength, cardView); // pass cardView here
                     if (data.defense != 0)
-                    {
-                        cm.tempDefense += data.defense;
-                        cm.tempDefense = Mathf.Max(0, cm.tempDefense);
-                        
-                        CombatAnimator.Instance.PlayDefenseEffect(cardView, cm.tempDefense);
-                    }
+					{
+    					// Multiply by DisStats here
+    					int defenseToGain = cm.dem.DisStats[CardData.CardType.Defense] * data.defense;
+    					cm.tempDefense += defenseToGain;
+    					cm.tempDefense = Mathf.Max(0, cm.tempDefense);
+    
+    					CombatAnimator.Instance.PlayDefenseEffect(cardView, cm.tempDefense);
+					}
                     if (data.poison != 0)
-                    {
-                        cm.poison += data.poison;
-                        cm.poison = Mathf.Max(0, cm.poison);
-                        
-                        CombatAnimator.Instance.PlayPoisonEffect(cardView, cm.poison);
-                    }
+					{
+    					int poisonToAdd = data.poison * cm.dem.MultStats[CardData.CardType.Poison]; 
+    					cm.poison += poisonToAdd;
+    					cm.poison = Mathf.Max(0, cm.poison);
+
+    					CombatAnimator.Instance.PlayPoisonEffect(cardView, cm.poison);
+					}
 
                     // Apply special effect
                     ApplySpecialToSim(data, cards, cards.IndexOf(cardView),
@@ -251,6 +258,7 @@ namespace Systems
                 UpdateDisplayFromSim(simPending, simMult, simDis, simPer, simEqual, simAttackBonus, handCount);
 
                 yield return new WaitForSeconds(0.1f);
+				if (cm.enemyCurrentHealth <= 0) yield break;
             }
 
             yield return new WaitForSeconds(0.4f);

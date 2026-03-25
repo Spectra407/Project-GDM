@@ -41,12 +41,12 @@ MonoBehaviour:
     strength: 1
     madness: 0
   moveText:
-  - 3\U00002694
-  - 5\U00002694
-  - 1\U0001F6E1 4\U0001F4AA
-  - 5\U0001F6E1 3\U0001F4AA
-  - 10\U0001F6E1 2\U0001F4AA
-  - 15\U0001F6E1 1\U0001F4AA
+  - '3<sprite name="sword"> '
+  - '5<sprite name="sword"> '
+  - 1<sprite name="shield">  4<sprite name="strength">
+  - 5<sprite name="shield"> 3<sprite name="strength">
+  - 10<sprite name="shield"> 2<sprite name="strength">
+  - 15<sprite name="shield"> 1<sprite name="strength">
   attackCount: 1
   goldReward: 40
   nextSceneName: ShopScene

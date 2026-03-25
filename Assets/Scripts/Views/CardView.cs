@@ -12,7 +12,6 @@ public class CardView : MonoBehaviour
     // boolean used to manipulate peeking cards
     public bool isPeek = false;
     
-    
     [Header("Card UI References")]
     [SerializeField] private TMP_Text description;
     [SerializeField] private TMP_Text madness;
@@ -40,6 +39,9 @@ public class CardView : MonoBehaviour
     [SerializeField] private float tiltAmount = 2f;
     private float randomOffset;
     [HideInInspector] public bool isAnimating = false;
+
+    [Header("Special Attention Logic")]
+    private bool isAttentionActive = false;
     
     [Header("Card Data, do not drag anything into here manually")]
     public CardData data;
@@ -53,7 +55,6 @@ public class CardView : MonoBehaviour
     void Update()
     {
         // Keep collider anchored to homePos regardless of visual movement
-        // Skip for shop cards (they don't have homePos logic) and animating cards
         if (!isShopCard && !isAnimating && homePos != Vector3.zero)
         {
             BoxCollider col = GetComponent<BoxCollider>();
@@ -65,13 +66,12 @@ public class CardView : MonoBehaviour
         }
         else if (isShopCard)
         {
-            // Reset collider center for shop cards so hover works normally
             BoxCollider col = GetComponent<BoxCollider>();
             if (col != null) col.center = Vector3.zero;
         }
         
-        // Only animate passively if it's in the hand and NOT being hovered
-        if (isHovered || isShopCard || isPeek || isAnimating) return;
+        // Skip passive animations if hovering or demanding attention
+        if (isHovered || isShopCard || isPeek || isAnimating || isAttentionActive) return;
         
         if (homePos == Vector3.zero) return;
 
@@ -92,57 +92,92 @@ public class CardView : MonoBehaviour
        
         float s = CardViewCreator.Instance.scale;
         originalScale = new Vector3(s, s, s);
+       
+        // Get raw text and remove Excel double-quotes/newlines
+        string rawText = data.description;
+        string cleanText = rawText.Replace("\"\"", "\"");
+
+        if (cleanText.StartsWith("\"") && cleanText.EndsWith("\""))
+        {
+            cleanText = cleanText.Substring(1, cleanText.Length - 2);
+        }
+
+        cleanText = cleanText.Replace("\\n", "\n");
+        description.text = cleanText;
         
-        // Update the visuals according to the newCardData
-        description.text = data.description;
+        // Update visuals
         madness.text = data.madness.ToString();
         imageSR.sprite = data.art;
         
-        // Swap card background and text color based on bombs
         if (cardBackgroundSR != null)
             cardBackgroundSR.sprite = data.cardType.Contains(CardData.CardType.Bomb) ? bombCardSprite : defaultCardSprite;
+            
         bool isBomb = data.cardType.Contains(CardData.CardType.Bomb);
         Color textColor = isBomb ? bombTextColor : defaultTextColor;
         description.color = textColor;
         madness.color = textColor;
     }
 
+    public void StartDemandingAttention()
+    {
+        if (isAttentionActive) return;
+        isAttentionActive = true;
+
+        // Kill existing tweens and lock into "Pulling attention" animation
+        transform.DOKill();
+        
+        // Grow and move up slightly to be readable
+        transform.DOMove(homePos + Vector3.up * 0.8f, 0.25f).SetEase(Ease.OutBack);
+        transform.DORotate(Vector3.zero, 0.25f);
+        transform.DOScale(originalScale * 1.3f, 0.25f).SetEase(Ease.OutBack);
+
+        if (TryGetComponent<SortingGroup>(out var sg))
+            sg.sortingOrder = 100;
+    }
+
+    public void StopDemandingAttention()
+    {
+        if (!isAttentionActive) return;
+        isAttentionActive = false;
+
+        transform.DOKill();
+
+        // Smoothly return to hand baseline
+        transform.DOMove(homePos, 0.2f);
+        transform.DORotateQuaternion(homeRot, 0.2f);
+        transform.DOScale(originalScale, 0.2f);
+
+        if (TryGetComponent<SortingGroup>(out var sg))
+            sg.sortingOrder = HandView.Instance.handCardViews.IndexOf(this);
+    }
+
     void OnMouseEnter()
     {
-        if (isAnimating) return;
+        // Don't trigger hover logic if card is animating or ALREADY big from attention
+        if (isAnimating || isAttentionActive) return;
         
-        // Play hover sound
         if (AudioManager.instance != null)
-        {
             AudioManager.instance.PlayHoverCard();
-        }
         
-        // If this is a shop card, we use the Overlay System instead of moving it
         if (isShopCard)
         {
-            // Calculate the position for the hover card (slightly to the side or centered)
             Vector3 hoverPos = transform.position; 
             CardViewHoverSystem.Instance.Show(data, hoverPos);
-        
-            // Optionally dim the current card or turn off the wrapper
             wrapper.SetActive(false); 
             return;
         }
         
         if (isPeek || HandView.Instance.isShattering || isHovered) return;
-        // Force exit any previously hovered card that didn't get its OnMouseExit
+        
         if (_currentlyHovered != null && _currentlyHovered != this)
             _currentlyHovered.ForceExit();
 
         _currentlyHovered = this;
-        
         isHovered = true;
 
         transform.DOKill();
         transform.DOMove(homePos + Vector3.up * 0.8f, 0.15f).SetEase(Ease.OutBack);
         transform.DORotate(Vector3.zero, 0.15f);
-        
-        // Scale relative to its original size (130%)
         transform.DOScale(originalScale * 1.3f, 0.15f); 
         
         GetComponent<SortingGroup>().sortingOrder = 100; 
@@ -150,7 +185,8 @@ public class CardView : MonoBehaviour
 
     void OnMouseExit()
     {
-        if (isAnimating) return;
+        // Don't shrink if the card is supposed to stay big for attention
+        if (isAnimating || isAttentionActive) return;
 
         if (isShopCard)
         {
@@ -186,22 +222,17 @@ public class CardView : MonoBehaviour
             sg.sortingOrder = HandView.Instance.handCardViews.IndexOf(this);
     }
     
-    // Use this to clear Peeked cards
     public void ClearVisuals()
     {
         data = null;
         description.text = "";
         madness.text = "";
         imageSR.sprite = null;
-        
-        
     }
     
     public IEnumerator ShakeAndHighlight(bool isBomb = false, System.Action onStart = null)
     {
         isAnimating = true;
-        
-        // Fire the sound callback immediately when the card pops
         onStart?.Invoke();
 
         Color highlightColor = isBomb ? new Color(1f, 0.3f, 0.3f) : new Color(1f, 0.95f, 0.7f);
@@ -212,8 +243,6 @@ public class CardView : MonoBehaviour
 
         transform.DOKill();
         transform.DOScale(originalScale * 1.35f, 0.12f).SetEase(Ease.OutBack);
-
-        
 
         SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
         foreach (var sr in renderers)
@@ -241,7 +270,6 @@ public class CardView : MonoBehaviour
         ghost.transform.rotation = transform.rotation;
         ghost.transform.localScale = transform.localScale;
 
-        // Copy card background
         if (cardBackgroundSR != null)
         {
             GameObject bgGhost = new GameObject("Background");
@@ -255,7 +283,6 @@ public class CardView : MonoBehaviour
             bgSR.sortingOrder = cardBackgroundSR.sortingOrder + 50;
         }
 
-        // Copy card art
         if (imageSR != null && imageSR.sprite != null)
         {
             GameObject artGhost = new GameObject("Art");
@@ -271,5 +298,4 @@ public class CardView : MonoBehaviour
 
         return ghost;
     }
-    
 }

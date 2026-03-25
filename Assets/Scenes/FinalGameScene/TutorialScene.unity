@@ -435,7 +435,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3037ea0f0fbe0ec43ab86bd4853c1523, type: 3}
   - {fileID: 21300000, guid: 743339545bafa374ebb3f40cad146c3f, type: 3}
   - {fileID: 21300000, guid: ca31ea0386fa3284ea228cdadff443be, type: 3}
-  nextSceneName: FirstFightCardSoldierScene
+  nextSceneName: TitleScreenScene
   fade: {fileID: 0}
 --- !u!1 &401632401
 GameObject:

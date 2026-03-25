@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/TitleScreenScene.unity
+    guid: d05090552f29b2141a8ba3395bf86d93
+  - enabled: 1
+    path: Assets/Scenes/FinalGameScene/TutorialScene.unity
+    guid: 0c285908e484c9e4ea38db1ef72c9246
+  - enabled: 1
     path: Assets/Scenes/FinalGameScene/FirstFightCardSoldierScene.unity
     guid: 4ca18e35a710d1b4fae1c3a6445b1137
   - enabled: 1

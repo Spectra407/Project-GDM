@@ -14,6 +14,7 @@ public class EnemyTurnState : ITurnState
 
     public void Enter()
     {
+		_cm.turnBaseMadness = _cm.alice.startingMadness;	// Reset the external enemy madness at the start of the enemy's turn
         Debug.Log("Enemy is preparing to attack...");
         
         BannerManager.Instance.ShowBanner("Enemy Turn");
@@ -112,7 +113,8 @@ public class EnemyTurnState : ITurnState
         if (move.madness != 0)
         {
             Debug.Log($"The Card Soldier inflicts {move.madness} madness!");
-            _cm.madness += move.madness;
+            _cm.turnBaseMadness += move.madness;
+			_cm.madness += move.madness;
             _cm.OnMirrorCrack.Invoke();
             CombatAnimator.Instance.PlayMadnessEffect();
             yield return new WaitForSeconds(0.7f);

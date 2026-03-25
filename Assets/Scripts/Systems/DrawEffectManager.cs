@@ -62,7 +62,18 @@ namespace Systems
 
             CardData playedCard = ProcessSpecial(card);
     
-            // If Copy returned a different card, process that card's special effect too
+            // PULL ATTENTION if it's a shuffle to resolve the effect
+            if (playedCard.effect is ShuffleCardEffect || playedCard.effect is ShuffleHandEffect)
+            {
+                // We look for the CardView in HandView. 
+                // Set it as the attention card.
+                var view = HandView.Instance.GetCardView(playedCard);
+                if (view != null)
+                {
+                    HandView.Instance.SetAttentionCard(view);
+                }
+            }
+
             if (playedCard != card)
             {
                 if (!isRecalculating)
@@ -135,7 +146,7 @@ namespace Systems
             AttackNum = 0;
 
               
-            cm.madness = 0;
+            cm.madness = cm.turnBaseMadness;
             cm.jackpot = false;
             
 
@@ -160,7 +171,6 @@ namespace Systems
                 List<CardData> cards = cm.Hand.GetHandData();
                 cards = cards.GetRange(0, cards.Count - 1);
                 //iterate through hand, replacing all cards with jackpots and reprocess resolve on draw...
-                //UNDER THE ASSUMPTION THIS IS ALL THAT CHANGES FOR CARDS. DOES NOT TAKE INTO ACCOUNT MADNESS, WEIRD EFFECTS THAT INTERUPT GAMEFLOW (DRAW ETC), SO ON
                 isRecalculating = true;
                 for (int i = 0; i < cards.Count; i++)
                 {

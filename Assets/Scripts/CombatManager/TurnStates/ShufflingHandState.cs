@@ -36,9 +36,10 @@ public class ShufflingHandState : ITurnState
 
     private IEnumerator ConfirmShuffleAnimated()
     {
-        _cm.dem.ResetForJackpot();
-        _cm.madness = _cm.alice.startingMadness;
-        _cm.jackpot = false;
+        // STOP ATTENTION SHIT
+        HandView.Instance.ClearAttentionCard();
+
+        _cm.dem.ResetForStand();
 
         float totalDuration = 0.4f + (HandView.Instance.handCardViews.Count * 0.05f);
         HandView.Instance.ClearHand();
@@ -49,8 +50,9 @@ public class ShufflingHandState : ITurnState
 
     private void CancelShuffle()
     {
-        // Hand stays as is, just go back to ChoosingAction
-        // ShuffleHand card remains in hand
+        // STOP ATTENTION PULLING
+        HandView.Instance.ClearAttentionCard();
+
         _cm.MoveToNewState("ChoosingAction");
     }
 
@@ -75,6 +77,7 @@ public class ShufflingHandState : ITurnState
     
     public void Exit()
     {
+        HandView.Instance.ClearAttentionCard();
         HandView.Instance.SetHandInteractable(true);
         // TURN OFF Yes/No UI buttons here
         _cm.shuffleYesButton.SetActive(false);
