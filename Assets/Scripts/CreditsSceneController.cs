@@ -12,10 +12,25 @@ public class CreditsSceneController : MonoBehaviour
 
     private float period;
     private float time;
-
+    
+    public FadeScript fade;
+    [Header("Music")]
+    public AudioClip backgroundMusic;   // Intro part of soundtrack
+    public AudioClip loopMusic; // Loop part of the track
+    
+    private void Awake()
+    {
+        if (fade == null)
+        {
+            fade = FindAnyObjectByType<FadeScript>();
+        }
+    }
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        AudioManager.instance.PlayFightMusic(backgroundMusic, loopMusic);
+        fade.FadeIn();
         period = secsPerSlide + fadeTime + pauseTime;
         time = 0;
     }
@@ -29,21 +44,31 @@ public class CreditsSceneController : MonoBehaviour
 
         if (slide >= slides.Length)
         {
-            SceneManager.LoadScene("TitleScreenScene");
+            fade.FadeOut();
+            Invoke("DelayedLeaveScene",1.5f);
         }
-
-        for (int i = 0; i < slides.Length; i++)
+        else
         {
-            slides[i].SetActive(false);
+            for (int i = 0; i < slides.Length; i++)
+            {
+                slides[i].SetActive(false);
+            }
+
+            float alpha = Math.Min((phase - pauseTime / 2) / (fadeTime / 2),
+                (period - phase - pauseTime / 2) / (fadeTime / 2));
+            if (alpha < 0) alpha = 0;
+            if (alpha > 1) alpha = 1;
+
+            GameObject current = slides[slide];
+            current.GetComponent<CanvasGroup>().alpha = alpha;
+            current.SetActive(true);
         }
 
-        float alpha = Math.Min((phase - pauseTime / 2) / (fadeTime / 2),
-                               (period - phase - pauseTime / 2) / (fadeTime / 2));
-        if (alpha < 0) alpha = 0;
-        if (alpha > 1) alpha = 1;
-
-        GameObject current = slides[slide];
-        current.GetComponent<CanvasGroup>().alpha = alpha;
-        current.SetActive(true);
+        
+    }
+    
+    void DelayedLeaveScene()
+    {
+        SceneManager.LoadScene("TitleScreenScene");
     }
 }
