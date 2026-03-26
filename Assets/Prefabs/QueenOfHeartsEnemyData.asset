@@ -49,5 +49,5 @@ MonoBehaviour:
   - '5<sprite name="shield">  2<sprite name="strength"> '
   attackCount: 2
   goldReward: 60
-  nextSceneName: ShopScene
+  nextSceneName: CreditsScene
   bombCardIDs: 03000000030000000300000004000000040000000400000005000000
